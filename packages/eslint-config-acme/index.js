@@ -1,7 +1,14 @@
 module.exports = {
-  extends: ["next", "prettier"],
+  parser: "@typescript-eslint/parser",
+  plugins: [
+    "@typescript-eslint"
+  ],
+  extends: [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   rules: {
-    "@next/next/no-html-link-for-pages": "off",
-    "react/jsx-key": "off",
+    "semi": ["error", "always"],
+    "indent": ["error", 4]
   },
 };

@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "main": "index.js",
+  "scripts": {
+    "local-publish": "yalc publish --private --store-folder ../../.yalc-store"
+  },
   "files": [
-    "base.json",
-    "nextjs.json",
-    "react-library.json"
-  ]
+    "base.json"
+  ],
+  "dependencies": {}
 }

@@ -1,8 +1,16 @@
 {
   "pipeline": {
+    "local-publish": {},
+    "generate-yalc": {},
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "dependsOn": [
+        "^local-publish",
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**"
+      ]
     },
     "lint": {
       "outputs": []

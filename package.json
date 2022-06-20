@@ -9,16 +9,23 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "docker-dev": "",
+    "docker-prod": "",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "local-publish": "turbo run local-publish",
+    "generate-yalc": "turbo run generate-yalc"
   },
   "devDependencies": {
-    "prettier": "latest",
+    "eslint": "7.32.0",
+    "eslint-config-custom": "workspace:*",
     "turbo": "latest"
   },
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
   },
-  "packageManager": "pnpm@6.25.0-2"
+  "packageManager": "pnpm@6.25.0-2",
+  "dependencies": {
+    "@pnpm/make-dedicated-lockfile": "^0.3.5"
+  }
 }

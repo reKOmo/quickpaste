@@ -8,14 +8,18 @@ node_modules
 # testing
 coverage
 
-# next.js
-.next/
-out/
-build
+# nuxt
+.nuxt
+.nitro
+.cache
+.output
 
 # misc
 .DS_Store
 *.pem
+.dev_storage
+.vscode
+*.log*
 
 # debug
 npm-debug.log*
@@ -24,10 +28,11 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+dev.env
 
 # turbo
 .turbo
+
+#yalc
+.yalc
+.yalc-store
