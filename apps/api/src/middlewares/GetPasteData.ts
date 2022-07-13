@@ -5,7 +5,7 @@ import { DefaultResponses, ServerResponse } from "../utils/ServerResponse";
 
 
 async function getPasteData(req: FullRequest, res: Response, next: () => void) {
-    const pastes = await db.query("SELECT * FROM pastes WHERE pastes.uuid = $1;", [req.additional.pasteUUID]);
+    const pastes = await db.query("SELECT pastes.*, users.username AS owner_username FROM pastes LEFT JOIN users ON users.id = pastes.owner_id WHERE pastes.uuid = $1;", [req.additional.pasteUUID]);
     if (pastes.rowCount < 1) {
         res.status(404).send(ServerResponse(false, DefaultResponses.NOT_FOUND));
         return;

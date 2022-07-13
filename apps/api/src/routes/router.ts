@@ -16,7 +16,7 @@ router.get("/api", (_, res) => {
 
 router.use("/api/paste", paste.router);
 
-router.use("/api/user/:userId", user.router);
+router.use("/api/user", user.router);
 
 router.all("*", (_, res) => {
     res.send({ ok: false, result: "Invalid path" });

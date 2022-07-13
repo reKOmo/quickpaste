@@ -83,7 +83,10 @@ async function getPaste(req: FullRequest, res: Response) {
         isPrivate: req.additional.pasteData.is_private,
         created: req.additional.pasteData.created,
         password: req.additional.pasteData.password != undefined,
-        owner: "TODO"
+        owner: {
+            id: req.additional.pasteData.owner_id,
+            username: req.additional.pasteData.owner_username
+        }
     };
 
     res.send(fPaste);

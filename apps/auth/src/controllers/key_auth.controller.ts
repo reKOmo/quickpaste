@@ -1,59 +1,59 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import * as db from "../services/db.service";
-import { config } from "../config/jwt.config";
+import { TokenTypes } from "../models/Tokens.interface";
+import { authToken, generateGuestKey, generatePermaKey } from "../services/tokens.service";
+
+function getRequestToken(req: Request): string | undefined {
+    if (req.headers["authorization"]) {
+        return req.headers["authorization"].split(" ")[1];
+    }
+    // } else if (req.cookies["quickpaste_auth"]) {
+    //     return req.cookies["quickpaste_auth"];
+    // }
+
+    return undefined;
+}
 
 async function auth(req: Request, res: Response) {
-    const header = req.headers["authorization"];
-    const key = header.split(" ")[1];
+    const key = getRequestToken(req);
+    console.log(key);
+    if (key == undefined) {
+        res.status(401).send({
+            ok: false,
+            result: "Authorization credientials missing"
+        });
+        return;
+    }
 
     try {
-        const payload = jwt.decode(key) as { userId: string };
-
-        const dbToken = (await db.query("SELECT api_token_id FROM users WHERE id = $1;", [payload.userId])).rows[0].api_token_id;
-
-        jwt.verify(key, config.secretKey, { jwtid: dbToken.toString() }, (err, decoded) => {
-            if (err) {
-                console.log(err);
-                res.status(401).send(err);
-            } else {
-                res.setHeader("Authorization", payload.userId);
-                res.end();
-            }
-        });
+        const { userId } = await authToken(key);
+        res.setHeader("Authorization", userId).end();
     } catch (err) {
-        res.send(err);
+        //TODO proper errors
+        console.log(err);
+        res.status(403).send(err);
+        return;
     }
 
     // res.send(payload);
 }
 
 async function generate(req: Request, res: Response) {
-    const header = req.headers["x-user"];
-    const userId: number = parseInt(typeof header === "string" ? header : header[0]);
+    const header = req.headers["authorization"];
 
-    const dbRes = (await db.query("SELECT api_token_id FROM users WHERE id = $1", [userId]));
-
-    if (dbRes.rowCount == 0) {
-        res.status(400).send("Invalid user");
+    if (header) {
+        const tempToken = header.split(" ")[1];
+        const { userId, accountType } = await authToken(tempToken);
+        if (accountType === TokenTypes.TMP) {
+            const permaToken = generatePermaKey(userId);
+            res.send({ ok: true, result: permaToken });
+        } else {
+            res.status(401).end();
+        }
     } else {
-        const currentId = dbRes.rows[0].api_token_id;
+        const ip = req.headers['x-forwarded-for'] as string || req.socket.remoteAddress;
+        const key = generateGuestKey(ip);
 
-        const newId = (await db.safeQuery("UPDATE users SET api_token_id = $1 RETURNING api_token_id;", [currentId + 1])).rows[0].api_token_id;
-
-        console.log(newId);
-
-        const payload = {
-            userId
-        };
-
-        jwt.sign(payload, config.secretKey, { jwtid: newId.toString() }, (err, encoded) => {
-            if (err) {
-                res.status(500).send(err);
-            } else {
-                res.send({ token: encoded });
-            }
-        });
+        res.send({ ok: true, result: key });
     }
 }
 

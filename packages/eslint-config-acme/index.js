@@ -9,6 +9,6 @@ module.exports = {
   ],
   rules: {
     "semi": ["error", "always"],
-    "indent": ["error", 4]
+    "indent": ["error", 4, { "SwitchCase": 1 }]
   },
 };

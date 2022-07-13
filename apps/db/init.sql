@@ -4,8 +4,10 @@ SELECT 'CREATE DATABASE quickpaste' WHERE NOT EXISTS (SELECT FROM pg_database WH
 
 CREATE TABLE IF NOT EXISTS users (
     id serial,
+    ext_id VARCHAR,
+    username VARCHAR,
     joined TIMESTAMP NOT NULL DEFAULT NOW(),
-    api_token_id INT,
+    perma_token_id INT,
     PRIMARY KEY (id)
 );
 

@@ -13,6 +13,7 @@ export default defineConfig({
             colors: {
                 orange: "#ed6a5a",
                 bg: "#2c4a51",
+                bglight: "#406c77",
                 green: "#b6c649",
                 white: "#fff",
                 blue: "#aed9e0"
