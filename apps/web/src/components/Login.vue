@@ -4,7 +4,7 @@
     </div>
     <div v-else>
         <ClientOnly>
-            <a href="#" class="text-md mr-4">{{userStore.username()}}</a>
+            <a href="/user" class="text-md mr-4 hover:text-white">{{userStore.username()}}</a>
             <a href="/user/logout" class="rounded bg-red-500 p-4 py-2">Logout</a>
         </ClientOnly>
     </div>
@@ -17,7 +17,6 @@
     if (process.client) {
         if (loggedIn && userStore.userData == undefined) {
             await userStore.getUser();
-            console.log(userStore.userData)
         }
     }
 </script>

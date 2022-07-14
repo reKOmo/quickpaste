@@ -6,5 +6,6 @@ export interface DbPaste {
     password: string | null,
     created: string,
     last_visited: string,
-    is_private: boolean
+    is_private: boolean,
+    title: string
 }

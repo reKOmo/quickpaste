@@ -1,11 +1,11 @@
 <template>
-    <nav class="bg-blue py-6">
+    <nav class="bg-blue py-3">
         <div class="mx-auto flex justify-center">
             <div class="container flex flex-col flex-wrap items-center w-screen-lg justify-around md:justify-start md:flex-row">
                 <div class="flex felx-row justify-between flex-1 md:flex-none">
                     <a href="/" class="flex items-center md:mr-10">
-                        <img src="../assets/quickpase-icon.svg" class="h-14 mr-3" alt="Quickpaste Logo" />
-                        <span class="self-center text-3xl"><span class="text-orange font-bold">Quick</span>paste</span>
+                        <img src="../assets/quickpase-icon.svg" class="h-12 mr-3" alt="Quickpaste Logo" />
+                        <span class="self-center text-2xl"><span class="text-orange font-bold">Quick</span>paste</span>
                     </a>
                     <button @click="toggleMobileMenu" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-black rounded-lg md:hidden hover:bg-green focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>

@@ -1,9 +1,11 @@
 <template>
   <div>
     <div v-if="!postingPaste" class="container flex flex-col lg:flex-row-reverse justify-center">
-      <SideMenu @submit="createPaste" ref="side-menu" class="mb-4 side-menu"/>
-      <div class="flex flex-col min-w-sm w-full editor lg:mr-8">
-        <SnippetEditor ref="snippet" v-for="s in snippets" :key="s" class="mb-4"/>
+      <SideMenu @submit="createPaste" ref="side-menu" class="mb-4 side-menu sticky top-0"/>
+      <div ref="editor-conteiner" class="flex flex-col min-w-xs w-full editor lg:mr-8 pr-4 overflow-x-hidden overflow-y-auto max-h-prose">
+        <div>
+          <SnippetEditor ref="snippet" v-for="s in snippets" :key="s" class="mb-8"/>
+        </div>
         <div class="mx-auto flex space-x-4">
           <button v-on:click="addSnippet" class="bg-green px-10 md:w-xs rounded py-2 hover:shadow-lg">Add snippet</button>
           <button ref="remove" v-on:click="removeLast" class="bg-red-500 px-10 md:w-xs rounded py-2 hover:shadow-lg hide">Remove last snippet</button>
@@ -11,13 +13,10 @@
       </div>
     </div>
     <div v-else>
-      <div v-if="!createdPaste">
+      <div v-if="!createdPaste" class="flex flex-row justify-center items-center mt-12">
         <iframe width="300" height="300" src="../assets/animated/logo-paste-loading.svg" alt="Loading"></iframe>
         <div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min">
-          <h2 class="text-2xl font-bold">Paste created!</h2>
-          <h3> 
-            Creting paste
-          </h3>
+          <h2 class="text-2xl font-bold">Creating paste</h2>
         </div>
       </div>
       <div v-else class="flex flex-row justify-center items-center mt-12">
@@ -37,10 +36,24 @@
   export default {
     data() {
       return {
-        snippets: [1],
+        snippets: [0],
         offscreen: false,
         postingPaste: false,
         createdPaste: undefined
+      }
+    },
+    watch: {
+      snippets: {
+        handler() {
+          setTimeout(() => {
+            const cont = this.$refs["editor-conteiner"];
+            cont.scrollTo({
+              top: cont.scrollHeight,
+              behavior: "smooth"
+            });
+          }, 10);
+        },
+        deep: true
       }
     },
     methods: {
@@ -71,14 +84,14 @@
         console.log(data)
       },
       removeLast() {
-        if (this.$data.snippets.length > 1)
-          this.$data.snippets.pop();
-        if (this.$data.snippets.length == 1)
+        if (this.snippets.length > 1)
+          this.snippets.pop();
+        if (this.snippets.length == 1)
           this.$refs["remove"].classList.add("hide");
       },
       addSnippet() {
-        this.$data.snippets.push(this.$data.snippets.length);
-        if (this.$data.snippets.length > 1)
+        this.snippets.push(this.snippets.length);
+        if (this.snippets.length > 1)
           this.$refs["remove"].classList.remove("hide");
       }
     }

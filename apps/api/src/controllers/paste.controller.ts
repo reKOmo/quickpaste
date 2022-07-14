@@ -29,8 +29,8 @@ async function uploadPaste(req: FullRequest, res: Response) {
         //try to get uuid
         for (let retries = 0; retries < 10; retries++) {
             try {
-                await client.query("INSERT INTO pastes (uuid, owner_id, password, is_private) VALUES ($1::character varying, $2::integer, $3::character varying, $4::boolean) returning id;",
-                    [uuid, req.additional.user, paste.password, paste.isPrivate]);
+                await client.query("INSERT INTO pastes (uuid, owner_id, password, is_private, title) VALUES ($1::character varying, $2::integer, $3::character varying, $4::boolean, $5::character varying) returning id;",
+                    [uuid, req.additional.user, paste.password, paste.isPrivate, paste.title]);
                 break;
             } catch (err) {
                 if (err.code == 23505) {

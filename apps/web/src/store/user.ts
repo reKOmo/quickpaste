@@ -30,6 +30,7 @@ export const useUserStore = defineStore("userStore", {
                 credentials: "include",
                 parseResponse: JSON.parse
             });
+            user["joined"] = (new Date(user["joined"])).toLocaleDateString();
             this.userData = user;
         },
         unset() {

@@ -20,7 +20,7 @@
         return res
     }, {
         server: true
-    })
+    });
 
     let err = undefined;
 
@@ -38,13 +38,17 @@
 
 <template>
     <div v-if="paste">
-        <div class="flex flex-row justify-between content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded">
-            <h1 class="text-3xl text-white text-shadow-sm">
-                {{paste.title}} <span class="text-lg text-black text-shadow-none">by {{paste.owner.username}}</span>
-            </h1>
-            <h2 class="h-min self-center">Created on {{paste.created}}</h2>
+        <div class="flex flex-col m-auto max-w-4xl max-h-2xl overflow-y-auto overflow-x-hidden">
+            <div class="sticky z-10 top-0 flex flex-row justify-between content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded mr-2">
+                <h1 class="text-3xl text-white text-shadow-sm">
+                    {{paste.title}} <span class="text-lg text-black text-shadow-none">by {{paste.owner.username}}</span>
+                </h1>
+                <h2 class="h-min self-center">Created on {{paste.created}}</h2>
+            </div>
+            <div class="mr-2">
+                <SnippetEditor ref="snippet" v-for="(post, index) in paste.fragments" :key="index" :value="post" :editable="false" class="mb-6"/>
+            </div>
         </div>
-        <SnippetEditor ref="snippet" v-for="(post, index) in paste.fragments" :key="index" :value="post" :editable="false" class="mb-4"/>
     </div>
     <div v-else>
         <div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded">

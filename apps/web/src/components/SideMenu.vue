@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col space-y-2 mt-2">
-        <input v-model="title" tooltip="Click to edit" placeholder="Add paste title +"
-             class="py-2 text-center text-white rounded placeholder-white-100 border-none
+    <div class="flex flex-col space-y-2 mt-2 w-md">
+        <input v-model="title" maxlength="50" tooltip="Click to edit" placeholder="Add paste title +"
+             class="p-2 text-center text-white rounded placeholder-white-100 border-none
               focus:outline-none text-lg text-bold"/>
         <button @click="submit" class="accept bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg">Paste !</button>
     </div>

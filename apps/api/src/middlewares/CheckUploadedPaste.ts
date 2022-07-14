@@ -5,7 +5,7 @@ import { ServerResponse } from "../utils/ServerResponse";
 
 const userPasteFragment = Joi.object({
     name: Joi.string()
-        .max(100)
+        .max(50)
         .required(),
     syntax: Joi.string().required(),
     content: Joi.string().required()
@@ -14,7 +14,7 @@ const userPasteFragment = Joi.object({
 const userPaste = Joi.object({
     title: Joi.string()
         .min(1)
-        .max(100)
+        .max(50)
         .required(),
     fragments: Joi.array()
         .min(1)

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS pastes (
     id serial,
     uuid VARCHAR(8) NOT NULL,
     owner_id int NOT NULL,
+    title VARCHAR NOT NULL,
     password VARCHAR,
     created TIMESTAMP NOT NULL DEFAULT NOW(),
     last_visited TIMESTAMP NOT NULL DEFAULT NOW(),
