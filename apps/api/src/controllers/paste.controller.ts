@@ -63,7 +63,7 @@ async function uploadPaste(req: FullRequest, res: Response) {
 async function getPaste(req: FullRequest, res: Response) {
     //check if paste private
     if (req.additional.pasteData.is_private && req.additional.pasteData.owner_id != req.additional.user) {
-        res.send(ServerResponse(false, DefaultResponses.UNAUTHORIZED));
+        res.status(403).send(ServerResponse(false, DefaultResponses.UNAUTHORIZED));
         return;
     }
 
@@ -73,6 +73,7 @@ async function getPaste(req: FullRequest, res: Response) {
         s3Ret = await retriveFile(req.additional.pasteUUID);
     } catch {
         res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
+        return;
     }
 
     const s3Data: { title: string, fragments: PasteFragment[] } = JSON.parse(s3Ret.Body.toString());
@@ -97,6 +98,7 @@ async function editPaste(req: FullRequest, res: Response) {
     const uuid = req.additional.pasteUUID;
 
     try {
+        await db.safeQuery("UPDATE pastes SET title = $1::character varying, is_private = $2::boolean WHERE uuid = $3;", [paste.title, paste.isPrivate, uuid]);
         await savePasteToS3(paste, uuid);
     } catch (err) {
         console.error(err);

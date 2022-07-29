@@ -19,7 +19,7 @@
                             <a href="/" class="block py-2 pr-4 pl-3 text-black hover:bg-green md:hover:bg-transparent md:hover:text-white rounded" aria-current="page">Home</a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 pr-4 pl-3 text-black hover:bg-green md:hover:bg-transparent md:hover:text-white rounded">Api</a>
+                            <a href="/api" class="block py-2 pr-4 pl-3 text-black hover:bg-green md:hover:bg-transparent md:hover:text-white rounded">Api</a>
                         </li>
                     </ul>
                     <Login class="justify-self-end"/>

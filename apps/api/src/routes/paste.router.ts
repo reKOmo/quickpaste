@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import { deletePaste, editPaste, getPaste, uploadPaste } from "../controllers/paste.controller";
 import { assertPasteOwnership } from "../middlewares/CheckPasteOwnership";
 import { checkUploadPaste } from "../middlewares/CheckUploadedPaste";
+import { gatekeep } from "../middlewares/Gatekeeper";
 import { getPasteData } from "../middlewares/GetPasteData";
 import { parseRequest } from "../middlewares/ParseRequest";
 
@@ -13,9 +14,9 @@ router.post("/", parseRequest, checkUploadPaste, uploadPaste);
 
 router.get("/:pasteId", parseRequest, getPasteData, getPaste);
 
-router.delete("/:pasteId", parseRequest, getPasteData, assertPasteOwnership, deletePaste);
+router.delete("/:pasteId", parseRequest, gatekeep, getPasteData, assertPasteOwnership, deletePaste);
 
-router.put("/:pasteId", parseRequest, getPasteData, assertPasteOwnership, checkUploadPaste, editPaste);
+router.put("/:pasteId", parseRequest, gatekeep, getPasteData, assertPasteOwnership, checkUploadPaste, editPaste);
 
 
 export {

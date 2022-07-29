@@ -13,10 +13,11 @@ export default defineConfig({
             colors: {
                 orange: "#ed6a5a",
                 bg: "#2c4a51",
-                bglight: "#406c77",
+                bgdark: "#365b63",
                 green: "#b6c649",
                 white: "#fff",
-                blue: "#aed9e0"
+                blue: "#aed9e0",
+                darkgray: "#363636"
             },
             spacing: {
                 128: '32rem',

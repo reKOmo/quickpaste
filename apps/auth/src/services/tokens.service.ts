@@ -6,7 +6,6 @@ import generateUUID from "../utils/GenerateUUID";
 
 async function authToken(token: string): Promise<{ userId: number, accountType: TokenTypes }> {
     const payload = jwt.decode(token) as Token;
-    console.log(payload);
     let userId: number;
 
     switch (payload.type) {
@@ -57,8 +56,6 @@ async function generatePermaKey(userId: number): Promise<string> {
         const currentId = dbRes.rows[0].api_token_id;
 
         const newId = (await db.safeQuery("UPDATE users SET api_token_id = $1 RETURNING api_token_id;", [currentId + 1])).rows[0].api_token_id;
-
-        console.log(newId);
 
         const payload: UserToken = {
             type: TokenTypes.PERMA,

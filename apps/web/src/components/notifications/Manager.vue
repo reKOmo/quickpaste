@@ -1,7 +1,7 @@
 <template>
     <teleport to="body">
         <transition name="fade">
-            <div v-if="confirm.show || alert.show" class="fixed top-0 w-screen h-screen flex justify-center items-center backdrop-filter backdrop-blur-sm shadow-lg bg-zinc-900/50">
+            <div v-if="confirm.show || alert.show" class="absolute z-10 top-0 w-screen h-screen flex justify-center items-center backdrop-filter backdrop-blur-sm shadow-lg bg-zinc-900/50">
                 <transition name="confirm" appear>
                     <NotificationsConfirm class="notification" v-if="confirm.show" @decision="alertDone" :title="confirm.notification.title" :description="confirm.notification.description"/>
                 </transition>

@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     srcDir: "src/",
     modules: [
         "nuxt-windicss",
+        "./src/modules/ContentLoader"
         // '@nuxtjs/composition-api/module',
         // '@pinia/nuxt'
     ],
@@ -22,5 +23,8 @@ export default defineNuxtConfig({
         '@fortawesome/free-solid-svg-icons',
         '@fortawesome/free-regular-svg-icons',
         '@fortawesome/free-brands-svg-icons'
-    ]
+    ],
+    vite: {
+        assetsInclude: ['**/*.md']
+    }
 });

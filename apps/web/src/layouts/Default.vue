@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-        <div class="relative container w-screen-xl mx-4 my-2 rounded p-4 border-content">
+        <div class="relative container sm:w-screen-xl mx-4 p-8 border-content bg-bgdark">
             <slot/>
         </div>
     </div>

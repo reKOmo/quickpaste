@@ -9,7 +9,7 @@
         <div class="md:w-4/5">
             <h1 class="text-5xl mb-6 text-orange text-shadow-sm border-b border-blue pb-4">Pastes</h1>
             <div v-if="pastes.length > 0" class="max-h-prose overflow-y-auto">
-                <div v-for="(paste, index) in pastes" :key="paste.uuid" class="flex flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue">
+                <div v-for="paste in pastes" :key="paste.uuid" class="flex flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue">
                     <a :href="`/${paste.uuid}`">
                         <h3 class="text-2xl font-bold">
                             {{paste.title}} <span class="text-sm font-normal italic text-gray-500">#{{paste.uuid}}</span>
@@ -19,7 +19,7 @@
                         </ClientOnly>
                     </a>
                     <div class="flex flex-row justify-between">
-                        <button class="bg-green flex-1 m-2 rounded p-4">Edit</button>
+                        <a class="bg-green flex-1 m-2 rounded p-4" :href="`/${paste.uuid}?edit=1`">Edit</a>
                         <button class="bg-red-600 flex-1 m-2 rounded p-4" @click.stop="deletePaste(paste.uuid)">Remove</button>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-    import { NotificationTypes, useNotificationStore } from "~~/src/store/notification";
+    import { NotificationTypes, useNotificationStore } from "@/store/notification";
     import { useUserStore } from "../../store/user";
 
     const router = useRouter();
@@ -103,14 +103,11 @@
 
                     this.pastes = this.pasteData.value.result;
 
-                    console.log("wow", this.pasteData.value.result);
-
                     for (let i = 0; i < this.pastes.length; i++) {
                         this.pastes[i].created = (new Date(this.pastes[i].created)).toLocaleDateString();
                     }
 
                     this.$forceUpdate();
-                    console.log(this.pastes);
                 }
             }
         },

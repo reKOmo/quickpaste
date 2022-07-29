@@ -1,16 +1,7 @@
 <template>
   <div>
-    <div v-if="!postingPaste" class="container flex flex-col lg:flex-row-reverse justify-center">
-      <SideMenu @submit="createPaste" ref="side-menu" class="mb-4 side-menu sticky top-0"/>
-      <div ref="editor-conteiner" class="flex flex-col min-w-xs w-full editor lg:mr-8 pr-4 overflow-x-hidden overflow-y-auto max-h-prose">
-        <div>
-          <SnippetEditor ref="snippet" v-for="s in snippets" :key="s" class="mb-8"/>
-        </div>
-        <div class="mx-auto flex space-x-4">
-          <button v-on:click="addSnippet" class="bg-green px-10 md:w-xs rounded py-2 hover:shadow-lg">Add snippet</button>
-          <button ref="remove" v-on:click="removeLast" class="bg-red-500 px-10 md:w-xs rounded py-2 hover:shadow-lg hide">Remove last snippet</button>
-        </div>
-      </div>
+    <div v-if="!postingPaste" class="container">
+      <PasteEditor @submit="createPaste" />
     </div>
     <div v-else>
       <div v-if="!createdPaste" class="flex flex-row justify-center items-center mt-12">
@@ -57,17 +48,8 @@
       }
     },
     methods: {
-      async createPaste(options) {
+      async createPaste(paste) {
         this.postingPaste = true;
-        let snippets = [];
-        this.$refs["snippet"].forEach(s => snippets.push(s.getValue()))
-
-
-        const paste = {
-          title: options.title,
-          fragments: snippets
-        }
-
         console.log(JSON.stringify(paste))
 
         const res = await fetch("/webapi/paste", {

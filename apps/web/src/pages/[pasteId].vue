@@ -1,4 +1,7 @@
 <script setup>
+    import { useUserStore } from "../store/user";
+    const userStore = useUserStore();
+
     const {data: paste, error} = await useAsyncData("paste", async (ctx) => {
         const router = useRouter();
         const pasteId = router.currentRoute.value.params.pasteId
@@ -24,9 +27,9 @@
 
     let err = undefined;
 
-    if (paste.value) {
-        paste.value.created = (new Date(paste.value.created).toLocaleDateString());
-    
+    console.log(error);
+
+    if (paste.value) {    
         useHead({
             title: "Quickpaste | " + paste.value.title.substring(0, 25)
         })
@@ -36,19 +39,40 @@
     }
 </script>
 
+<script>
+    export default {
+        data() {
+            return {
+                editMode: false,
+            }
+        },
+        mounted() {
+            if (this.userStore.user() == undefined) return;
+            if (this.paste.owner.id != this.userStore.id()) return;
+            if (this.$route.query["edit"]) this.editMode = true;
+        },
+        methods: {
+            async rePaste(paste) {
+                const res = await fetch(`/webapi/paste/${this.$route.params["pasteId"]}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify(paste)
+                }); 
+
+                const data = await res.text();
+
+                console.log(data);
+            }
+        }
+    }
+</script>
+
 <template>
     <div v-if="paste">
-        <div class="flex flex-col m-auto max-w-4xl max-h-2xl overflow-y-auto overflow-x-hidden">
-            <div class="sticky z-10 top-0 flex flex-row justify-between content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded mr-2">
-                <h1 class="text-3xl text-white text-shadow-sm">
-                    {{paste.title}} <span class="text-lg text-black text-shadow-none">by {{paste.owner.username}}</span>
-                </h1>
-                <h2 class="h-min self-center">Created on {{paste.created}}</h2>
-            </div>
-            <div class="mr-2">
-                <SnippetEditor ref="snippet" v-for="(post, index) in paste.fragments" :key="index" :value="post" :editable="false" class="mb-6"/>
-            </div>
-        </div>
+        <PasteEditor @submit="rePaste" class="m-auto" :class="{'max-w-4xl': !editMode}" :paste="paste" :editable="editMode" submitText="Re-Paste !" />
     </div>
     <div v-else>
         <div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded">

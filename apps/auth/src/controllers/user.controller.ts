@@ -12,11 +12,8 @@ const loginData = Joi.object({
 });
 
 async function login(req: Request, res: Response) {
-    console.log(req.body);
     const body = req.body;
     const data = loginData.validate(body);
-
-    console.log(data);
 
     if (data.error) {
         //TODO
@@ -30,8 +27,6 @@ async function login(req: Request, res: Response) {
             token = await loginGithub(data.value);
             break;
     }
-
-    console.log(token);
 
     res.send(token);
 }

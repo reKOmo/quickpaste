@@ -39,7 +39,6 @@ const state = (): NotificationsState => ({
 
 const getters = {
     getAlerts: (state: NotificationsState) => (): Notification[] => {
-        console.log(state.alerts[0]);
         return state.alerts;
     },
     getNotifications: (state: NotificationsState) => (): Notification[] => {

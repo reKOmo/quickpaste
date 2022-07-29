@@ -15,7 +15,6 @@ function getRequestToken(req: Request): string | undefined {
 
 async function auth(req: Request, res: Response) {
     const key = getRequestToken(req);
-    console.log(key);
     if (key == undefined) {
         res.status(401).send({
             ok: false,

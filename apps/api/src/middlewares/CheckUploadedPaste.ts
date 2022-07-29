@@ -7,7 +7,7 @@ const userPasteFragment = Joi.object({
     name: Joi.string()
         .max(50)
         .required(),
-    syntax: Joi.string().required(),
+    syntax: Joi.string().default("text").required(),
     content: Joi.string().required()
 });
 
@@ -33,6 +33,13 @@ export async function checkUploadPaste(req: FullRequest, res: Response, next: ()
     if (validPaste.error) {
         res.status(400).send(ServerResponse(false, validPaste.error.details[0].message));
         return;
+    }
+
+    if (req.additional.user === 0) {
+        if (validPaste.value.isPrivate != false) {
+            res.status(400).send(ServerResponse(false, "Private pastes are only for logged in users"));
+            return;
+        }
     }
 
     req.additional["uploadedPaste"] = validPaste.value;

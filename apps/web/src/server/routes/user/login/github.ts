@@ -1,6 +1,5 @@
 function parseQuery(q: string): unknown {
     const data = q.split("&");
-    console.log(data);
     const ob = {};
     data.forEach(s => {
         const param = s.split("=");
