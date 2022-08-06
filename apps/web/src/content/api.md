@@ -1,11 +1,18 @@
 # Using the API
 ---
 
-## Authentication
+## Authentication and authorization
 
-To authenticate include the API key in  the Authorization header
+To authenticate when using the API include the API key in the `Authorization` header
 ```
     Authorization: APIKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+<br>
+
+For password protected pastes use `Paste-Authorization` header to send the required password:
+```
+    Paste-Authorization: sOme PaSSword1
 ```
 
 <br>
@@ -235,3 +242,76 @@ Format for paste fragments.
     }
 ```
 
+## Getting authenticated users info    
+
+```http 
+    GET /api/user
+```
+
+---
+
+**Sample responses:**
+- 200
+```json
+    {
+        "id": 2,
+        "username": "jade",
+        "joined": "2022-07-02T21:29:17.045Z"
+    }
+```
+
+- 403
+```json
+    {
+        "ok": false,
+        "result": string
+    }
+```
+
+## Getting authenticated users pastes
+
+```http 
+    GET /api/user/pastes
+```
+
+---
+
+**Sample responses:**
+- 200
+```json
+    {
+    "ok": true,
+    "result": [
+        {
+            "title": "A new post",
+            "isPrivate": true,
+            "password": false,
+            "created": "2022-07-28T11:27:47.580Z",
+            "owner": {
+                "username": "reKOmo",
+                "id": 2
+            },
+            "uuid": "faQSOcNP"
+        },
+        {
+            "title": "e",
+            "isPrivate": false,
+            "password": false,
+            "created": "2022-07-28T11:25:02.333Z",
+            "owner": {
+                "username": "reKOmo",
+                "id": 2
+            },
+            "uuid": "sHFeCQmD"
+        }
+    ]
+}
+```
+
+- 403
+```json
+    {
+        "ok": false,
+        "result": string
+    }
+```

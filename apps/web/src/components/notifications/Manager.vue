@@ -7,6 +7,11 @@
                 </transition>
             </div>
         </transition>
+        <div class="absolute flex flex-col w-xs sm:w-sm h-3/4 z-60 right-0 justify-end pointer-events-none overflow-hidden">
+            <transition-group name="fade2">
+                <NotificationsToast v-for="noti in notifications.slice().reverse()" :key="noti.id" :title="noti.title" :desc="noti.description" :level="noti.level"/>
+            </transition-group>
+        </div>
     </teleport>
 </template>
 
@@ -27,7 +32,8 @@
                 alert: {
                     show: false,
                     notification: undefined
-                }
+                },
+                notifications: []
             }
         },
         methods: {
@@ -46,17 +52,25 @@
                     this.confirm.show = false;
                     this.confirm.notification = undefined;
                 }
+            },
+            showNotifications(type) {
+                this.notifications = this.notificationStore.getNotifications();
+                if (type === "add") {
+                    setTimeout(this.notificationStore.shiftNotification, 2500);
+                }
             }
         },
         mounted() {
             this.notificationStore.$subscribe((mutation, state) => {
+                console.log(mutation);
                 this.showAlerts();
+                this.showNotifications(mutation.events.type);
             });
         }
     }
 </script>
 
-<style>
+<style scoped>
     .confirm-enter-from {
         opacity: 0;
         transform: scale(0);
@@ -76,6 +90,28 @@
         opacity: 1;
     }
     .fade-enter-active {
+        transition: all 0.2s ease-in;
+    }
+
+    .fade2-enter-from {
+        opacity: 0;
+    }
+    .fade2-enter-to {
+        opacity: 1;
+    }
+    .fade2-enter-active {
+        transition: all 0.1s ease-in;
+    }
+
+    .fade2-leave-from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    .fade2-leave-to {
+        transform: translateX(200%);
+        opacity: 0;
+    }
+    .fade2-leave-active {
         transition: all 0.2s ease-in;
     }
 </style>

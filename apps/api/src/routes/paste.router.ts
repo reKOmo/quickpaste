@@ -5,6 +5,7 @@ import { checkUploadPaste } from "../middlewares/CheckUploadedPaste";
 import { gatekeep } from "../middlewares/Gatekeeper";
 import { getPasteData } from "../middlewares/GetPasteData";
 import { parseRequest } from "../middlewares/ParseRequest";
+import { checkPassword } from "../middlewares/CheckPastePassword";
 
 const router = Router();
 
@@ -12,11 +13,11 @@ router.use("*", express.json());
 
 router.post("/", parseRequest, checkUploadPaste, uploadPaste);
 
-router.get("/:pasteId", parseRequest, getPasteData, getPaste);
+router.get("/:pasteId", parseRequest, getPasteData, checkPassword, getPaste);
 
 router.delete("/:pasteId", parseRequest, gatekeep, getPasteData, assertPasteOwnership, deletePaste);
 
-router.put("/:pasteId", parseRequest, gatekeep, getPasteData, assertPasteOwnership, checkUploadPaste, editPaste);
+router.put("/:pasteId", parseRequest, gatekeep, getPasteData, assertPasteOwnership, checkPassword, checkUploadPaste, editPaste);
 
 
 export {

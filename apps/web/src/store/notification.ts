@@ -10,6 +10,7 @@ export interface INotification {
     type: NotificationTypes,
     title: string,
     description: string
+    level?: number
 }
 
 export class Notification implements INotification {
@@ -20,21 +21,24 @@ export class Notification implements INotification {
     type: NotificationTypes;
     title: string;
     description: string;
+    id: number;
+    level = 0;
 
     done(a: unknown) {
         this.resolve(a);
     }
-
 }
 
 export interface NotificationsState {
     notifications: Notification[],
-    alerts: Notification[]
+    alerts: Notification[],
+    nextId: number
 }
 
 const state = (): NotificationsState => ({
     notifications: [],
-    alerts: []
+    alerts: [],
+    nextId: 0,
 });
 
 const getters = {
@@ -54,6 +58,7 @@ export const useNotificationStore = defineStore("notificationStore", {
             return new Promise((resolve) => {
                 const n = new Notification(resolve);
                 Object.assign(n, noti);
+                n.id = this.nextId++;
                 switch (n.type) {
                     case NotificationTypes.ALERT:
                     case NotificationTypes.CONFIRM:
@@ -67,6 +72,9 @@ export const useNotificationStore = defineStore("notificationStore", {
         },
         shiftAlert() {
             this.alerts.shift();
+        },
+        shiftNotification() {
+            this.notifications.shift();
         }
     }
 });

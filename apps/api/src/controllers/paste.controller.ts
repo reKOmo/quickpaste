@@ -7,6 +7,8 @@ import { DefaultResponses, ServerResponse } from "../utils/ServerResponse";
 import { FullRequest } from "../models/FullRequest.interface";
 import { GetObjectOutput } from "aws-sdk/clients/s3";
 import { Constants } from "../config/constants";
+import bcrypt from "bcrypt";
+import { AES, enc } from "crypto-js";
 
 
 async function savePasteToS3(paste: PasteUpload, uuid: string) {
@@ -15,13 +17,29 @@ async function savePasteToS3(paste: PasteUpload, uuid: string) {
         fragments: paste.fragments
     };
 
-    await uploadFile(uuid, JSON.stringify(saveReadyPaste));
+    let pasteString = JSON.stringify(saveReadyPaste);
+
+    if (paste["unhashedPassword"] !== undefined) {
+        console.log(paste["unhashedPassword"]);
+        pasteString = AES.encrypt(pasteString, paste["unhashedPassword"]).toString();
+    }
+
+    await uploadFile(uuid, pasteString);
 }
 
 async function uploadPaste(req: FullRequest, res: Response) {
     const paste = req.additional.uploadedPaste;
     const client = await db.getClient();
     let uuid = generateUUID(Constants.PASTE_UUID_LENGTH);
+
+    if (paste.password !== undefined) {
+        paste["unhashedPassword"] = paste.password;
+
+        const saltRounds = 10;
+        const psswd = await bcrypt.hash(paste.password, saltRounds);
+
+        paste.password = psswd;
+    }
 
     await client.query("BEGIN;");
 
@@ -76,7 +94,16 @@ async function getPaste(req: FullRequest, res: Response) {
         return;
     }
 
-    const s3Data: { title: string, fragments: PasteFragment[] } = JSON.parse(s3Ret.Body.toString());
+    let body = s3Ret.Body.toString();
+
+    if (req.additional.pasteData.password) {
+        console.log(req.additional.password);
+        console.log(body.toString());
+        const bytes = AES.decrypt(body, req.additional.password);
+        body = bytes.toString(enc.Utf8);
+    }
+
+    const s3Data: { title: string, fragments: PasteFragment[] } = JSON.parse(body);
 
     const fPaste: Paste = {
         title: s3Data.title,

@@ -33,6 +33,10 @@ function parseRequest(req: FullRequest, res: Response, next: () => void) {
         req.additional["pasteUUID"] = pasteId;
     }
 
+    if (req.headers["paste-authorization"]) {
+        req.additional["password"] = Array.isArray(req.headers["paste-authorization"]) ? req.headers["paste-authorization"][0] : req.headers["paste-authorization"];
+    }
+
 
     next();
 }

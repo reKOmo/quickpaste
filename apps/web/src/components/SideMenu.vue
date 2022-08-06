@@ -19,6 +19,10 @@
                     <span>Private</span>
                     <span class="text-sm text-gray-500 px-4">Logged in users only</span>
                 </div>
+                <div>
+                    <input v-model="password" type="password" class="p-1 text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray">
+                    <span>Password</span>
+                </div>
             </div>
         </div>
     </div>
@@ -30,6 +34,7 @@
             return {
                 title: this.options !== undefined ? this.options.title : "",
                 priv: this.options !== undefined ? this.options.isPrivate : false,
+                password: "",
                 rotation: 0
             }
         },
@@ -47,7 +52,8 @@
             submit() {
                 this.$emit('submit', {
                     title: this.title,
-                    isPrivate: this.priv
+                    isPrivate: this.priv,
+                    password: this.password
                 })
             },
             toggleMenu() {

@@ -2,18 +2,17 @@
     <Head>
         <Title>Quickpaste</Title>
     </Head>
-    <div class="bg-bg min-h-screen">
+    <div class="bg-bg min-h-screen flex flex-col">
         <MyNavigation/>
         <NotificationsManager/>
         <NuxtLayout name="default">
             <NuxtPage/>
         </NuxtLayout>
-        <!-- <Footer/> -->
+        <Footer class="mt-auto"/>
     </div>
 </template>
 
 <script setup>
-import Footer from './components/Footer.vue';
     //set session cookie
     if (process.server) {
         const key = useCookie("quickpaste_auth", {
