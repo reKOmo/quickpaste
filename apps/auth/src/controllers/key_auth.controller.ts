@@ -4,11 +4,10 @@ import { authToken, generateGuestKey, generatePermaKey } from "../services/token
 
 function getRequestToken(req: Request): string | undefined {
     if (req.headers["authorization"]) {
-        return req.headers["authorization"].split(" ")[1];
+        const frags = req.headers["authorization"].split(" ");
+        if (frags.length != 2 || frags[0] !== "ApiKey") return undefined;
+        return frags[1];
     }
-    // } else if (req.cookies["quickpaste_auth"]) {
-    //     return req.cookies["quickpaste_auth"];
-    // }
 
     return undefined;
 }
@@ -16,10 +15,7 @@ function getRequestToken(req: Request): string | undefined {
 async function auth(req: Request, res: Response) {
     const key = getRequestToken(req);
     if (key == undefined) {
-        res.status(401).send({
-            ok: false,
-            result: "Authorization credientials missing"
-        });
+        res.status(401).end();
         return;
     }
 
@@ -27,9 +23,8 @@ async function auth(req: Request, res: Response) {
         const { userId } = await authToken(key);
         res.setHeader("Authorization", userId).end();
     } catch (err) {
-        //TODO proper errors
         console.log(err);
-        res.status(403).send(err);
+        res.status(403).end();
         return;
     }
 
@@ -43,8 +38,12 @@ async function generate(req: Request, res: Response) {
         const tempToken = header.split(" ")[1];
         const { userId, accountType } = await authToken(tempToken);
         if (accountType === TokenTypes.TMP) {
-            const permaToken = generatePermaKey(userId);
-            res.send({ ok: true, result: permaToken });
+            try {
+                const permaToken = await generatePermaKey(userId);
+                res.send({ ok: true, result: permaToken });
+            } catch (err) {
+                res.status(500).send({ ok: false, result: "Internal server error" });
+            }
         } else {
             res.status(401).end();
         }

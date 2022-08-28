@@ -2,6 +2,17 @@ import { defineNuxtConfig } from 'nuxt';
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+    runtimeConfig: {
+        githubSecret: process.env.GITHUB_CLIENT_SECRET,
+        githubId: process.env.GITHUB_CLIENT_ID,
+        internalGatewayAddress: process.env.INTERNAL_GATEWAY_ADDRESS,
+        internalApiAddress: process.env.INTERNAL_API_ADDRESS,
+        authServiceAddress: process.env.AUTH_SERVICE_ADDRESS,
+        public: {
+            githubId: process.env.GITHUB_CLIENT_ID,
+            webAddress: process.env.WEB_ADDRESS
+        }
+    },
     typescript: {
         typeCheck: false
     },
@@ -26,5 +37,10 @@ export default defineNuxtConfig({
     ],
     vite: {
         assetsInclude: ['**/*.md']
+    },
+    nitro: {
+        prerender: {
+            routes: ["/api"]
+        }
     }
 });

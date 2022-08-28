@@ -1,26 +1,26 @@
 <template>
     <div class="flex flex-col md:flex-row w-full justify-between">
-        <div class="bg-gradient-to-tr from-green to-orange rounded p-4 mr-12 pr-24 w-full md:w-1/4 md:max-h-md md:min-h-sm mt-2">
-            <ClientOnly>
-                <h2 class="text-4xl">{{userStore.username()}}</h2>
-                <p>Joined: {{userStore.userData.joined}}</p>
-            </ClientOnly>
-        </div>
+        <UserPanel />
         <div class="md:w-4/5">
             <h1 class="text-5xl mb-6 text-orange text-shadow-sm border-b border-blue pb-4">Pastes</h1>
             <div v-if="pastes.length > 0" class="max-h-prose overflow-y-auto">
-                <div v-for="paste in pastes" :key="paste.uuid" class="flex flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue">
+                <div v-for="paste in pastes" :key="paste.uuid"
+                    class="flex flex-col md:flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue">
                     <a :href="`/${paste.uuid}`">
                         <h3 class="text-2xl font-bold">
-                            {{paste.title}} <span class="text-sm font-normal italic text-gray-500">#{{paste.uuid}}</span>
+                            {{ paste.title }} 
+                            <span class="text-sm font-normal italic text-gray-500">#{{ paste.uuid }}</span>
+                            <font-awesome-icon v-if="paste.isPrivate" :icon="['fas', 'fa-eye-slash']" class="text-sm ml-2 mb-px" />
+                            <font-awesome-icon v-if="paste.password" :icon="['fas', 'fa-lock']" class="text-sm ml-2 mb-px" />
                         </h3>
                         <ClientOnly>
-                            <p>Created: {{paste.created}}</p>
+                            <p>Created: {{ paste.created }}</p>
                         </ClientOnly>
                     </a>
                     <div class="flex flex-row justify-between">
-                        <a class="bg-green flex-1 m-2 rounded p-4" :href="`/${paste.uuid}?edit=1`">Edit</a>
-                        <button class="bg-red-600 flex-1 m-2 rounded p-4" @click.stop="deletePaste(paste.uuid)">Remove</button>
+                        <a class="bg-green flex-1 m-2 rounded p-4 text-center" :href="`/${paste.uuid}?edit=1`">Edit</a>
+                        <button class="bg-red-600 flex-1 m-2 rounded p-4 text-center"
+                            @click.stop="deletePaste(paste.uuid)">Remove</button>
                     </div>
                 </div>
             </div>
@@ -32,87 +32,53 @@
 </template>
 
 <script setup>
-    import { NotificationTypes, useNotificationStore } from "@/store/notification";
-    import { useUserStore } from "../../store/user";
-
-    const router = useRouter();
-    const loggedIn = useCookie("logged_in").value;
-    if (loggedIn != "1") {
-        router.replace("/");
-    }
-
-    const userStore = useUserStore();
-    const notificationStore = useNotificationStore();
-
-    const {data: pasteData, error, refresh} = await useAsyncData("pastes", async (ctx) => {
-        if (process.server) {
-            const cookieKey = useRequestHeaders(["cookie"]).cookie;
-            const cookies = {};
-            cookieKey.split(";").forEach(frag => {
-                const a =frag.split("=");
-                cookies[a[0].trim()] = a[1].trim();
-            });
-
-            const res = await $fetch("http://localhost:8080/api/user/pastes", {
-                headers: {
-                    "Authorization": "APIKey " + cookies.quickpaste_auth
-                },
-                parseResponse: JSON.text
-            })
-
-            return res;
-        } else if (process.client) {
-            const {data} = await useFetch("/webapi/user/pastes", {
-                credentials: "include",
-                parseResponse: JSON.parse
-            });
-
-            return data;
-        }
-    }, {
-        //server: true
-        
-    })
-
-    const pastes = pasteData.value.result;
-
-    if (process.client) {
-        for (let i = 0; i < pastes.length; i++) {
-            pastes[i].created = (new Date(pastes[i].created)).toLocaleDateString();
-        }
-    }
+import { NotificationTypes, useNotificationStore } from "@/store/notification";
+import { useUserStore } from "@/store/user";
+const notificationStore = useNotificationStore();
+const userStore = useUserStore();
 </script>
 
 <script>
-    import { useUserStore } from "../../store/user";
-    export default {
-        methods: {
-            async deletePaste(uuid) {
-                const res = await this.notificationStore.addNotification({
-                    type: NotificationTypes.CONFIRM,
-                    title: "Delete paste?",
-                    description: "This action can not be reversed!"
+export default {
+    data() {
+        return {
+            pastes: []
+        }
+    },
+    methods: {
+        async deletePaste(uuid) {
+            const res = await this.notificationStore.addNotification({
+                type: NotificationTypes.CONFIRM,
+                title: "Delete paste?",
+                description: "This action can not be reversed!"
+            });
+            if (res) {
+                const r = await $fetch(`/webapi/paste/${uuid}`, {
+                    method: "DELETE",
+                    credentials: "include"
                 });
-                if (res) {
-                    const r = await $fetch(`/webapi/paste/${uuid}`, {
-                        method: "DELETE",
-                        credentials: "include"
-                    });
-                    
-                    await this.refresh();
 
-                    this.pastes = this.pasteData.value.result;
-
-                    for (let i = 0; i < this.pastes.length; i++) {
-                        this.pastes[i].created = (new Date(this.pastes[i].created)).toLocaleDateString();
-                    }
-
-                    this.$forceUpdate();
-                }
+                await refreshPastes()
             }
         },
-        mounted() {
-            document.title = `Quickpaste | ${this.userStore.username()}`
+        async refreshPastes() {
+            const res = await $fetch("/webapi/user/pastes", {
+                credentials: "include",
+                parseResponse: JSON.json
+            });
+
+            console.log(res);
+
+            this.pastes = res.result;
+
+            for (let i = 0; i < this.pastes.length; i++) {
+                this.pastes[i].created = (new Date(this.pastes[i].created)).toLocaleDateString();
+            }
         }
+    },
+    mounted() {
+        document.title = `Quickpaste | ${this.userStore.username()}`;
+        if (this.pastes.length === 0) this.refreshPastes();
     }
+}
 </script>

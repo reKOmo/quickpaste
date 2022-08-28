@@ -1,10 +1,10 @@
 <template>
     <div v-if="!loggedIn">
-        <a class="rounded bg-green p-6 py-2" href="/login">Login</a>
+        <NuxtLink class="rounded bg-green p-6 py-2" href="/login">Login</NuxtLink>
     </div>
     <div v-else>
         <ClientOnly>
-            <a href="/user" class="text-md mr-4 hover:text-white">{{userStore.username()}}</a>
+            <NuxtLink href="/user" class="text-md mr-4 hover:text-white">{{userStore.username()}}</NuxtLink>
             <a href="/user/logout" class="rounded bg-red-500 p-4 py-2">Logout</a>
         </ClientOnly>
     </div>

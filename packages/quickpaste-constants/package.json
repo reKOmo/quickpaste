@@ -1,0 +1,16 @@
+{
+  "name": "quickpaste-constants",
+  "version": "0.0.2",
+  "private": true,
+  "main": "./dist/src/config.js",
+  "types": "./dist/types",
+  "scripts": {
+    "build": "tsc",
+    "local-publish": "npm run build && yalc publish --private --store-folder ../../.yalc-store"
+  },
+  "dependencies": {
+    "typescript": "^4.7.2",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*"
+  }
+}

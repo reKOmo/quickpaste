@@ -11,6 +11,16 @@ function assertPasteOwnership(req: FullRequest, res: Response, next: () => void)
     next();
 }
 
+function assertPasteOwnershipPrivate(req: FullRequest, res: Response, next: () => void) {
+    if (req.additional.pasteData.is_private && req.additional.pasteData.owner_id != req.additional.user) {
+        res.status(403).send(ServerResponse(false, DefaultResponses.UNAUTHORIZED));
+        return;
+    }
+
+    next();
+}
+
 export {
-    assertPasteOwnership
+    assertPasteOwnership,
+    assertPasteOwnershipPrivate
 };

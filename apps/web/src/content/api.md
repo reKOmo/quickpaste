@@ -4,14 +4,14 @@
 ## Authentication and authorization
 
 To authenticate when using the API include the API key in the `Authorization` header
-```
+```text
     Authorization: APIKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 <br>
 
 For password protected pastes use `Paste-Authorization` header to send the required password:
-```
+```text
     Paste-Authorization: sOme PaSSword1
 ```
 
@@ -62,7 +62,7 @@ Format for paste fragments.
 | | *Required*
 |`syntax`|Type: `string`|
 | | Default: `text`
-| | One of supported syntaxes (<a href="https://prismjs.com/#supported-languages" target="_blank">check here</a>).
+| | One of supported syntaxes (<a href="https://prismjs.com/#supported-languages" target="_blank">see here</a>).
 | | *Optional*
 
 #### Sample upload ready paste

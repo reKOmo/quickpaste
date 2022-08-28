@@ -5,14 +5,16 @@ export default defineEventHandler(async (e) => {
 
     const headers = e.req.headers;
 
+    const runtimeConfig = useRuntimeConfig();
+
     // @ts-ignore
     const authCookie = useCookies(e)["quickpaste_auth"];
-    headers["authorization"] = "APIKey " + authCookie;
+    headers["authorization"] = "ApiKey " + authCookie;
 
-    const res = await fetch("http://localhost:8080" + destRoute, {
+    const res = await fetch(runtimeConfig.internalGatewayAddress + destRoute, {
         method: e.req.method,
         // @ts-ignore
-        headers: headers,
+        headers,
         body: ["GET", "DELETE", "TRACE", "OPTIONS", "HEAD"].includes(e.req.method) ? undefined : await useRawBody(e)
     });
 

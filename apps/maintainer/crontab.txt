@@ -1,0 +1,1 @@
+0 0 * * * /scripts/clear-pastes.sh >> /clear-paste.log

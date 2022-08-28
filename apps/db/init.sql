@@ -24,3 +24,23 @@ CREATE TABLE IF NOT EXISTS pastes (
     UNIQUE (uuid),
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS content_modification (
+    id serial,
+    api_key VARCHAR NOT NULL,
+    accessed DATE NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (id)
+);
+
+CREATE FUNCTION delete_old_access_records() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  DELETE FROM content_modification WHERE accessed < NOW() - interval '1' day;
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER delete_old_access_records_trigger
+    AFTER INSERT ON content_modification
+    EXECUTE PROCEDURE delete_old_access_records();

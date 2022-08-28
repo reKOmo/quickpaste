@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import Joi from "joi";
 import * as db from "../services/db.service";
-import jwt from "jsonwebtoken";
-import * as jwtConfig from "../config/jwt.config";
 import axios from "axios";
 import { generateTempKey } from "../services/tokens.service";
+import axiosRetry from "axios-retry";
 
 const loginData = Joi.object({
     type: Joi.string().valid("github").required(),
@@ -16,22 +15,30 @@ async function login(req: Request, res: Response) {
     const data = loginData.validate(body);
 
     if (data.error) {
-        //TODO
-
+        res.status(403).send({ ok: false, result: "Incorrect data format" });
         return;
     }
 
     let token = "";
-    switch (data.value.type) {
-        case "github":
-            token = await loginGithub(data.value);
-            break;
+    try {
+        switch (data.value.type) {
+            case "github":
+                token = await loginGithub(data.value);
+                break;
+        }
+    } catch (err) {
+        res.status(500).send(err);
+        return;
     }
 
     res.send(token);
 }
 
 async function loginGithub(data: any): Promise<string> {
+
+    axiosRetry(axios, {
+        retries: 3
+    });
 
     const res = await axios({
         url: "https://api.github.com/user",
@@ -41,7 +48,9 @@ async function loginGithub(data: any): Promise<string> {
         }
     });
 
-    //TODO Error hanlde
+    if (res.status !== 200) {
+        throw new Error("Failed to login with github");
+    }
 
     const userData = await res.data;
 
@@ -65,7 +74,7 @@ async function loginGithub(data: any): Promise<string> {
 
 async function createAccount(username: string, extId: string = null): Promise<number> {
     const res = await db.safeQuery("INSERT INTO users (username, ext_id) VALUES ($1::character varying, $2::character varying) returning id;", [username, extId]);
-    const userId = res.rows[0];
+    const userId = res.rows[0].id;
 
     return userId;
 }

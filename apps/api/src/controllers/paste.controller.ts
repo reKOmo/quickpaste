@@ -1,5 +1,5 @@
-import { Response } from "express";
-import { deleteFile, retriveFile, uploadFile } from "../services/s3.service";
+import { Request, Response } from "express";
+import { deleteFile, deleteFiles, retriveFile, uploadFile } from "../services/s3.service";
 import { Paste, PasteFragment, PasteUpload } from "interfaces";
 import generateUUID from "../utils/GenerateUUID";
 import * as db from "../services/db.service";
@@ -64,6 +64,8 @@ async function uploadPaste(req: FullRequest, res: Response) {
         //add frags to storage
         await savePasteToS3(paste, uuid);
 
+        await client.query("INSERT INTO content_modification (api_key) VALUES ($1::character varying)", [req.additional.apiKey]);
+
         await client.query("COMMIT;");
 
         res.send(ServerResponse(true, {
@@ -79,13 +81,6 @@ async function uploadPaste(req: FullRequest, res: Response) {
 }
 
 async function getPaste(req: FullRequest, res: Response) {
-    //check if paste private
-    if (req.additional.pasteData.is_private && req.additional.pasteData.owner_id != req.additional.user) {
-        res.status(403).send(ServerResponse(false, DefaultResponses.UNAUTHORIZED));
-        return;
-    }
-
-
     let s3Ret: GetObjectOutput;
     try {
         s3Ret = await retriveFile(req.additional.pasteUUID);
@@ -97,8 +92,6 @@ async function getPaste(req: FullRequest, res: Response) {
     let body = s3Ret.Body.toString();
 
     if (req.additional.pasteData.password) {
-        console.log(req.additional.password);
-        console.log(body.toString());
         const bytes = AES.decrypt(body, req.additional.password);
         body = bytes.toString(enc.Utf8);
     }
@@ -124,19 +117,34 @@ async function editPaste(req: FullRequest, res: Response) {
     const paste = req.additional.uploadedPaste;
     const uuid = req.additional.pasteUUID;
 
-    try {
-        await db.safeQuery("UPDATE pastes SET title = $1::character varying, is_private = $2::boolean WHERE uuid = $3;", [paste.title, paste.isPrivate, uuid]);
-        await savePasteToS3(paste, uuid);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
-        return;
+    if (paste.password !== undefined) {
+        paste["unhashedPassword"] = paste.password;
+
+        const saltRounds = 10;
+        const psswd = await bcrypt.hash(paste.password, saltRounds);
+
+        paste.password = psswd;
     }
 
-    res.send(ServerResponse(true, {
-        pasteId: uuid,
-        message: "Updated paste"
-    }));
+    const client = await db.getClient();
+
+    await client.query("BEGIN;");
+
+    try {
+        await client.query("UPDATE pastes SET title = $1::character varying, is_private = $2::boolean, password = $3::character varying WHERE uuid = $4;", [paste.title, paste.isPrivate, paste.password, uuid]);
+        await savePasteToS3(paste, uuid);
+        await client.query("INSERT INTO content_modification (api_key) VALUES ($1::character varying)", [req.additional.apiKey]);
+        await client.query("COMMIT;");
+
+        res.send(ServerResponse(true, {
+            pasteId: uuid,
+            message: "Updated paste"
+        }));
+    } catch (err) {
+        await client.query("ROLLBACK;");
+        console.error(err);
+        res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
+    }
 }
 
 async function deletePaste(req: FullRequest, res: Response) {
@@ -162,9 +170,61 @@ async function deletePaste(req: FullRequest, res: Response) {
     client.release();
 }
 
+async function clearOldPastes(req: Request, res: Response) {
+    const client = await db.getClient();
+
+    await client.query("BEGIN;");
+
+    try {
+        // get guest pastes
+        const oldGuestRes = await client.query("SELECT uuid FROM pastes WHERE last_visited::date <= CURRENT_DATE - interval '1' month AND owner_id = 0;");
+        const guestPastesIds = oldGuestRes.rows.map(p => p.uuid);
+
+        // get user pastes
+        const oldUserRes = await client.query("SELECT uuid FROM pastes WHERE last_visited::date <= CURRENT_DATE - interval '6' month AND owner_id != 0;");
+        const userPastesIds = oldUserRes.rows.map(p => p.uuid);
+
+        const pastesToDelete = guestPastesIds.concat(userPastesIds);
+
+        // delete old pastes
+        await client.query("DELETE FROM pastes WHERE uuid = ANY ($1) RETURNING uuid;", [pastesToDelete]);
+
+        //!!!!!!!   TODO
+        /*
+        Delete form s3
+        6e60HnuK
+CmqqMGVt
+GNyu6PJ6
+O1QyXbPD
+PjsANha2
+SD16hctw
+XHex9ddI
+Y3QXboGj
+ZO1NZjs0
+lZGV5pQr
+rJICgbGY
+swZ8kjTO
+
+        */
+
+        await deleteFiles(pastesToDelete);
+
+        await client.query("COMMIT;");
+
+        res.send("Removed (" + pastesToDelete.length + "): " + JSON.stringify(pastesToDelete));
+    } catch (err) {
+        await client.query("ROLLBACK;");
+        console.error(err);
+        res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
+    }
+
+    client.release();
+}
+
 export {
     uploadPaste,
     getPaste,
     editPaste,
-    deletePaste
+    deletePaste,
+    clearOldPastes
 };

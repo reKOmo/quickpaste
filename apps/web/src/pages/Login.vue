@@ -4,20 +4,33 @@
             :href="githubAdress"
             class="flex flex-row content-center justify-center bg-gradient-to-tr from-green to-orange rounded p-4 m-auto cursor-pointer"
         >
-            <font-awesome-icon :icon="['fab', 'github']" size="2x" fixed-width/> <span class="h-min self-center text-shadow-sm">Sign up with Github</span>
+            <font-awesome-icon :icon="['fab', 'github']" size="2x" fixed-width/> <span class="h-min self-center text-shadow-sm">Continue with Github</span>
         </a>
     </div>
 </template>
 
+<script setup>
+import { useNotificationStore } from '@/store/notification';
+import { NotificationTypes } from '../store/notification';
+    const config = useRuntimeConfig();
+    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.public.githubId}&redirect_uri=${config.public.webAddress}/user/login/github`
+    const notificationStore = useNotificationStore();
+</script>
+
 <script>
-const clientId = "ed4a6c3a698773e1826d";
-export default {
-    data() {
-        return {
-            githubAdress: `https://github.com/login/oauth/authorize?scope=read:user&client_id=${clientId}&redirect_uri=http://localhost:3000/user/login/github`
+    export default {
+        mounted() {
+            const failedLogin = this.$route.query.failedLogin;
+
+            if (failedLogin) {
+                this.notificationStore.addNotification({
+                    type: NotificationTypes.NOTIFICATION,
+                    level: 1,
+                    title: "Failed to login. Please try again"
+                })
+            }
         }
     }
-}
 </script>
 
 <style>

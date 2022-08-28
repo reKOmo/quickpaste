@@ -26,7 +26,7 @@ async function authToken(token: string): Promise<{ userId: number, accountType: 
 async function authPermaToken(token: string): Promise<number> {
     const payload = jwt.decode(token) as UserToken;
 
-    const dbToken = (await db.query("SELECT api_token_id FROM users WHERE id = $1;", [payload.u_id])).rows[0].api_token_id;
+    const dbToken = (await db.query("SELECT perma_token_id FROM users WHERE id = $1;", [payload.u_id])).rows[0].perma_token_id;
 
     jwt.verify(token, config.secretKey, { jwtid: dbToken.toString() });
 
@@ -48,14 +48,14 @@ async function authTempToken(token: string): Promise<number> {
 }
 
 async function generatePermaKey(userId: number): Promise<string> {
-    const dbRes = (await db.query("SELECT api_token_id FROM users WHERE id = $1", [userId]));
+    const dbRes = (await db.query("SELECT perma_token_id FROM users WHERE id = $1", [userId]));
 
     if (dbRes.rowCount == 0) {
         throw new Error("invalid user");
     } else {
-        const currentId = dbRes.rows[0].api_token_id;
+        const currentId = dbRes.rows[0].perma_token_id !== null ? dbRes.rows[0].perma_token_id : -1;
 
-        const newId = (await db.safeQuery("UPDATE users SET api_token_id = $1 RETURNING api_token_id;", [currentId + 1])).rows[0].api_token_id;
+        const newId = (await db.safeQuery("UPDATE users SET perma_token_id = $1 WHERE users.id = $2 RETURNING perma_token_id;", [currentId + 1, userId])).rows[0].perma_token_id;
 
         const payload: UserToken = {
             type: TokenTypes.PERMA,

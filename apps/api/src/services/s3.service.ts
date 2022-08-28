@@ -66,8 +66,28 @@ function deleteFile(name: string): Promise<AWS.S3.DeleteObjectOutput> {
     });
 }
 
+function deleteFiles(names: string[]): Promise<AWS.S3.DeleteObjectOutput> {
+    const requestConfig: AWS.S3.DeleteObjectsRequest = {
+        Bucket: s3Config.bucketName,
+        Delete: {
+            Objects: names.map(n => ({ Key: n }))
+        }
+    };
+
+    return new Promise((resolve, reject) => {
+        S3.deleteObjects(requestConfig, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+
 export {
     uploadFile,
     retriveFile,
-    deleteFile
+    deleteFile,
+    deleteFiles
 };

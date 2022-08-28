@@ -21,7 +21,7 @@
         console.log(key.value);
         if (key.value === undefined) {
             console.log("getting new key")
-            key.value = (await useFetch("http://localhost:4001/keys/generate")).data.value.result;
+            key.value = (await useFetch(useRuntimeConfig().authServiceAddress + "/keys/generate")).data.value.result;
         }
     }
 </script>

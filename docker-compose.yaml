@@ -67,3 +67,11 @@ services:
     depends_on:
       - api
       - auth
+  maintainer:
+    build:
+      context: ./apps/maintainer
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - api
+      - storage

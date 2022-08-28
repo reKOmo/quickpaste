@@ -4,10 +4,11 @@ import { DbPaste } from "./DbPaste.interface";
 
 export interface FullRequest extends Request {
     additional: {
-        user?: number,
+        apiKey: string,
+        user: number,
         password?: string,
         pasteUUID?: string,
         pasteData?: DbPaste
-        uploadedPaste?: PasteUpload
+        uploadedPaste?: PasteUpload,
     }
 }

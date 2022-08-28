@@ -1,6 +1,21 @@
 <template>
     <div v-if="paste">
-        <PasteEditor @submit="rePaste" class="m-auto" :class="{'max-w-4xl': !editMode}" :paste="paste" :editable="editMode" submitText="Re-Paste !" />
+        <PasteEditor v-if="pastePostingState == 0" @submit="rePaste" class="m-auto" :class="{'max-w-4xl': !editMode}" :paste="paste" :editable="editMode" submitText="Re-Paste !" />
+        <div v-else-if="pastePostingState == 1" class="flex flex-row justify-center items-center mt-12">
+            <iframe width="300" height="300" src="../assets/animated/logo-paste-loading.svg" alt="Loading"></iframe>
+            <div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min">
+                <h2 class="text-2xl font-bold">Creating paste</h2>
+            </div>
+        </div>
+        <div v-else class="flex flex-row justify-center items-center mt-12">
+            <iframe width="300" height="300" src="../assets/animated/logo-paste-created.svg" alt="Created"></iframe>
+            <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
+                <h2 class="text-2xl font-bold">Paste created!</h2>
+                <h3> 
+                    Check it at: <a class="font-bold" :href="`/${createdPaste.pasteId}`">{{createdPaste.pasteId}}</a>
+                </h3>
+            </div>
+        </div>
     </div>
     <div v-else-if="err == 401" class="flex flex-col items-center space-y-4">
         <h2 class="text-xl text-gray-300">Enter password to view the paste</h2>
@@ -19,6 +34,7 @@
 </template>
 
 <script setup>
+    import { useHead } from "#app";
     import { useUserStore } from "../store/user";
     import { useNotificationStore } from "../store/notification";
     const userStore = useUserStore();
@@ -35,25 +51,28 @@
             cookies[a[0]] = a[1];
         });
 
-        const res = await $fetch(`http://localhost:8080/api/paste/${pasteId}`, {
+        const res = await $fetch(`${useRuntimeConfig().internalGatewayAddress}/api/paste/${pasteId}`, {
             headers: {
-                "Authorization": "APIKey " + cookies.quickpaste_auth
+                "Authorization": "ApiKey " + cookies.quickpaste_auth
             },
             parseResponse: JSON.parse
         })
+
 
         return res
     }, {
         server: true
     });
 
-    if (paste.value) {    
+    if (paste.value && process.server) {   
         useHead({
             title: "Quickpaste | " + paste.value.title.substring(0, 25)
         })
     }
 
-    const {data: err} = await useAsyncData("error", () => error.value.response.status, { server: true });
+    if (error.value) console.log(error.value);
+
+    const {data: err} = await useAsyncData("error", () => error.value ? error.value.response.status : 200, { server: true });
 </script>
 
 <script>
@@ -61,7 +80,9 @@
         data() {
             return {
                 editMode: false,
-                password: ""
+                password: "",
+                pastePostingState: 0,
+                createdPaste: undefined
             }
         },
         mounted() {
@@ -75,18 +96,30 @@
                 if (this.$route.query["edit"]) this.editMode = true;
             },
             async rePaste(paste) {
+                this.pastePostingState = 1;
+
+                const headers = {
+                    "Content-Type": "application/json"
+                };
+
+                if (this.password.length != 0) {
+                    headers["Paste-Authorization"] = this.password;
+                }
+
+
                 const res = await fetch(`/webapi/paste/${this.$route.params["pasteId"]}`, {
                     method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers,
                     credentials: "include",
                     body: JSON.stringify(paste)
-                }); 
+                });
 
-                const data = await res.text();
-
-                console.log(data);
+                if (res.ok) {
+                    this.pastePostingState = 2;
+                    this.createdPaste = (await res.json()).result;
+                } else {
+                    //TODO
+                }
             },
             async reloadPaste() {
                 if (this.password.length === 0) {
@@ -108,6 +141,9 @@
 
                 if (res.ok) {
                     this.paste = await res.json();
+                    if (this.password.length != 0) {
+                        this.paste["password"] = this.password;
+                    }
                     this.checkEditMode();
                     document.title = "Quickpaste | " + this.paste.title.substring(0, 25);
                 } else {
@@ -125,10 +161,6 @@
                 }
 
 
-            },
-            pushNot() {
-                console.log("a");
-                
             }
         }
     }

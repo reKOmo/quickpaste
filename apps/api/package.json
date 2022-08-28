@@ -30,6 +30,7 @@
     "interfaces": "workspace:*",
     "joi": "^17.6.0",
     "pg": "^8.7.3",
+    "quickpaste-constants": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^4.7.2"
   },

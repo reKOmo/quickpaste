@@ -2,7 +2,7 @@
     <div class="main shadow-black shadow-lg rounded">
         <div class="header bg-gradient-to-tr from-green to-orange p-2 flex justify-center rounded">
             <input :disabled="!editable" v-model.trim.lazy="title" type="text" maxlength="50" tooltip="Click to edit" placeholder="Name this snippet +"
-             class="flex-1 mr-4 py-2 text-center text-white rounded placeholder-white-100 border-none
+             class="flex-1 sm:mr-4 py-2 text-center text-white rounded placeholder-white-100 border-none
               focus:outline-none text-lg text-bold"/>
             <select v-model="selectedLang" class="bg-transparent rounded text-center border-none">
                 <option v-for="(lang, index) in languages" :key="index" :value="lang">

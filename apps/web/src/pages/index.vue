@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!postingPaste" class="container">
-      <PasteEditor @submit="createPaste" />
+      <PasteEditor @submit="createPaste" :loggedIn="loggedIn"/>
     </div>
     <div v-else>
       <div v-if="!createdPaste" class="flex flex-row justify-center items-center mt-12">
@@ -10,18 +10,33 @@
           <h2 class="text-2xl font-bold">Creating paste</h2>
         </div>
       </div>
-      <div v-else class="flex flex-row justify-center items-center mt-12">
-        <iframe width="300" height="300" src="../assets/animated/logo-paste-created.svg" alt="Created"></iframe>
-        <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
-          <h2 class="text-2xl font-bold">Paste created!</h2>
-          <h3> 
-            Check it at: <a class="font-bold" :href="`/${createdPaste.pasteId}`">{{createdPaste.pasteId}}</a>
-          </h3>
+      <div v-else>
+        <div v-if="requestCode == 200" class="flex flex-row justify-center items-center mt-12">
+          <iframe width="300" height="300" src="../assets/animated/logo-paste-created.svg" alt="Created"></iframe>
+          <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
+            <h2 class="text-2xl font-bold">Paste created!</h2>
+            <h3> 
+              Check it at: <a class="font-bold" :href="`/${createdPaste.pasteId}`">{{createdPaste.pasteId}}</a>
+            </h3>
+          </div>
+        </div>
+        <div v-if="requestCode == 429" class="flex flex-row justify-center items-center mt-12">
+          <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
+            <h2 class="text-2xl font-bold">Daily paste limit reached</h2>
+            <h3> 
+              You have surpassed your daily paste limit. For more information see <NuxtLink href="/">here</NuxtLink>
+            </h3>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+  import { useUserStore } from '@/store/user';
+  const userStore = useUserStore();
+</script>
 
 <script>
   export default {
@@ -30,8 +45,13 @@
         snippets: [0],
         offscreen: false,
         postingPaste: false,
-        createdPaste: undefined
+        createdPaste: undefined,
+        loggedIn: false,
+        requestCode: 200
       }
+    },
+    mounted() {
+      this.loggedIn = this.userStore.user() != undefined;
     },
     watch: {
       snippets: {
@@ -50,7 +70,6 @@
     methods: {
       async createPaste(paste) {
         this.postingPaste = true;
-        console.log(JSON.stringify(paste))
 
         const res = await fetch("/webapi/paste", {
           method: "POST",
@@ -63,7 +82,7 @@
 
         const data = await res.json();
         this.createdPaste = data.result;
-        console.log(data)
+        this.requestCode = res.status;
       },
       removeLast() {
         if (this.snippets.length > 1)

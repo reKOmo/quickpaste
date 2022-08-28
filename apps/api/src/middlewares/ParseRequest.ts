@@ -9,10 +9,12 @@ const pasteIdSchema = Joi.string().length(Constants.PASTE_UUID_LENGTH).pattern(n
 
 function parseRequest(req: FullRequest, res: Response, next: () => void) {
     const userId = req.headers["x-user"];
+    const apiKey = req.headers["authorization"].split(" ")[1];
 
     //internal
     if (userId) {
         req.additional["user"] = parseInt(Array.isArray(userId) ? userId[0] : userId);
+        req.additional["apiKey"] = apiKey;
     } else {
         res.status(400).send("No user id");
         return;

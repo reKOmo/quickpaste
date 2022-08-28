@@ -69,24 +69,39 @@
                     this.update();
                 },
                 flush: 'post'
+            },
+            $route: {
+                handler: function () {
+                    console.log("a");
+                    this.update({ target: this.$data.inputElemet });
+                    this.$data.editor.classList.remove("hide-editor");
+                },
+                deep: 'true'
             }
         },
         mounted() {
+            console.log("a");
             this.$data.inputElemet = this.$refs["input"];
             this.$data.codeDisplay = this.$refs["code"];
             this.$data.lineNumbers = this.$refs["line-numbers"];
             this.$data.editor = this.$refs["editor"];
             this.$data.preCode = this.$refs["pre-code"];
-            this.update({ target: this.$data.inputElemet });
             this.$data.editor.classList.remove("hide-editor");
+
+            setTimeout(this.update.bind(this, { target: this.$data.inputElemet }), 100);
+
+            window.addEventListener('resize', this.update.bind(this, { target: this.$data.inputElemet }));
         },
         methods: {
             update() {
+                //render text
                 let text = this.text;
                 if (text.charAt(text.length - 1) == "\n") {
                     text += "\u00A0";
                 }
                 this.$data.codeDisplay.textContent = text;
+                Prism.highlightAll();
+
 
                 // lines
                 const lines = (text.match(/\n/g) || "").length + 1;
@@ -110,7 +125,6 @@
                 this.$data.lineNumbers.style.height = this.$data.inputElemet.clientHeight + "px";
 
                 this.fixScroll();
-                Prism.highlightAll();
             },
             fixScroll() {
                 this.$data.preCode.scroll({
