@@ -10,7 +10,8 @@ export default defineNuxtConfig({
         authServiceAddress: process.env.AUTH_SERVICE_ADDRESS,
         public: {
             githubId: process.env.GITHUB_CLIENT_ID,
-            webAddress: process.env.WEB_ADDRESS
+            webAddress: process.env.WEB_ADDRESS,
+            hCaptchaSiteley: process.env.HCAPTCHA_SITEKEY,
         }
     },
     typescript: {

@@ -5,6 +5,12 @@ import * as db from "../services/db.service";
 import { UserData } from "interfaces";
 import { DbPaste } from "../models/DbPaste.interface";
 import { deleteFile } from "../services/s3.service";
+import Joi from "joi";
+
+const getPasteParams = Joi.object({
+    amount: Joi.number().min(1).max(100).default(20),
+    pageId: Joi.string().optional()
+});
 
 async function getUserInfo(req: FullRequest, res: Response) {
     const userId = req.additional.user;
@@ -33,10 +39,17 @@ async function getUserInfo(req: FullRequest, res: Response) {
 }
 
 async function getUserPastes(req: FullRequest, res: Response) {
+    const validParams = getPasteParams.validate(req.query);
+
+    if (validParams.error) {
+        res.status(400).send(ServerResponse(false, "Invalid params: " + validParams.error.message));
+        return;
+    }
+
     const userId = req.additional.user;
 
     try {
-        const dbData = await db.query("SELECT * FROM pastes WHERE pastes.owner_id = $1 ORDER BY pastes.created DESC", [userId]);
+        const dbData = await db.query("SELECT * FROM pastes WHERE pastes.owner_id = $1 ORDER BY pastes.created DESC LIMIT $2", [userId, validParams.value.amount]);
         const userData = (await db.query("SELECT username, id FROM users WHERE users.id = $1", [userId])).rows[0];
 
 
