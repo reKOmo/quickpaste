@@ -14,6 +14,7 @@ function getRequestToken(req: Request): string | undefined {
 
 async function auth(req: Request, res: Response) {
     const key = getRequestToken(req);
+
     if (key == undefined) {
         res.status(401).end();
         return;
@@ -36,16 +37,20 @@ async function generate(req: Request, res: Response) {
 
     if (header) {
         const tempToken = header.split(" ")[1];
-        const { userId, accountType } = await authToken(tempToken);
-        if (accountType === TokenTypes.TMP) {
-            try {
-                const permaToken = await generatePermaKey(userId);
-                res.send({ ok: true, result: permaToken });
-            } catch (err) {
-                res.status(500).send({ ok: false, result: "Internal server error" });
+        try {
+            const { userId, accountType } = await authToken(tempToken);
+            if (accountType === TokenTypes.TMP) {
+                try {
+                    const permaToken = await generatePermaKey(userId);
+                    res.send({ ok: true, result: permaToken });
+                } catch (err) {
+                    res.status(500).send({ ok: false, result: "Internal server error" });
+                }
+            } else {
+                res.status(401).end();
             }
-        } else {
-            res.status(401).end();
+        } catch (err) {
+            res.status(401).send({ ok: false, result: "Invalid api key" });
         }
     } else {
         const ip = req.headers['x-forwarded-for'] as string || req.socket.remoteAddress;

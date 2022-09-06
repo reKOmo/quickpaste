@@ -20,7 +20,6 @@ async function savePasteToS3(paste: PasteUpload, uuid: string) {
     let pasteString = JSON.stringify(saveReadyPaste);
 
     if (paste["unhashedPassword"] !== undefined) {
-        console.log(paste["unhashedPassword"]);
         pasteString = AES.encrypt(pasteString, paste["unhashedPassword"]).toString();
     }
 

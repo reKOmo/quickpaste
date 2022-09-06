@@ -38,7 +38,7 @@
         },
         data() {
             return {
-                languages: ["text", "javascript"],
+                languages: useRuntimeConfig().public.supportedSyntaxes,
                 selectedLang: this.value.syntax,
                 title: this.value.name
             }

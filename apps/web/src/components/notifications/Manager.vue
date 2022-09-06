@@ -46,7 +46,6 @@
             showAlerts() {
                 if (this.notificationStore.getAlerts().length > 0) {
                     this.confirm.show = true;
-                    console.log(this.notificationStore.getAlerts()[0])
                     this.confirm.notification = this.notificationStore.getAlerts()[0];
                 } else {
                     this.confirm.show = false;
@@ -62,7 +61,6 @@
         },
         mounted() {
             this.notificationStore.$subscribe((mutation, state) => {
-                console.log(mutation);
                 this.showAlerts();
                 this.showNotifications(mutation.events.type);
             });

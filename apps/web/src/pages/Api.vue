@@ -37,8 +37,6 @@
 
             const headers = this.$refs["guide"].getElementsByTagName("h2");
 
-            console.log(headers)
-
             for (let i = 0; i < headers.length; i++) {
                 this.chapters.push({
                     title: headers[i].innerText,

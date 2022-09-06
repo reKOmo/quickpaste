@@ -43,7 +43,7 @@ export default defineEventHandler(async (e) => {
             const key = await internalRes.text();
 
             setCookie(e, "quickpaste_auth", key, {
-                httpOnly: true
+                httpOnly: true,
             });
 
             await sendRedirect(e, "/user/login/finalize", 302);

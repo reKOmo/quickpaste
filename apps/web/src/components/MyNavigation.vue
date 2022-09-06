@@ -4,7 +4,7 @@
             <div
                 class="container flex flex-col flex-wrap items-center w-screen-lg justify-around md:justify-start md:flex-row">
                 <div class="flex felx-row justify-between flex-1 md:flex-none">
-                    <NuxtLink to="/" class="flex items-center md:mr-10">
+                    <NuxtLink to="/" @click="reloadPageOnSecondClick('/')" class="flex items-center md:mr-10">
                         <img src="@/assets/quickpase-icon.svg" class="h-12 mr-3" alt="Quickpaste Logo" />
                         <span class="self-center text-2xl"><span class="text-orange font-bold">Quick</span>paste</span>
                     </NuxtLink>
@@ -30,13 +30,14 @@
                         class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium justify-center text-center">
                         <li>
                             <NuxtLink href="/"
+                                @click="reloadPageOnSecondClick('/')" 
                                 class="block py-2 pr-4 pl-3 text-black hover:bg-green md:hover:bg-transparent md:hover:text-white rounded"
                                 aria-current="page">
                                 Home
                             </NuxtLink>
                         </li>
                         <li>
-                            <!-- Can be staticly rendered when added to nuxt -->
+                            <!-- Can be staticly rendered when functionality added to nuxt -->
                             <NuxtLink external href="/api"
                                 class="block py-2 pr-4 pl-3 text-black hover:bg-green md:hover:bg-transparent md:hover:text-white rounded">
                                 Api
@@ -62,6 +63,11 @@ export default {
     methods: {
         toggleMobileMenu: () => {
             document.getElementById("mobile-menu").classList.toggle("hidden");
+        },
+        reloadPageOnSecondClick(url) {
+            if (this.$route.path == url) {
+                window.location.reload();
+            }
         }
     }
 }

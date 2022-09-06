@@ -6,10 +6,28 @@
     <Head>
         <Script src="https://js.hcaptcha.com/1/api.js" async defer></Script>
     </Head>
-    <div class="h-captcha" :data-sitekey="sitekey"></div>
+    <div id="captcha-container"></div>
 </template>
 
 
 <script setup>
-    const sitekey = "86c7c6db-bfb2-4371-b9ef-5c6dc5d03af2";
+    const sitekey = useRuntimeConfig().public.hCaptchaSitekey;
+</script>
+
+<script>
+    export default {
+        emits: ["submit"],
+        mounted() {
+            hcaptcha.render("captcha-container", {
+                sitekey: this.sitekey,
+                theme: "dark",
+                callback: this.submitCaptcha
+            })
+        },
+        methods: {
+            submitCaptcha(code) {
+                this.emit("submit", code);
+            }
+        }
+    }
 </script>

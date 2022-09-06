@@ -3,7 +3,7 @@
         <UserPanel />
         <div class="md:w-4/5">
             <h1 class="text-5xl mb-6 text-orange text-shadow-sm border-b border-blue pb-4">Pastes</h1>
-            <div v-if="pastes.length > 0" class="max-h-prose overflow-y-auto">
+            <div ref="paste-container" v-if="pastes.length > 0" class="max-h-prose overflow-y-auto" @scroll="loadMorePastes">
                 <div v-for="paste in pastes" :key="paste.uuid"
                     class="flex flex-col md:flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue">
                     <a :href="`/${paste.uuid}`">
@@ -42,7 +42,9 @@ const userStore = useUserStore();
 export default {
     data() {
         return {
-            pastes: []
+            pastes: [],
+            nextPageId: undefined,
+            loadingMore: false
         }
     },
     methods: {
@@ -58,7 +60,7 @@ export default {
                     credentials: "include"
                 });
 
-                await refreshPastes()
+                await this.refreshPastes()
             }
         },
         async refreshPastes() {
@@ -67,12 +69,34 @@ export default {
                 parseResponse: JSON.json
             });
 
-            console.log(res);
+            this.pastes = res.result.pastes;
 
-            this.pastes = res.result;
+            this.nextPageId = res.result.nextPage;
 
             for (let i = 0; i < this.pastes.length; i++) {
                 this.pastes[i].created = (new Date(this.pastes[i].created)).toLocaleDateString();
+            }
+        },
+        async loadMorePastes() {
+            const cont = this.$refs["paste-container"];
+            const scrollAm = cont.scrollTop + cont.clientHeight;
+            if (this.nextPageId && scrollAm > cont.scrollHeight - 20 && !this.loadingMore) {
+                this.loadingMore = true;
+                const res = await $fetch(`/webapi/user/pastes?pageId=${this.nextPageId}`, {
+                    credentials: "include",
+                    parseResponse: JSON.json
+                });
+
+                
+                this.nextPageId = res.result.nextPage;
+
+                for (let i = 0; i < res.result.pastes.length; i++) {
+                    res.result.pastes[i].created = (new Date(res.result.pastes[i].created)).toLocaleDateString();
+                }
+
+                this.pastes = this.pastes.concat(res.result.pastes);
+
+                this.loadingMore = false;
             }
         }
     },

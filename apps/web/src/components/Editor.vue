@@ -72,7 +72,6 @@
             },
             $route: {
                 handler: function () {
-                    console.log("a");
                     this.update({ target: this.$data.inputElemet });
                     this.$data.editor.classList.remove("hide-editor");
                 },
@@ -80,7 +79,6 @@
             }
         },
         mounted() {
-            console.log("a");
             this.$data.inputElemet = this.$refs["input"];
             this.$data.codeDisplay = this.$refs["code"];
             this.$data.lineNumbers = this.$refs["line-numbers"];

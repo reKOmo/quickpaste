@@ -3,7 +3,7 @@
         <div class="flex flex-row lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2">
             <input v-model="title" maxlength="50" tooltip="Click to edit" placeholder="Add paste title +" class="p-2 text-center text-white rounded placeholder-white-100 border-none
                   focus:outline-none text-lg text-bold flex-1 bg-darkgray" />
-            <HCaptcha></HCaptcha>
+            <!-- <HCaptcha></HCaptcha> -->
             <button @click="submit"
                 class="accept bg-gradient-to-tr from-green to-orange rounded w-1/4 lg:w-full p-2 text-center hover:shadow-lg">{{ submitText }}</button>
         </div>

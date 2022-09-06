@@ -1,4 +1,11 @@
 import { defineNuxtConfig } from 'nuxt';
+import * as dotenv from "dotenv";
+import qConfig from "quickpaste-constants";
+
+// need this because rc8 broke .env for me
+dotenv.config({
+    path: process.env.NODE_ENV == "development" ? "./src/dev.env" : "./src/.env"
+});
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -11,7 +18,8 @@ export default defineNuxtConfig({
         public: {
             githubId: process.env.GITHUB_CLIENT_ID,
             webAddress: process.env.WEB_ADDRESS,
-            hCaptchaSiteley: process.env.HCAPTCHA_SITEKEY,
+            hCaptchaSitekey: process.env.HCAPTCHA_SITEKEY,
+            supportedSyntaxes: qConfig.SUPPORTED_SYNTAXES
         }
     },
     typescript: {
@@ -43,5 +51,8 @@ export default defineNuxtConfig({
         prerender: {
             routes: ["/api"]
         }
+    },
+    server: {
+        port: 3000
     }
 });

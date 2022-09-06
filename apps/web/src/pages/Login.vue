@@ -21,6 +21,7 @@ import { NotificationTypes } from '../store/notification';
     export default {
         mounted() {
             const failedLogin = this.$route.query.failedLogin;
+            document.title = "Quickpaste";
 
             if (failedLogin) {
                 this.notificationStore.addNotification({

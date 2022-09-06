@@ -8,7 +8,7 @@ const userPasteFragment = Joi.object({
     name: Joi.string()
         .max(50)
         .required(),
-    syntax: Joi.string().default("text").required(),
+    syntax: Joi.string().allow(...qConfig.SUPPORTED_SYNTAXES).default("text").required(),
     content: Joi.string().required()
 });
 

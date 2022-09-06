@@ -9,12 +9,13 @@ import Joi from "joi";
 
 const getPasteParams = Joi.object({
     amount: Joi.number().min(1).max(100).default(20),
-    pageId: Joi.string().optional()
+    // lastPasteID
+    pageId: Joi.number().positive().optional()
 });
+
 
 async function getUserInfo(req: FullRequest, res: Response) {
     const userId = req.additional.user;
-    console.log(userId);
 
     try {
         const dbData = await db.query("SELECT * FROM users WHERE users.id = $1", [userId]);
@@ -49,11 +50,14 @@ async function getUserPastes(req: FullRequest, res: Response) {
     const userId = req.additional.user;
 
     try {
-        const dbData = await db.query("SELECT * FROM pastes WHERE pastes.owner_id = $1 ORDER BY pastes.created DESC LIMIT $2", [userId, validParams.value.amount]);
+        const query = "SELECT * FROM pastes WHERE pastes.owner_id = $1" + (validParams.value.pageId !== undefined ? " AND pastes.id < $3 " : " ") + "ORDER BY pastes.created DESC LIMIT $2";
+        const params = [userId, validParams.value.amount];
+        if (validParams.value.pageId !== undefined) params.push(validParams.value.pageId);
+        const userPastes = await db.query(query, params);
         const userData = (await db.query("SELECT username, id FROM users WHERE users.id = $1", [userId])).rows[0];
 
 
-        const pastes = dbData.rows.map((f: DbPaste) => ({
+        const pastes = userPastes.rows.map((f: DbPaste) => ({
             title: f.title,
             isPrivate: f.is_private,
             password: f.password != null,
@@ -62,7 +66,15 @@ async function getUserPastes(req: FullRequest, res: Response) {
             uuid: f.uuid
         }));
 
-        res.send(ServerResponse(true, pastes));
+        const response = {
+            pastes
+        };
+
+        if (userPastes.rowCount > 0) {
+            response["nextPage"] = userPastes.rows[userPastes.rowCount - 1].id;
+        }
+
+        res.send(ServerResponse(true, response));
     } catch (err) {
         console.log(err);
         res.status(500).send(DefaultResponses.SERVER_ERROR);

@@ -18,9 +18,7 @@
         const key = useCookie("quickpaste_auth", {
             httpOnly: true
         });
-        console.log(key.value);
         if (key.value === undefined) {
-            console.log("getting new key")
             key.value = (await useFetch(useRuntimeConfig().authServiceAddress + "/keys/generate")).data.value.result;
         }
     }

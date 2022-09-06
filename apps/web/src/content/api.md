@@ -33,7 +33,7 @@ Paste format used when **sending** paste to API
 | | Default: `false`|
 | | *Optional*
 |`password`|Type: `string`|
-| | If left empty password won't be required to request paste.
+| | Content of password protected pastes is encrypted with AES-256. If empty string provided no passowrd is applied
 | | *Optional*
 
 ```json
@@ -62,7 +62,7 @@ Format for paste fragments.
 | | *Required*
 |`syntax`|Type: `string`|
 | | Default: `text`
-| | One of supported syntaxes (<a href="https://prismjs.com/#supported-languages" target="_blank">see here</a>).
+| | `text` or one of supported syntaxes (<a href="https://prismjs.com/#supported-languages" target="_blank">see here</a>).
 | | *Optional*
 
 #### Sample upload ready paste
@@ -276,35 +276,42 @@ Format for paste fragments.
 
 ---
 
+**Query parameters**
+- ***amount*** - number of pastes to return per page | *Default is 20*, *Optional*
+- ***pageId*** - id of page to display (returned from request) | *Optional*
+
 **Sample responses:**
 - 200
 ```json
     {
     "ok": true,
-    "result": [
-        {
-            "title": "A new post",
-            "isPrivate": true,
-            "password": false,
-            "created": "2022-07-28T11:27:47.580Z",
-            "owner": {
-                "username": "reKOmo",
-                "id": 2
+    "result": {
+        pastes: [
+            {
+                "title": "A new post",
+                "isPrivate": true,
+                "password": false,
+                "created": "2022-07-28T11:27:47.580Z",
+                "owner": {
+                    "username": "reKOmo",
+                    "id": 2
+                },
+                "uuid": "faQSOcNP"\
             },
-            "uuid": "faQSOcNP"
-        },
-        {
-            "title": "e",
-            "isPrivate": false,
-            "password": false,
-            "created": "2022-07-28T11:25:02.333Z",
-            "owner": {
-                "username": "reKOmo",
-                "id": 2
-            },
-            "uuid": "sHFeCQmD"
-        }
-    ]
+            {
+                "title": "e",
+                "isPrivate": false,
+                "password": false,
+                "created": "2022-07-28T11:25:02.333Z",
+                "owner": {
+                    "username": "reKOmo",
+                    "id": 2
+                },
+                "uuid": "sHFeCQmD"
+            }
+        ]
+    },
+    nextPage: 24
 }
 ```
 

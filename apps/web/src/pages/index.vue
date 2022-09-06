@@ -16,7 +16,7 @@
           <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
             <h2 class="text-2xl font-bold">Paste created!</h2>
             <h3> 
-              Check it at: <a class="font-bold" :href="`/${createdPaste.pasteId}`">{{createdPaste.pasteId}}</a>
+              Check it at: <a class="font-bold" :href="`/${createdPaste.pasteId}`">{{createdPaste.pasteId}} <font-awesome-icon :icon="['fas', 'fa-arrow-up-right-from-square']" /></a>
             </h3>
           </div>
         </div>
@@ -52,6 +52,7 @@
     },
     mounted() {
       this.loggedIn = this.userStore.user() != undefined;
+      document.title = "Quickpaste";
     },
     watch: {
       snippets: {

@@ -12,7 +12,7 @@
             <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
                 <h2 class="text-2xl font-bold">Paste created!</h2>
                 <h3> 
-                    Check it at: <a class="font-bold" :href="`/${createdPaste.pasteId}`">{{createdPaste.pasteId}}</a>
+                    Check it at: <a class="font-bold" :href="`/${createdPaste.pasteId}`">{{createdPaste.pasteId}} <font-awesome-icon :icon="['fas', 'fa-arrow-up-right-from-square']" /></a>
                 </h3>
             </div>
         </div>
@@ -47,8 +47,8 @@
         const cookieKey = useRequestHeaders(["cookie"]).cookie;
         const cookies = {};
         cookieKey.split(";").forEach(frag => {
-            const a =frag.split("=");
-            cookies[a[0]] = a[1];
+            const a = frag.split("=");
+            cookies[a[0].trim()] = a[1];
         });
 
         const res = await $fetch(`${useRuntimeConfig().internalGatewayAddress}/api/paste/${pasteId}`, {
@@ -87,6 +87,8 @@
         },
         mounted() {
             this.checkEditMode();
+            if (this.paste)
+                document.title = "Quickpaste | " + this.paste.title.substring(0, 25);
         },
         methods: {
             checkEditMode() {
@@ -128,7 +130,7 @@
                         title: "Please enter password to enter",
                         level: 1
                     });
-                return;
+                    return;
                 }
 
                 const res = await fetch(`/webapi/paste/${this.$route.params["pasteId"]}`, {

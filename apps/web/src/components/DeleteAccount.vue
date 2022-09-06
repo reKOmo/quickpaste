@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col">
-        <p class="ml-2 mb-4 text-gray-200">Click button below to delete your account</p>
+        <p class="ml-2 mb-4 text-gray-200">Click button below to delete your account.</p>
         <div class="flex flex-row bg-darkgray rounded p-4 text-gray-200 shadow-black shadow-sm my-2 max-w-sm mx-auto">
             <div class="flex justify-center items-center mr-2">
                 <font-awesome-icon :icon="['fas', 'fa-circle-exclamation']" size="xl" fixed-width class="text-red-500"/>
@@ -38,7 +38,7 @@
                     });
 
                     if (res.redirected) {
-                        window.location.reload();
+                        window.location = "/";
                     } else if (!res.ok) {
                         this.notificationStore.addNotification({
                             type: NotificationTypes.NOTIFICATION,

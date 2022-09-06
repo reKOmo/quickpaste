@@ -7,8 +7,8 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
-    "nuxt": "3.0.0-rc.6",
-    "nuxt-windicss": "^2.4.3"
+    "nuxt": "3.0.0-rc.8",
+    "nuxt-windicss": "^2.5.1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -17,12 +17,14 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@nuxtjs/composition-api": "^0.33.0",
-    "@pinia/nuxt": "^0.2.0",
+    "@pinia/nuxt": "^0.4.1",
     "@types/marked": "^4.0.3",
+    "dotenv": "^16.0.2",
     "interfaces": "workspace:*",
     "marked": "^4.0.18",
     "pinia": "^2.0.15",
     "prismjs": "^1.28.0",
-    "sass": "^1.53.0"
+    "sass": "^1.53.0",
+    "quickpaste-constants": "workspace:*"
   }
 }

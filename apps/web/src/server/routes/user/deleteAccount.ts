@@ -7,7 +7,7 @@ export default defineEventHandler(async (e) => {
     const authenticationRes = await fetch(config.authServiceAddress + "/keys/auth", {
         method: "GET",
         headers: {
-            "Authorization": "APIKey " + authCookie
+            "Authorization": "ApiKey " + authCookie
         }
     });
 
