@@ -1,7 +1,7 @@
 import { env } from "process";
 
 const config = {
-    secretKey: env.SECRET_KEY
+    secretKey: env.JWT_SECRET_KEY
 };
 
 export {

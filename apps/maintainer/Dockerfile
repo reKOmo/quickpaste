@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM python:3.9.14-alpine
 
 RUN apk add --no-cache curl
 
@@ -8,6 +8,9 @@ ADD ./crontab.txt /crontab.txt
 
 # Give execution rights on the cron scripts
 RUN chmod 0644 /scripts/clear-pastes.sh
+# setup certbot
+RUN mkdir /etc/letsencrypt
+RUN apk add --no-cache certbot
 
 # Add the cron job
 RUN crontab ./crontab.txt

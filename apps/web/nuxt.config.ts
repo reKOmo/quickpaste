@@ -3,9 +3,11 @@ import * as dotenv from "dotenv";
 import qConfig from "quickpaste-constants";
 
 // need this because rc8 broke .env for me
-dotenv.config({
-    path: process.env.NODE_ENV == "development" ? "./src/dev.env" : "./src/.env"
-});
+if (process.env.NODE_ENV == "development") {
+    dotenv.config({
+        path: "./src/dev.env"
+    });
+}
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({

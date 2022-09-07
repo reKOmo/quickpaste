@@ -1,20 +1,29 @@
-FROM node AS base
+FROM node:18-alpine3.15 AS base
+
+RUN npm i -g yalc
+RUN npm i -g workspace-to-yalc
 
 WORKDIR /home/app
 
+COPY ./tsconfig.json ./tsconfig.json
+COPY ./windi.config.ts ./windi.config.ts
+COPY ./nuxt.config.ts ./nuxt.config.ts
 COPY ./package.json ./package.json
 
-RUN yarn install
+#resolve local packages
+RUN workspace-to-yalc --file
 
-COPY . .
+RUN npm install
 
-FROM base AS dev
+COPY ./src ./src
 
-RUN echo Dev
+# FROM base AS dev
+
+# RUN echo Dev
 
 FROM base AS production
 
-RUN yarn build
+RUN npm run build
 
 
 
