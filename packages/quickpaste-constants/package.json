@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "private": true,
   "main": "./dist/src/config.js",
-  "types": "./dist/types",
+  "types": "./dist/types/config.d.ts",
   "scripts": {
     "build": "tsc",
     "local-publish": "npm run build && yalc publish --private --store-folder ../../.yalc-store"
