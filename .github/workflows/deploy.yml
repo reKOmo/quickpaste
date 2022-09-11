@@ -42,7 +42,7 @@ jobs:
           ${{ runner.os }}-pnpm-store-
           
     - name: Setup enviroment
-      run: npm install yalc -g && pnpm install turbo && mkdir ./letsencrypt && mkdir ./letsencrypt/test
+      run: pnpm add -g yalc && pnpm add -D turbo && mkdir ./letsencrypt && mkdir ./letsencrypt/test
       
     - name: Build docker images
       run: make prod-build
