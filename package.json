@@ -13,6 +13,7 @@
     "docker-prod": "",
     "lint": "turbo run lint",
     "local-publish": "turbo run local-publish",
+    "install-yalcked-packages": "turbo run install-yalcked-packages",
     "generate-yalc": "turbo run generate-yalc"
   },
   "devDependencies": {
