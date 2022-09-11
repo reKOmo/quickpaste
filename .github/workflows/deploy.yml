@@ -3,6 +3,12 @@ name: Deploy on EC2
 on:
   push:
     branches: [ "release" ]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
 
 jobs:
   build:
