@@ -1,1 +1,2 @@
 0 0 * * * /scripts/clear-pastes.sh >> /clear-paste.log
+0 12 * * * /usr/bin/certbot renew --quiet

@@ -3,11 +3,11 @@ FROM python:3.9.14-alpine
 RUN apk add --no-cache curl
 
 # Add the scripts to the Docker Image
-ADD ./scripts /scripts
-ADD ./crontab.txt /crontab.txt
+COPY ./scripts /scripts
+COPY ./crontab.txt /crontab.txt
 
 # Give execution rights on the cron scripts
-RUN chmod 0644 /scripts/clear-pastes.sh
+RUN chmod +x /scripts/*
 # setup certbot
 RUN mkdir /etc/letsencrypt
 RUN apk add --no-cache certbot
@@ -16,4 +16,4 @@ RUN apk add --no-cache certbot
 RUN crontab ./crontab.txt
 
 #start cron
-CMD ["crond", "-f", "-l", "8"]
+ENTRYPOINT [ "/scripts/entry.sh" ]

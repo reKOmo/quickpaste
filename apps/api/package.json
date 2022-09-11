@@ -2,7 +2,7 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,8 @@
     "build": "tsc",
     "start": "node .",
     "dev": "yalc update --store-folder /yalc && nodemon src/index.ts -L",
-    "generate-yalc": "pnpx workspace-to-yalc"
+    "generate-yalc": "pnpx workspace-to-yalc",
+    "install-yalcked-packages": "pnpx workspace-to-yalc --lockfile-only --file && yalc update --store-folder ../../.yalc-store"
   },
   "author": "",
   "license": "ISC",

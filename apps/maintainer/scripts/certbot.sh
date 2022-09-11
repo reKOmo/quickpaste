@@ -1,1 +1,0 @@
-certbot certonly --nginx -d $DOMAIN_NAME

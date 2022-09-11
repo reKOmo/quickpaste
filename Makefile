@@ -7,8 +7,8 @@ dev-build-no-cache:
 	npm run local-publish
 	docker compose -f docker-compose.yaml --env-file dev.env build --no-cache api
 
-pord-up:
+prod-up:
+	docker compose -f docker-compose.production.yaml --env-file dev.env up -d --wait
+prod-build:
 	npm run local-publish
-	docker compose -f docker-compose.yaml --env-file dev.env up
-pord-build:
-	docker compose -f docker-compose.yaml --env-file dev.env build $(service)
+	docker compose -f docker-compose.production.yaml --env-file dev.env build $(service)
