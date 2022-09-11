@@ -115,6 +115,7 @@ importers:
       marked: ^4.0.18
       nuxt: 3.0.0-rc.8
       nuxt-windicss: ^2.5.1
+      pinia: ^2.0.22
       prismjs: ^1.28.0
       quickpaste-constants: workspace:*
       sass: ^1.53.0
@@ -129,6 +130,7 @@ importers:
       dotenv: 16.0.2
       interfaces: link:../../packages/interfaces
       marked: 4.0.19
+      pinia: 2.0.22
       prismjs: 1.29.0
       quickpaste-constants: link:../../packages/quickpaste-constants
       sass: 1.54.6

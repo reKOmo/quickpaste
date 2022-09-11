@@ -23,8 +23,9 @@
     "dotenv": "^16.0.2",
     "interfaces": "workspace:*",
     "marked": "^4.0.18",
+    "pinia": "^2.0.22",
     "prismjs": "^1.28.0",
-    "sass": "^1.53.0",
-    "quickpaste-constants": "workspace:*"
+    "quickpaste-constants": "workspace:*",
+    "sass": "^1.53.0"
   }
 }
