@@ -6,7 +6,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "start": "nuxt start",
-    "install-yalcked-packages": "pnpx workspace-to-yalc --lockfile-only --file && yalc update --store-folder ../../.yalc-store"
+    "install-yalcked-packages": "pnpm -s dlx workspace-to-yalc --lockfile-only --file && yalc update --store-folder ../../.yalc-store"
   },
   "devDependencies": {
     "nuxt": "3.0.0-rc.8",
@@ -18,13 +18,11 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
-    "@nuxtjs/composition-api": "^0.33.0",
-    "@pinia/nuxt": "^0.4.1",
+    "@pinia/nuxt": "^0.4.2",
     "@types/marked": "^4.0.3",
     "dotenv": "^16.0.2",
     "interfaces": "workspace:*",
     "marked": "^4.0.18",
-    "pinia": "^2.0.15",
     "prismjs": "^1.28.0",
     "sass": "^1.53.0",
     "quickpaste-constants": "workspace:*"
