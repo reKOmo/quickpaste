@@ -13,7 +13,7 @@ COPY ./package.json ./package.json
 #resolve local packages
 RUN workspace-to-yalc --file
 
-RUN npm install
+RUN yarn install
 
 COPY ./src ./src
 
@@ -23,7 +23,7 @@ COPY ./src ./src
 
 FROM base AS production
 
-RUN npm run build
+RUN yarn run build
 
 
 
