@@ -1,0 +1,1 @@
+{"version":3,"file":"ServerResponse.d.ts","sourceRoot":"","sources":["../../src/utils/ServerResponse.ts"],"names":[],"mappings":"AAAA,wBAAgB,cAAc,CAAC,IAAI,EAAE,OAAO,EAAE,IAAI,EAAE,OAAO,GAAG;IAAE,EAAE,EAAE,OAAO,CAAC;IAAC,MAAM,EAAE,OAAO,CAAA;CAAE,CAK7F;AAED,oBAAY,gBAAgB;IACxB,YAAY,0BAA0B;IACtC,SAAS,uBAAuB;IAChC,YAAY,iDAAiD;CAChE"}

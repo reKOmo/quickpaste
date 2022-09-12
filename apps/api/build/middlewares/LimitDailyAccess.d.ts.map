@@ -1,0 +1,1 @@
+{"version":3,"file":"LimitDailyAccess.d.ts","sourceRoot":"","sources":["../../src/middlewares/LimitDailyAccess.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,iCAAiC,CAAC;AAC9D,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAMnC,iBAAe,gBAAgB,CAAC,GAAG,EAAE,WAAW,EAAE,GAAG,EAAE,QAAQ,EAAE,IAAI,EAAE,MAAM,IAAI,iBAUhF;AAED,OAAO,EACH,gBAAgB,EACnB,CAAC"}

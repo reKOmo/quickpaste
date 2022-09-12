@@ -1,0 +1,11 @@
+"use strict";
+exports.__esModule = true;
+var process_1 = require("process");
+var config = {
+    region: process_1.env.AWS_REGION,
+    bucketName: process_1.env.AWS_BUCKET_NAME,
+    accessKey: process_1.env.AWS_ACCESS_KEY_ID,
+    secretKey: process_1.env.AWS_SECRET_KEY,
+    endpoint: process_1.env.AWS_ENDPOINT
+};
+exports["default"] = config;
