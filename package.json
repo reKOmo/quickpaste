@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "pre-build": "turbo run pre-build --parallel",
     "docker-dev": "",
     "docker-prod": "",
     "lint": "turbo run lint",

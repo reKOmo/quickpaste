@@ -10,8 +10,8 @@ aws_sdk_1["default"].config.update({
     region: s3_config_1["default"].region,
     s3ForcePathStyle: true
 });
-var s3endpoint = new aws_sdk_1["default"].Endpoint(s3_config_1["default"].endpoint);
-var S3 = new aws_sdk_1["default"].S3({ endpoint: s3endpoint });
+var s3endpoint = process.env.NODE_ENV === 'development' ? { endpoint: new aws_sdk_1["default"].Endpoint(s3_config_1["default"].endpoint) } : {};
+var S3 = new aws_sdk_1["default"].S3(s3endpoint);
 function uploadFile(name, file) {
     var uploadConfig = {
         Bucket: s3_config_1["default"].bucketName,
