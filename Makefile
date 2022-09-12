@@ -11,6 +11,7 @@ prod-up:
 	docker compose -f docker-compose.production.yaml kill
 	docker compose -f docker-compose.production.yaml up -d
 prod-build:
+	echo $WEB_DOMAIN_NAME
 	npm run install-yalcked-packages
 	docker compose -f docker-compose.production.yaml build auth gateway maintainer
 	docker compose -f docker-compose.production.yaml build api

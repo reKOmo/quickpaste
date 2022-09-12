@@ -55,7 +55,7 @@ services:
       dockerfile: Dockerfile
       target: production
     volumes:
-      - ./test:/etc/letsencrypt/
+      - ./letsencrypt:/etc/letsencrypt/
     environment:
       - DOMAIN_NAME=${WEB_DOMAIN_NAME}
     ports:
