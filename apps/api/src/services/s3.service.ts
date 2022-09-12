@@ -6,18 +6,15 @@ AWS.config.update({
     s3ForcePathStyle: true
 });
 
-const s3endpoint = new AWS.Endpoint(s3Config.endpoint);
+const s3endpoint = process.env.NODE_ENV === 'development' ? { endpoint: new AWS.Endpoint(s3Config.endpoint) } : {};
 
-const S3 = new AWS.S3({ endpoint: s3endpoint });
+const S3 = new AWS.S3(s3endpoint);
 
 function uploadFile(name: string, file: string): Promise<AWS.S3.ManagedUpload.SendData> {
     const uploadConfig: AWS.S3.PutObjectRequest = {
         Bucket: s3Config.bucketName,
         Key: name,
-        Body: file,
-        // Metadata: {
-        //     cool: "Yes"
-        // }
+        Body: file
     };
 
 

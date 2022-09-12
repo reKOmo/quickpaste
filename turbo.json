@@ -2,6 +2,7 @@
   "pipeline": {
     "local-publish": {},
     "generate-yalc": {},
+    "pre-build": {},
     "install-yalcked-packages": {
       "dependsOn": [
         "^local-publish"
