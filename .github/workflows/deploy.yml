@@ -45,12 +45,12 @@ jobs:
       
     - name: Build docker images
       run: make prod-build
-#   run:
-#     runs-on: [self-hosted, linux]
-#     needs: [build]
-#     steps:
-#       - name: Start containers
-#         run: make prod-up
+  run:
+    runs-on: [self-hosted, linux]
+    needs: [build]
+    steps:
+      - name: Start containers
+        run: make prod-up
 
 
       
