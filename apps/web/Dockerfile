@@ -13,8 +13,6 @@ COPY ./package.json ./package.json
 #resolve local packages
 RUN workspace-to-yalc --file
 
-RUN yarn install
-
 COPY ./src ./src
 
 # FROM base AS dev
@@ -22,10 +20,6 @@ COPY ./src ./src
 # RUN echo Dev
 
 FROM base AS production
-
+COPY ./.yalc ./.yalc
+RUN yarn install
 RUN yarn run build
-
-
-
-
-
