@@ -45,10 +45,10 @@ jobs:
           ${{ runner.os }}-pnpm-store-
           
     - name: Setup enviroment
-      run: pnpm add -g yalc && pnpm install --shamefully-hoist && mkdir ./letsencrypt && mkdir ./letsencrypt/test
+      run: pnpm add -g yalc && pnpm install --shamefully-hoist && mkdir ./letsencrypt && mkdir ./letsencrypt/live
       
     - name: Build docker images
-      run:  npm run install-yalcked-packages && cd ./apps/web && npm run build
+      run: make prod-build
 #   run:
 #     runs-on: [self-hosted, linux]
 #     needs: [build]

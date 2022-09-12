@@ -13,5 +13,5 @@ prod-up:
 prod-build:
 	npm run install-yalcked-packages
 	docker compose -f docker-compose.production.yaml build auth gateway maintainer
-	docker compose -f docker-compose.production.yaml build api
+	# docker compose -f docker-compose.production.yaml build api
 	docker compose -f docker-compose.production.yaml build web
