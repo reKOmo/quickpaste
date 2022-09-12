@@ -48,13 +48,13 @@ jobs:
       run: pnpm add -g yalc && pnpm install && mkdir ./letsencrypt && mkdir ./letsencrypt/test
       
     - name: Build docker images
-      run:  npm run install-yalcked-packages && cd ./apps/web && yarn run build
-  run:
-    runs-on: [self-hosted, linux]
-    needs: [build]
-    steps:
-      - name: Start containers
-        run: make prod-up
+      run:  npm run install-yalcked-packages && cd ./apps/web && npm run build
+#   run:
+#     runs-on: [self-hosted, linux]
+#     needs: [build]
+#     steps:
+#       - name: Start containers
+#         run: make prod-up
 
 
       
