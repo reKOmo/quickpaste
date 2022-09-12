@@ -8,7 +8,7 @@
     "build": "tsc",
     "local-publish": "npm run build && yalc publish --private --store-folder ../../.yalc-store"
   },
-  "dependencies": {
+  "devDependencies": {
     "typescript": "^4.7.2",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*"

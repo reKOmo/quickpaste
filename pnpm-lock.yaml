@@ -161,7 +161,7 @@ importers:
       eslint-config-custom: workspace:*
       tsconfig: workspace:*
       typescript: ^4.7.2
-    dependencies:
+    devDependencies:
       eslint-config-custom: link:../eslint-config-acme
       tsconfig: link:../tsconfig
       typescript: 4.8.2
@@ -6910,7 +6910,6 @@ packages:
     resolution: {integrity: sha512-C0I1UsrrDHo2fYI5oaCGbSejwX4ch+9Y5jTQELvovfmFkK3HHSZJB8MSJcWLmCUBzQBchCrZ9rMRV6GuNrvGtw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: false
 
   /ufo/0.8.5:
     resolution: {integrity: sha512-e4+UtA5IRO+ha6hYklwj6r7BjiGMxS0O+UaSg9HbaTefg4kMkzj4tXzEBajRR+wkxf+golgAWKzLbytCUDMJAA==}
