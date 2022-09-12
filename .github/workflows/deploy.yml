@@ -48,7 +48,7 @@ jobs:
       run: pnpm add -g yalc && pnpm install && mkdir ./letsencrypt && mkdir ./letsencrypt/test
       
     - name: Build docker images
-      run: make prod-build
+      run: cd ./apps/web && npm run install-yalcked-packages && yarn run build
   run:
     runs-on: [self-hosted, linux]
     needs: [build]
