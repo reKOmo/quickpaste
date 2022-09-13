@@ -11,6 +11,7 @@ RUN chmod +x /scripts/*
 # setup certbot
 RUN mkdir /etc/letsencrypt
 RUN apk add --no-cache certbot
+RUN apk add --no-cache certbot-nginx
 
 # Add the cron job
 RUN crontab ./crontab.txt
