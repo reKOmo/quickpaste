@@ -41,7 +41,7 @@ jobs:
           ${{ runner.os }}-pnpm-store-
           
     - name: Setup enviroment
-      run: pnpm add -g yalc && pnpm install --shamefully-hoist && mkdir /var/letsencrypt && mkdir /var/letsencrypt/live  
+      run: pnpm add -g yalc && pnpm install --shamefully-hoist && mkdir -p /var/letsencrypt/live
     - name: "Prepare for build"
       run: make prod-prepare-build
     - name: Build docker images
