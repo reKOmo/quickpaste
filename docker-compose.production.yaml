@@ -55,7 +55,7 @@ services:
       dockerfile: Dockerfile
       target: production
     volumes:
-      - ./letsencrypt:/etc/letsencrypt/
+      - /var/letsencrypt:/etc/letsencrypt/
     environment:
       - DOMAIN_NAME=${WEB_DOMAIN_NAME}
     ports:
@@ -71,7 +71,7 @@ services:
     depends_on:
       - api
     volumes:
-      - ./letsencrypt:/etc/letsencrypt:rw
+      - /var/letsencrypt:/etc/letsencrypt:rw
     environment:
       - DOMAIN_NAME=${WEB_DOMAIN_NAME}
       - EMAIL=${HELP_EMAIL}
