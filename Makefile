@@ -9,8 +9,9 @@ dev-build-no-cache:
 
 prod-up:
 	docker compose -f docker-compose.production.yaml up -d
-prod-build:
+prod-prepare-build:
 	docker compose -f docker-compose.production.yaml kill
+prod-build:
 	npm run install-yalcked-packages
 	docker compose -f docker-compose.production.yaml build auth gateway maintainer
 	docker compose -f docker-compose.production.yaml build api
