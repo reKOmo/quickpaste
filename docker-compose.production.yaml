@@ -70,6 +70,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - api
+      - gateway
     volumes:
       - /var/letsencrypt:/etc/letsencrypt:rw
     environment:
