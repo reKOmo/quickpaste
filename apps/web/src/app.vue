@@ -19,7 +19,11 @@
             httpOnly: true
         });
         if (key.value === undefined) {
-            key.value = (await useFetch(useRuntimeConfig().authServiceAddress + "/keys/generate")).data.value.result;
+            const res = await fetch(useRuntimeConfig().authServiceAddress + "/keys/generate");
+            if (res.ok) {
+                const data = await res.json();
+                key.value = data.result;
+            }
         }
     }
 </script>

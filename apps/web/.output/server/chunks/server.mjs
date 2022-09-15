@@ -17734,54 +17734,6 @@ const createError = (err) => {
   _err.__nuxt_error = true;
   return _err;
 };
-function useFetch(request, arg1, arg2) {
-  const [opts, autoKey] = typeof arg1 === "string" ? [{}, arg1] : [arg1, arg2];
-  const _key = opts.key || autoKey;
-  if (!_key || typeof _key !== "string") {
-    throw new TypeError("[nuxt] [useFetch] key must be a string: " + _key);
-  }
-  if (!request) {
-    throw new Error("[nuxt] [useFetch] request is missing.");
-  }
-  const key = "$f" + _key;
-  const _request = vue_cjs_prod.computed(() => {
-    let r = request;
-    if (typeof r === "function") {
-      r = r();
-    }
-    return vue_cjs_prod.isRef(r) ? r.value : r;
-  });
-  const {
-    server,
-    lazy,
-    default: defaultFn,
-    transform,
-    pick: pick2,
-    watch,
-    initialCache,
-    ...fetchOptions
-  } = opts;
-  const _fetchOptions = {
-    ...fetchOptions,
-    cache: typeof opts.cache === "boolean" ? void 0 : opts.cache
-  };
-  const _asyncDataOptions = {
-    server,
-    lazy,
-    default: defaultFn,
-    transform,
-    pick: pick2,
-    initialCache,
-    watch: [
-      _request,
-      ...watch || []
-    ]
-  };
-  const asyncData = useAsyncData(key, () => {
-    return $fetch(_request.value, _fetchOptions);
-  }, _asyncDataOptions, "$tGqf2vPGze");
-  return asyncData;
-}
 function useRequestHeaders(include) {
   var _a, _b;
   const headers = (_b = (_a = useNuxtApp().ssrContext) == null ? void 0 : _a.event.req.headers) != null ? _b : {};
@@ -20733,7 +20685,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api.f31fe076.mjs').then((m) => m.default || m)
+    component: () => import('./Api.211dd164.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20742,7 +20694,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.b3c8635e.mjs').then((m) => m.default || m)
+    component: () => import('./Login.9792323f.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20751,7 +20703,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.db7a329b.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.203ac837.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20760,7 +20712,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.f85a0308.mjs').then((m) => m.default || m)
+    component: () => import('./index.7e2d9875.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20769,7 +20721,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.122a4b3e.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.41a4b346.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20778,7 +20730,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.aecb16e3.mjs').then((m) => m.default || m)
+    component: () => import('./index.be01a1f0.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20949,7 +20901,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.990f3bcc.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.7f1afa69.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21341,7 +21293,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-490edb6d"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.f9a94759.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.e706594d.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({
@@ -21389,7 +21341,11 @@ const _sfc_main = {
         httpOnly: true
       });
       if (key.value === void 0) {
-        key.value = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => useFetch(useRuntimeConfig().authServiceAddress + "/keys/generate", "$c4wL3nOvpY")), __temp = await __temp, __restore(), __temp).data.value.result;
+        const res = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => fetch(useRuntimeConfig().authServiceAddress + "/keys/generate")), __temp = await __temp, __restore(), __temp);
+        if (res.ok) {
+          const data = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => res.json()), __temp = await __temp, __restore(), __temp);
+          key.value = data.result;
+        }
       }
     }
     return (_ctx, _push, _parent, _attrs) => {

@@ -49,11 +49,6 @@ export default defineNuxtConfig({
     vite: {
         assetsInclude: ['**/*.md']
     },
-    nitro: {
-        prerender: {
-            routes: ["/api"]
-        }
-    },
     server: {
         port: 3000
     }
