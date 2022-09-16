@@ -41,13 +41,13 @@ services:
       - ./.yalc-store:/yalc:rw
     environment:
       - NUXT_HOST=0
-      - PORT=3000
-      - INTERNAL_GATEWAY_ADDRESS="http://gateway:80"
-      - INTERNAL_API_ADDRESS="http://api:3000"
-      - AUTH_SERVICE_ADDRESS="http://auth:3000"
-      - WEB_ADDRESS=${WEB_DOMAIN_NAME}
-      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
-      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - NUXT_PORT=3000
+      - NUXT_INTERNAL_GATEWAY_ADDRESS="http://gateway:80"
+      - NUXT_INTERNAL_API_ADDRESS="http://api:3000"
+      - NUXT_AUTH_SERVICE_ADDRESS="http://auth:3000"
+      - NUXT_WEB_ADDRESS=${WEB_DOMAIN_NAME}
+      - NUXT_GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - NUXT_GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
       - NODE_ENV="production"
   gateway:
     build:
