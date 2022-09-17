@@ -11,12 +11,12 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PG_HOST=${POSTGRES_HOST}
       - PG_PORT=${POSTGRES_PORT}
-      - PG_DB_NAME="quickpaste"
+      - PG_DB_NAME=quickpaste
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_BUCKET_NAME="quickpaste"
-      - AWS_REGION="eu-central-1"
-      - NODE_ENV="production"
+      - AWS_BUCKET_NAME=quickpaste
+      - AWS_REGION=eu-central-1
+      - NODE_ENV=production
   auth:
     build:
       context: ./apps/auth
@@ -29,8 +29,8 @@ services:
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - PG_HOST=${POSTGRES_HOST}
       - PG_PORT=${POSTGRES_PORT}
-      - PG_DB_NAME="quickpaste"
-      - NODE_ENV="production"
+      - PG_DB_NAME=quickpaste
+      - NODE_ENV=production
   web:
     build:
       context: ./apps/web
