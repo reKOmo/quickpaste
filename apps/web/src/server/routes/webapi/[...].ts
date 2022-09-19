@@ -18,7 +18,7 @@ export default defineEventHandler(async (e) => {
             method: e.req.method,
             // @ts-ignore
             headers,
-            body: ["GET", "DELETE", "TRACE", "OPTIONS", "HEAD"].includes(e.req.method) ? undefined : await useRawBody(e)
+            body: e.req.method !== "POST" ? undefined : await useRawBody(e, "utf-8")
         });
         //prepare response
         e.res.statusCode = res.status;

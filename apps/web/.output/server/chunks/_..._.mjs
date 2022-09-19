@@ -29,7 +29,7 @@ const _____ = defineEventHandler(async (e) => {
     const res = await fetch(runtimeConfig.internalGatewayAddress + destRoute, {
       method: e.req.method,
       headers,
-      body: ["GET", "DELETE", "TRACE", "OPTIONS", "HEAD"].includes(e.req.method) ? void 0 : await useRawBody(e)
+      body: e.req.method !== "POST" ? void 0 : await useRawBody(e, "utf-8")
     });
     e.res.statusCode = res.status;
     res.headers.forEach((key, value) => {

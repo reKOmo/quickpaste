@@ -20142,7 +20142,7 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$7, {
       const _component_PasteEditor = _sfc_main$g;
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
       if (vue_cjs_prod.unref(paste)) {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-4c772ac7>`);
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-ea2b2fdf>`);
         if (_ctx.pastePostingState == 0) {
           _push(serverRenderer.exports.ssrRenderComponent(_component_PasteEditor, {
             onSubmit: _ctx.rePaste,
@@ -20152,17 +20152,17 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$7, {
             submitText: "Re-Paste !"
           }, null, _parent));
         } else if (_ctx.pastePostingState == 1) {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-4c772ac7><object width="300" height="300" type="image/svg+xml" data="@/assets/animated/logo-paste-loading.svg" data-v-4c772ac7><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-4c772ac7></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-4c772ac7><h2 class="text-2xl font-bold" data-v-4c772ac7>Creating paste</h2></div></div>`);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-ea2b2fdf><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img0"].src)} data-v-ea2b2fdf><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-ea2b2fdf></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-ea2b2fdf><h2 class="text-2xl font-bold" data-v-ea2b2fdf>Creating paste</h2></div></div>`);
         } else {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-4c772ac7><object width="300" height="300" type="image/svg+xml" data="@/assets/animated/logo-paste-created.svg" data-v-4c772ac7><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-4c772ac7></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-4c772ac7><h2 class="text-2xl font-bold" data-v-4c772ac7>Paste created!</h2><h3 data-v-4c772ac7> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-4c772ac7>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-ea2b2fdf><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img1"].src)} data-v-ea2b2fdf><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-ea2b2fdf></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-ea2b2fdf><h2 class="text-2xl font-bold" data-v-ea2b2fdf>Paste created!</h2><h3 data-v-ea2b2fdf> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-ea2b2fdf>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
           _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
           _push(`</a></h3></div></div>`);
         }
         _push(`</div>`);
       } else if (vue_cjs_prod.unref(err) == 401) {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col items-center space-y-4" }, _attrs))} data-v-4c772ac7><h2 class="text-xl text-gray-300" data-v-4c772ac7>Enter password to view the paste</h2><div class="flex flex-col md:flex-row space-y-2 md:space-y-0" data-v-4c772ac7><input${serverRenderer.exports.ssrRenderAttr("value", _ctx.password)} type="password" autocomplete="off" class="p-2 w-full md:w-auto text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray mr-4" data-v-4c772ac7><button class="bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg" data-v-4c772ac7>Enter</button></div></div>`);
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col items-center space-y-4" }, _attrs))} data-v-ea2b2fdf><h2 class="text-xl text-gray-300" data-v-ea2b2fdf>Enter password to view the paste</h2><div class="flex flex-col md:flex-row space-y-2 md:space-y-0" data-v-ea2b2fdf><input${serverRenderer.exports.ssrRenderAttr("value", _ctx.password)} type="password" autocomplete="off" class="p-2 w-full md:w-auto text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray mr-4" data-v-ea2b2fdf><button class="bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg" data-v-ea2b2fdf>Enter</button></div></div>`);
       } else {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-4c772ac7><div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded" data-v-4c772ac7><h1 class="text-3xl text-white text-shadow-sm" data-v-4c772ac7> No paste here </h1></div></div>`);
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-ea2b2fdf><div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded" data-v-ea2b2fdf><h1 class="text-3xl text-white text-shadow-sm" data-v-ea2b2fdf> No paste here </h1></div></div>`);
       }
     };
   }
@@ -20240,29 +20240,29 @@ const _sfc_main$e = /* @__PURE__ */ Object.assign(__default__$6, {
       const _component_PasteEditor = _sfc_main$g;
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
       const _component_NuxtLink = __nuxt_component_0$5;
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-f360483d>`);
+      _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-2fa06e87>`);
       if (!_ctx.postingPaste) {
-        _push(`<div class="container" data-v-f360483d>`);
+        _push(`<div class="container" data-v-2fa06e87>`);
         _push(serverRenderer.exports.ssrRenderComponent(_component_PasteEditor, {
           onSubmit: _ctx.createPaste,
           loggedIn: _ctx.loggedIn
         }, null, _parent));
         _push(`</div>`);
       } else {
-        _push(`<div data-v-f360483d>`);
+        _push(`<div data-v-2fa06e87>`);
         if (!_ctx.createdPaste) {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-f360483d><object width="300" height="300" type="image/svg+xml" data="@/assets/animated/logo-paste-loading.svg" data-v-f360483d><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-f360483d></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-f360483d><h2 class="text-2xl font-bold" data-v-f360483d>Creating paste</h2></div></div>`);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-2fa06e87><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img0"].src)} data-v-2fa06e87><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-2fa06e87></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-2fa06e87><h2 class="text-2xl font-bold" data-v-2fa06e87>Creating paste</h2></div></div>`);
         } else {
-          _push(`<div data-v-f360483d>`);
+          _push(`<div data-v-2fa06e87>`);
           if (_ctx.requestCode == 200) {
-            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-f360483d><object width="300" height="300" type="image/svg+xml" data="@/assets/animated/logo-paste-created.svg" data-v-f360483d><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-f360483d></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-f360483d><h2 class="text-2xl font-bold" data-v-f360483d>Paste created!</h2><h3 data-v-f360483d> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-f360483d>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
+            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-2fa06e87><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img1"].src)} data-v-2fa06e87><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-2fa06e87></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-2fa06e87><h2 class="text-2xl font-bold" data-v-2fa06e87>Paste created!</h2><h3 data-v-2fa06e87> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-2fa06e87>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
             _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
             _push(`</a></h3></div></div>`);
           } else {
             _push(`<!---->`);
           }
           if (_ctx.requestCode == 429) {
-            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-f360483d><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-f360483d><h2 class="text-2xl font-bold" data-v-f360483d>Daily paste limit reached</h2><h3 data-v-f360483d> You have surpassed your daily paste limit. For more information see `);
+            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-2fa06e87><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-2fa06e87><h2 class="text-2xl font-bold" data-v-2fa06e87>Daily paste limit reached</h2><h3 data-v-2fa06e87> You have surpassed your daily paste limit. For more information see `);
             _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, { href: "/" }, {
               default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
                 if (_push2) {
@@ -20687,7 +20687,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api.d994b840.mjs').then((m) => m.default || m)
+    component: () => import('./Api.760b238f.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20696,7 +20696,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.79679f37.mjs').then((m) => m.default || m)
+    component: () => import('./Login.30db89c2.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20705,7 +20705,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.d26f8060.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.6adbe1b5.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20714,7 +20714,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.bca5eec8.mjs').then((m) => m.default || m)
+    component: () => import('./index.6d1b9ad9.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20723,7 +20723,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.a6c2952e.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.c4de9c06.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20732,7 +20732,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.c92bcf00.mjs').then((m) => m.default || m)
+    component: () => import('./index.40186c0d.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20903,7 +20903,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.36be30ef.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.89221b4b.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21295,7 +21295,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-490edb6d"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.22112bd8.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.8ef44af7.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({
