@@ -2,13 +2,13 @@
     <div v-if="paste">
         <PasteEditor v-if="pastePostingState == 0" @submit="rePaste" class="m-auto" :class="{'max-w-4xl': !editMode}" :paste="paste" :editable="editMode" submitText="Re-Paste !" />
         <div v-else-if="pastePostingState == 1" class="flex flex-row justify-center items-center mt-12">
-            <iframe width="300" height="300" src="../assets/animated/logo-paste-loading.svg" alt="Loading"></iframe>
+            <img width="300" height="300" src="@/assets/animated/logo-paste-loading.svg" alt="Loading"/>
             <div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min">
                 <h2 class="text-2xl font-bold">Creating paste</h2>
             </div>
         </div>
         <div v-else class="flex flex-row justify-center items-center mt-12">
-            <iframe width="300" height="300" src="../assets/animated/logo-paste-created.svg" alt="Created"></iframe>
+            <img width="300" height="300" src="@/assets/animated/logo-paste-created.svg" alt="Created" />
             <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
                 <h2 class="text-2xl font-bold">Paste created!</h2>
                 <h3> 
