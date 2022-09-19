@@ -11,19 +11,25 @@ export default defineEventHandler(async (e) => {
     const authCookie = useCookies(e)["quickpaste_auth"];
     headers["authorization"] = "ApiKey " + authCookie;
 
-    const res = await fetch(runtimeConfig.internalGatewayAddress + destRoute, {
-        method: e.req.method,
-        // @ts-ignore
-        headers,
-        body: ["GET", "DELETE", "TRACE", "OPTIONS", "HEAD"].includes(e.req.method) ? undefined : await useRawBody(e)
-    });
+    try {
+        const res = await fetch(runtimeConfig.internalGatewayAddress + destRoute, {
+            method: e.req.method,
+            // @ts-ignore
+            headers,
+            body: ["GET", "DELETE", "TRACE", "OPTIONS", "HEAD"].includes(e.req.method) ? undefined : await useRawBody(e)
+        });
+        //prepare response
+        e.res.statusCode = res.status;
 
-    //prepare response
-    e.res.statusCode = res.status;
+        res.headers.forEach((key, value) => {
+            e.res.setHeader(value, key);
+        });
 
-    res.headers.forEach((key, value) => {
-        e.res.setHeader(value, key);
-    });
+        return await res.text();
+    } catch (err) {
+        console.log(err);
+        console.log(runtimeConfig.internalGatewayAddress);
+        console.log(destRoute);
+    }
 
-    return await res.text();
 });

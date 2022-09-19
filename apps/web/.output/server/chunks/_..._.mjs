@@ -22,16 +22,22 @@ const _____ = defineEventHandler(async (e) => {
   const runtimeConfig = useRuntimeConfig();
   const authCookie = useCookies(e)["quickpaste_auth"];
   headers["authorization"] = "ApiKey " + authCookie;
-  const res = await fetch(runtimeConfig.internalGatewayAddress + destRoute, {
-    method: e.req.method,
-    headers,
-    body: ["GET", "DELETE", "TRACE", "OPTIONS", "HEAD"].includes(e.req.method) ? void 0 : await useRawBody(e)
-  });
-  e.res.statusCode = res.status;
-  res.headers.forEach((key, value) => {
-    e.res.setHeader(value, key);
-  });
-  return await res.text();
+  try {
+    const res = await fetch(runtimeConfig.internalGatewayAddress + destRoute, {
+      method: e.req.method,
+      headers,
+      body: ["GET", "DELETE", "TRACE", "OPTIONS", "HEAD"].includes(e.req.method) ? void 0 : await useRawBody(e)
+    });
+    e.res.statusCode = res.status;
+    res.headers.forEach((key, value) => {
+      e.res.setHeader(value, key);
+    });
+    return await res.text();
+  } catch (err) {
+    console.log(err);
+    console.log(runtimeConfig.internalGatewayAddress);
+    console.log(destRoute);
+  }
 });
 
 export { _____ as default };
