@@ -5,14 +5,18 @@
     </div>
     <div v-else>
       <div v-if="!createdPaste" class="flex flex-row justify-center items-center mt-12">
-        <img width="300" height="300" src="@/assets/animated/logo-paste-loading.svg" alt="Loading" />
+        <object width="300" height="300" type="image/svg+xml" data="@/assets/animated/logo-paste-loading.svg">
+          <img src="@/assets/animated/logo-paste-loading.svg" />
+        </object>
         <div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min">
           <h2 class="text-2xl font-bold">Creating paste</h2>
         </div>
       </div>
       <div v-else>
         <div v-if="requestCode == 200" class="flex flex-row justify-center items-center mt-12">
-          <img width="300" height="300" src="@/assets/animated/logo-paste-created.svg" alt="Created" />
+          <object width="300" height="300" type="image/svg+xml" data="@/assets/animated/logo-paste-created.svg">
+            <img src="@/assets/animated/logo-paste-created.svg" />
+          </object>
           <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
             <h2 class="text-2xl font-bold">Paste created!</h2>
             <h3> 

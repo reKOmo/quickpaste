@@ -3,13 +3,15 @@ export default defineEventHandler(async (e) => {
 
     const destRoute = e.req.url.replace("webapi", "api");
 
-    const headers = e.req.headers;
-
     const runtimeConfig = useRuntimeConfig();
 
     // @ts-ignore
     const authCookie = useCookies(e)["quickpaste_auth"];
-    headers["authorization"] = "ApiKey " + authCookie;
+    const headers = {
+        "Authorization": "ApiKey " + authCookie,
+        "Contente-Type": e.req.headers["content-type"],
+        "Content-Length": e.req.headers["content-length"]
+    };
 
     try {
         const res = await fetch(runtimeConfig.internalGatewayAddress + destRoute, {
@@ -30,6 +32,7 @@ export default defineEventHandler(async (e) => {
         console.log(err);
         console.log(runtimeConfig.internalGatewayAddress);
         console.log(destRoute);
+        e.res.statusCode = 500;
+        return { ok: false, result: "Server error" };
     }
-
 });
