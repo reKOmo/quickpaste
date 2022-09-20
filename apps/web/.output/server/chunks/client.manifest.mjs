@@ -1,4 +1,10 @@
 const client_manifest = {
+  "assets/quickpase-icon.svg": {
+    "resourceType": "image",
+    "mimeType": "image/svg+xml",
+    "file": "quickpase-icon.40f31740.svg",
+    "src": "assets/quickpase-icon.svg"
+  },
   "assets/animated/logo-paste-loading.svg": {
     "resourceType": "image",
     "mimeType": "image/svg+xml",
@@ -10,12 +16,6 @@ const client_manifest = {
     "mimeType": "image/svg+xml",
     "file": "logo-paste-created.50923283.svg",
     "src": "assets/animated/logo-paste-created.svg"
-  },
-  "assets/quickpase-icon.svg": {
-    "resourceType": "image",
-    "mimeType": "image/svg+xml",
-    "file": "quickpase-icon.40f31740.svg",
-    "src": "assets/quickpase-icon.svg"
   },
   "../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/entry.mjs": {
     "resourceType": "script",
@@ -232,25 +232,25 @@ const client_manifest = {
     "file": "Api.ea1f1a7f.css",
     "src": "pages/Api.css"
   },
-  "pages/index.css": {
-    "resourceType": "style",
-    "file": "index.0c29a778.css",
-    "src": "pages/index.css"
-  },
   "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.2/node_modules/@nuxt/ui-templates/dist/templates/error-500.css": {
     "resourceType": "style",
     "file": "error-500.fa956197.css",
     "src": "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.2/node_modules/@nuxt/ui-templates/dist/templates/error-500.css"
   },
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.2/node_modules/@nuxt/ui-templates/dist/templates/error-404.css": {
+  "pages/index.css": {
     "resourceType": "style",
-    "file": "error-404.c826347d.css",
-    "src": "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.2/node_modules/@nuxt/ui-templates/dist/templates/error-404.css"
+    "file": "index.0c29a778.css",
+    "src": "pages/index.css"
   },
   "../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/entry.css": {
     "resourceType": "style",
     "file": "entry.adfce58e.css",
     "src": "../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/entry.css"
+  },
+  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.2/node_modules/@nuxt/ui-templates/dist/templates/error-404.css": {
+    "resourceType": "style",
+    "file": "error-404.c826347d.css",
+    "src": "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.2/node_modules/@nuxt/ui-templates/dist/templates/error-404.css"
   }
 };
 
