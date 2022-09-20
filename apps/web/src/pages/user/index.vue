@@ -55,7 +55,7 @@ export default {
                 description: "This action can not be reversed!"
             });
             if (res) {
-                const r = await $fetch(`/webapi/paste/${uuid}`, {
+                const r = await $fetch(`/api/paste/${uuid}`, {
                     method: "DELETE",
                     credentials: "include"
                 });
@@ -64,7 +64,7 @@ export default {
             }
         },
         async refreshPastes() {
-            const res = await $fetch("/webapi/user/pastes", {
+            const res = await $fetch("/api/user/pastes", {
                 credentials: "include",
                 parseResponse: JSON.json
             });
@@ -82,7 +82,7 @@ export default {
             const scrollAm = cont.scrollTop + cont.clientHeight;
             if (this.nextPageId && scrollAm > cont.scrollHeight - 20 && !this.loadingMore) {
                 this.loadingMore = true;
-                const res = await $fetch(`/webapi/user/pastes?pageId=${this.nextPageId}`, {
+                const res = await $fetch(`/api/user/pastes?pageId=${this.nextPageId}`, {
                     credentials: "include",
                     parseResponse: JSON.json
                 });

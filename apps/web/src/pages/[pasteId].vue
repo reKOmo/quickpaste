@@ -55,7 +55,7 @@
             cookies[a[0].trim()] = a[1];
         });
 
-        const res = await $fetch(`${useRuntimeConfig().internalGatewayAddress}/api/paste/${pasteId}`, {
+        const res = await $fetch(`${useRuntimeConfig().webAddress}/api/paste/${pasteId}`, {
             headers: {
                 "Authorization": "ApiKey " + cookies.quickpaste_auth
             },
@@ -113,7 +113,7 @@
                 }
 
 
-                const res = await fetch(`/webapi/paste/${this.$route.params["pasteId"]}`, {
+                const res = await fetch(`/api/paste/${this.$route.params["pasteId"]}`, {
                     method: "PUT",
                     headers,
                     credentials: "include",
@@ -137,7 +137,7 @@
                     return;
                 }
 
-                const res = await fetch(`/webapi/paste/${this.$route.params["pasteId"]}`, {
+                const res = await fetch(`/api/paste/${this.$route.params["pasteId"]}`, {
                     method: "GET",
                     headers: {
                         "Paste-Authorization": this.password

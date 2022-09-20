@@ -76,7 +76,7 @@
       async createPaste(paste) {
         this.postingPaste = true;
 
-        const res = await fetch("/webapi/paste", {
+        const res = await fetch("/api/paste", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

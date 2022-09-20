@@ -26,7 +26,7 @@ export const useUserStore = defineStore("userStore", {
     getters,
     actions: {
         async getUser() {
-            const user = await $fetch("/webapi/user", {
+            const user = await $fetch("/api/user", {
                 credentials: "include",
                 parseResponse: JSON.parse
             });

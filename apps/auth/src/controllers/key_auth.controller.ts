@@ -7,6 +7,8 @@ function getRequestToken(req: Request): string | undefined {
         const frags = req.headers["authorization"].split(" ");
         if (frags.length != 2 || frags[0] !== "ApiKey") return undefined;
         return frags[1];
+    } else if (req.cookies["quickpaste_auth"]) {
+        return req.cookies["quickpaste_auth"];
     }
 
     return undefined;
