@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import cookieParser from "cookie-parser";
 import * as internalapi from "./internalapi.router";
 import { clearOldPastes, deletePaste, editPaste, getPaste, uploadPaste } from "../controllers/paste.controller";
 import { assertPasteOwnership, assertPasteOwnershipPrivate } from "../middlewares/CheckPasteOwnership";
@@ -11,7 +12,7 @@ import { limitDailyAccess } from "../middlewares/LimitDailyAccess";
 
 const router = Router();
 
-router.use("*", express.json());
+router.use("*", express.json(), cookieParser());
 
 router.post("/", parseRequest, limitDailyAccess, checkUploadPaste, uploadPaste);
 

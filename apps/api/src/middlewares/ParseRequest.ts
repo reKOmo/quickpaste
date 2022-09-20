@@ -9,7 +9,7 @@ const pasteIdSchema = Joi.string().length(Constants.PASTE_UUID_LENGTH).pattern(n
 
 function parseRequest(req: FullRequest, res: Response, next: () => void) {
     const userId = req.headers["x-user"];
-    const apiKey = req.headers["authorization"].split(" ")[1];
+    const apiKey = req.headers["authorization"]?.split(" ")[1] || req.cookies["quickpaste_auth"];
 
     //internal
     if (userId) {

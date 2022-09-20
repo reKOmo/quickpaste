@@ -9,8 +9,9 @@ var constants_1 = require("../config/constants");
 var ServerResponse_1 = require("../utils/ServerResponse");
 var pasteIdSchema = joi_1["default"].string().length(constants_1.Constants.PASTE_UUID_LENGTH).pattern(new RegExp('([A-Z]|[a-z]|[0-9])*'));
 function parseRequest(req, res, next) {
+    var _a;
     var userId = req.headers["x-user"];
-    var apiKey = req.headers["authorization"].split(" ")[1];
+    var apiKey = ((_a = req.headers["authorization"]) === null || _a === void 0 ? void 0 : _a.split(" ")[1]) || req.cookies["quickpaste_auth"];
     //internal
     if (userId) {
         req.additional["user"] = parseInt(Array.isArray(userId) ? userId[0] : userId);

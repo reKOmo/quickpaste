@@ -3,13 +3,13 @@
     "file": "_nuxt/logo-paste-loading.d9d6ef31.svg",
     "src": "assets/animated/logo-paste-loading.svg"
   },
-  "assets/quickpase-icon.svg": {
-    "file": "_nuxt/quickpase-icon.40f31740.svg",
-    "src": "assets/quickpase-icon.svg"
-  },
   "assets/animated/logo-paste-created.svg": {
     "file": "_nuxt/logo-paste-created.50923283.svg",
     "src": "assets/animated/logo-paste-created.svg"
+  },
+  "assets/quickpase-icon.svg": {
+    "file": "_nuxt/quickpase-icon.40f31740.svg",
+    "src": "assets/quickpase-icon.svg"
   },
   "../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/entry.mjs": {
     "file": "_nuxt/entry.4998e646.mjs",
@@ -155,13 +155,13 @@
     "file": "_nuxt/Api.ea1f1a7f.css",
     "src": "pages/Api.css"
   },
-  "pages/[pasteId].css": {
-    "file": "_nuxt/[pasteId].076f36e3.css",
-    "src": "pages/[pasteId].css"
-  },
   "pages/index.css": {
     "file": "_nuxt/index.4ee6dde7.css",
     "src": "pages/index.css"
+  },
+  "pages/[pasteId].css": {
+    "file": "_nuxt/[pasteId].076f36e3.css",
+    "src": "pages/[pasteId].css"
   },
   "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.2/node_modules/@nuxt/ui-templates/dist/templates/error-500.css": {
     "file": "_nuxt/error-500.fa956197.css",
