@@ -25,11 +25,13 @@ const _____ = defineEventHandler(async (e) => {
     "Contente-Type": e.req.headers["content-type"],
     "Content-Length": e.req.headers["content-length"]
   };
+  const body = e.req.method !== "POST" ? void 0 : await useRawBody(e, "utf-8");
+  console.log(body);
   try {
     const res = await fetch(runtimeConfig.internalGatewayAddress + destRoute, {
       method: e.req.method,
       headers,
-      body: e.req.method !== "POST" ? void 0 : await useRawBody(e, "utf-8")
+      body
     });
     e.res.statusCode = res.status;
     res.headers.forEach((key, value) => {

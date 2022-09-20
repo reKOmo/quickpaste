@@ -13,12 +13,16 @@ export default defineEventHandler(async (e) => {
         "Content-Length": e.req.headers["content-length"]
     };
 
+    const body = e.req.method !== "POST" ? undefined : (await useRawBody(e, "utf-8"));
+
+    console.log(body);
+
     try {
         const res = await fetch(runtimeConfig.internalGatewayAddress + destRoute, {
             method: e.req.method,
             // @ts-ignore
             headers,
-            body: e.req.method !== "POST" ? undefined : await useRawBody(e, "utf-8")
+            body
         });
         //prepare response
         e.res.statusCode = res.status;
