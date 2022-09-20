@@ -70,6 +70,7 @@ function checkUploadPaste(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var validPaste;
         return __generator(this, function (_b) {
+            console.log(req.body);
             validPaste = userPaste.validate(req.body);
             if (validPaste.error) {
                 res.status(400).send((0, ServerResponse_1.ServerResponse)(false, validPaste.error.details[0].message));

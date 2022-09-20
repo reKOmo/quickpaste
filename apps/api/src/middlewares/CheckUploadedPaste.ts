@@ -29,6 +29,7 @@ const userPaste = Joi.object({
 });
 
 export async function checkUploadPaste(req: FullRequest, res: Response, next: () => void) {
+    console.log(req.body);
     const validPaste = userPaste.validate(req.body);
 
     if (validPaste.error) {
