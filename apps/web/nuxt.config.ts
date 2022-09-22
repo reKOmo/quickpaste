@@ -2,7 +2,6 @@ import { defineNuxtConfig } from 'nuxt';
 import * as dotenv from "dotenv";
 import qConfig from "quickpaste-constants";
 
-// need this because rc8 broke .env for me
 if (process.env.NODE_ENV == "development") {
     dotenv.config({
         path: "./src/dev.env"
@@ -12,13 +11,14 @@ if (process.env.NODE_ENV == "development") {
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     runtimeConfig: {
-        githubSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
-        githubId: process.env.GITHUB_CLIENT_ID ?? "",
+        githubClientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
+        githubClientId: process.env.GITHUB_CLIENT_ID ?? "",
         internalGatewayAddress: process.env.INTERNAL_GATEWAY_ADDRESS ?? "",
         internalApiAddress: process.env.INTERNAL_API_ADDRESS ?? "",
         authServiceAddress: process.env.AUTH_SERVICE_ADDRESS ?? "",
+        webAddress: process.env.WEB_ADDRESS ?? "",
         public: {
-            githubId: process.env.GITHUB_CLIENT_ID ?? "",
+            githubClientId: process.env.GITHUB_CLIENT_ID ?? "",
             webAddress: process.env.WEB_ADDRESS ?? "",
             hCaptchaSitekey: process.env.HCAPTCHA_SITEKEY ?? "",
             supportedSyntaxes: qConfig.SUPPORTED_SYNTAXES

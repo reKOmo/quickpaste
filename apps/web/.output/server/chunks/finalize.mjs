@@ -1,4 +1,20 @@
-import { defineEventHandler, sendRedirect, setCookie } from 'h3';
+import { d as defineEventHandler, s as sendRedirect, b as setCookie } from './node-server.mjs';
+import 'node-fetch-native/polyfill';
+import 'http';
+import 'https';
+import 'destr';
+import 'ufo';
+import 'cookie-es';
+import 'radix3';
+import 'ohmyfetch';
+import 'unenv/runtime/fetch/index';
+import 'hookable';
+import 'scule';
+import 'ohash';
+import 'unstorage';
+import 'fs';
+import 'pathe';
+import 'url';
 
 function parseQuery(q) {
   if (!q)

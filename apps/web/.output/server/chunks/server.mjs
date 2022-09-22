@@ -1,19 +1,16 @@
-import require$$0 from 'unenv/runtime/mock/proxy';
+globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import require$$0 from 'unenv/runtime/mock/proxy';
 import { s as serverRenderer, r as require$$1 } from './renderer.mjs';
 import { $fetch as $fetch$1 } from 'ohmyfetch';
 import { joinURL, hasProtocol, isEqual } from 'ufo';
 import { createHooks } from 'hookable';
 import { getContext, executeAsync } from 'unctx';
 import destr from 'destr';
-import { createError as createError$1, appendHeader, sendRedirect } from 'h3';
+import { u as useRuntimeConfig$1, h as createError$1, i as appendHeader, s as sendRedirect } from './node-server.mjs';
 import defu from 'defu';
 import Prism$1 from 'prismjs';
 import { parse as parse$1, serialize } from 'cookie-es';
 import { isEqual as isEqual$1 } from 'ohash';
-import fs from 'fs';
-import path from 'path';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { u as useRuntimeConfig$1 } from './node-server.mjs';
 import 'stream';
 import 'node-fetch-native/polyfill';
 import 'http';
@@ -22,6 +19,7 @@ import 'radix3';
 import 'unenv/runtime/fetch/index';
 import 'scule';
 import 'unstorage';
+import 'fs';
 import 'pathe';
 import 'url';
 
@@ -15706,11 +15704,15 @@ shared_cjs_prod.toTypeString = toTypeString;
       const el = document.querySelector(template);
       template = el ? el.innerHTML : ``;
     }
-    const { code } = compilerDom.compile(template, shared.extend({
+    const opts = shared.extend({
       hoistStatic: true,
       onError: void 0,
       onWarn: shared.NOOP
-    }, options));
+    }, options);
+    if (!opts.isCustomElement && typeof customElements !== "undefined") {
+      opts.isCustomElement = (tag) => !!customElements.get(tag);
+    }
+    const { code } = compilerDom.compile(template, opts);
     const render = new Function("Vue", code)(runtimeDom__namespace);
     render._rc = true;
     return compileCache[key] = render;
@@ -15725,10 +15727,10 @@ shared_cjs_prod.toTypeString = toTypeString;
 const appConfig = useRuntimeConfig$1().app;
 const baseURL = () => appConfig.baseURL;
 const buildAssetsDir = () => appConfig.buildAssetsDir;
-const buildAssetsURL = (...path2) => joinURL(publicAssetsURL(), buildAssetsDir(), ...path2);
-const publicAssetsURL = (...path2) => {
+const buildAssetsURL = (...path) => joinURL(publicAssetsURL(), buildAssetsDir(), ...path);
+const publicAssetsURL = (...path) => {
   const publicBase = appConfig.cdnURL || appConfig.baseURL;
-  return path2.length ? joinURL(publicBase, ...path2) : publicBase;
+  return path.length ? joinURL(publicBase, ...path) : publicBase;
 };
 globalThis.__buildAssetsURL = buildAssetsURL;
 globalThis.__publicAssetsURL = publicAssetsURL;
@@ -15871,27 +15873,27 @@ var vueRouter_prod = {};
   };
   const isArray2 = Array.isArray;
   const TRAILING_SLASH_RE = /\/$/;
-  const removeTrailingSlash = (path2) => path2.replace(TRAILING_SLASH_RE, "");
+  const removeTrailingSlash = (path) => path.replace(TRAILING_SLASH_RE, "");
   function parseURL(parseQuery2, location2, currentLocation = "/") {
-    let path2, query = {}, searchString = "", hash = "";
+    let path, query = {}, searchString = "", hash = "";
     const hashPos = location2.indexOf("#");
     let searchPos = location2.indexOf("?");
     if (hashPos < searchPos && hashPos >= 0) {
       searchPos = -1;
     }
     if (searchPos > -1) {
-      path2 = location2.slice(0, searchPos);
+      path = location2.slice(0, searchPos);
       searchString = location2.slice(searchPos + 1, hashPos > -1 ? hashPos : location2.length);
       query = parseQuery2(searchString);
     }
     if (hashPos > -1) {
-      path2 = path2 || location2.slice(0, hashPos);
+      path = path || location2.slice(0, hashPos);
       hash = location2.slice(hashPos, location2.length);
     }
-    path2 = resolveRelativePath(path2 != null ? path2 : location2, currentLocation);
+    path = resolveRelativePath(path != null ? path : location2, currentLocation);
     return {
-      fullPath: path2 + (searchString && "?") + searchString + hash,
-      path: path2,
+      fullPath: path + (searchString && "?") + searchString + hash,
+      path,
       query,
       hash
     };
@@ -15991,8 +15993,8 @@ var vueRouter_prod = {};
         pathFromHash = "/" + pathFromHash;
       return stripBase(pathFromHash, "");
     }
-    const path2 = stripBase(pathname, base);
-    return path2 + search + hash;
+    const path = stripBase(pathname, base);
+    return path + search + hash;
   }
   function useHistoryListeners(base, historyState, currentLocation, replace) {
     let listeners = [];
@@ -16361,8 +16363,8 @@ var vueRouter_prod = {};
     else if (options.strict)
       pattern += "(?:/|$)";
     const re = new RegExp(pattern, options.sensitive ? "" : "i");
-    function parse2(path2) {
-      const match = path2.match(re);
+    function parse2(path) {
+      const match = path.match(re);
       const params = {};
       if (!match)
         return null;
@@ -16374,15 +16376,15 @@ var vueRouter_prod = {};
       return params;
     }
     function stringify(params) {
-      let path2 = "";
+      let path = "";
       let avoidDuplicatedSlash = false;
       for (const segment of segments) {
-        if (!avoidDuplicatedSlash || !path2.endsWith("/"))
-          path2 += "/";
+        if (!avoidDuplicatedSlash || !path.endsWith("/"))
+          path += "/";
         avoidDuplicatedSlash = false;
         for (const token of segment) {
           if (token.type === 0) {
-            path2 += token.value;
+            path += token.value;
           } else if (token.type === 1) {
             const { value, repeatable, optional } = token;
             const param = value in params ? params[value] : "";
@@ -16393,19 +16395,19 @@ var vueRouter_prod = {};
             if (!text) {
               if (optional) {
                 if (segment.length < 2) {
-                  if (path2.endsWith("/"))
-                    path2 = path2.slice(0, -1);
+                  if (path.endsWith("/"))
+                    path = path.slice(0, -1);
                   else
                     avoidDuplicatedSlash = true;
                 }
               } else
                 throw new Error(`Missing required param "${value}"`);
             }
-            path2 += text;
+            path += text;
           }
         }
       }
-      return path2 || "/";
+      return path || "/";
     }
     return {
       re,
@@ -16457,13 +16459,13 @@ var vueRouter_prod = {};
     value: ""
   };
   const VALID_PARAM_RE = /[a-zA-Z0-9_]/;
-  function tokenizePath(path2) {
-    if (!path2)
+  function tokenizePath(path) {
+    if (!path)
       return [[]];
-    if (path2 === "/")
+    if (path === "/")
       return [[ROOT_TOKEN]];
-    if (!path2.startsWith("/")) {
-      throw new Error(`Invalid path "${path2}"`);
+    if (!path.startsWith("/")) {
+      throw new Error(`Invalid path "${path}"`);
     }
     function crash(message) {
       throw new Error(`ERR (${state2})/"${buffer}": ${message}`);
@@ -16507,8 +16509,8 @@ var vueRouter_prod = {};
     function addCharToBuffer() {
       buffer += char;
     }
-    while (i < path2.length) {
-      char = path2[i++];
+    while (i < path.length) {
+      char = path[i++];
       if (char === "\\" && state2 !== 2) {
         previousState = state2;
         state2 = 4;
@@ -16614,11 +16616,11 @@ var vueRouter_prod = {};
       let matcher;
       let originalMatcher;
       for (const normalizedRecord of normalizedRecords) {
-        const { path: path2 } = normalizedRecord;
-        if (parent && path2[0] !== "/") {
+        const { path } = normalizedRecord;
+        if (parent && path[0] !== "/") {
           const parentPath = parent.record.path;
           const connectingSlash = parentPath[parentPath.length - 1] === "/" ? "" : "/";
-          normalizedRecord.path = parent.record.path + (path2 && connectingSlash + path2);
+          normalizedRecord.path = parent.record.path + (path && connectingSlash + path);
         }
         matcher = createRouteRecordMatcher(normalizedRecord, parent, options);
         if (originalRecord) {
@@ -16677,7 +16679,7 @@ var vueRouter_prod = {};
     function resolve(location2, currentLocation) {
       let matcher;
       let params = {};
-      let path2;
+      let path;
       let name;
       if ("name" in location2 && location2.name) {
         matcher = matcherMap.get(location2.name);
@@ -16693,12 +16695,12 @@ var vueRouter_prod = {};
           ),
           location2.params && paramsFromLocation(location2.params, matcher.keys.map((k) => k.name))
         );
-        path2 = matcher.stringify(params);
+        path = matcher.stringify(params);
       } else if ("path" in location2) {
-        path2 = location2.path;
-        matcher = matchers.find((m) => m.re.test(path2));
+        path = location2.path;
+        matcher = matchers.find((m) => m.re.test(path));
         if (matcher) {
-          params = matcher.parse(path2);
+          params = matcher.parse(path);
           name = matcher.record.name;
         }
       } else {
@@ -16710,7 +16712,7 @@ var vueRouter_prod = {};
           });
         name = matcher.record.name;
         params = assign2({}, currentLocation.params, location2.params);
-        path2 = matcher.stringify(params);
+        path = matcher.stringify(params);
       }
       const matched = [];
       let parentMatcher = matcher;
@@ -16720,7 +16722,7 @@ var vueRouter_prod = {};
       }
       return {
         name,
-        path: path2,
+        path,
         params,
         matched,
         meta: mergeMetaFields(matched)
@@ -17949,25 +17951,6 @@ const _nuxt_components_plugin_mjs_KR1HBZs4kY = defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("Lazy" + name, components[name]);
   }
 });
-var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var PROVIDE_KEY = `usehead`;
 var HEAD_COUNT_KEY = `head:count`;
 var HEAD_ATTRS_KEY = `data-head-attrs`;
@@ -17980,7 +17963,7 @@ var createElement = (tag, attrs, document2) => {
       el.setAttribute(BODY_TAG_ATTR_NAME, "true");
     } else {
       let value = attrs[key];
-      if (key === "key" || value === false) {
+      if (key === "renderPriority" || key === "key" || value === false) {
         continue;
       }
       if (key === "children") {
@@ -18022,14 +18005,33 @@ function isEqualNode(oldTag, newTag) {
   }
   return oldTag.isEqualNode(newTag);
 }
-var getTagKey = (props) => {
-  const names = ["key", "id", "name", "property"];
-  for (const n of names) {
-    const value = typeof props.getAttribute === "function" ? props.hasAttribute(n) ? props.getAttribute(n) : void 0 : props[n];
+var getTagDeduper = (tag) => {
+  if (!["meta", "base", "script", "link"].includes(tag.tag)) {
+    return false;
+  }
+  const { props, tag: tagName } = tag;
+  if (tagName === "base") {
+    return true;
+  }
+  if (tagName === "link" && props.rel === "canonical") {
+    return { propValue: "canonical" };
+  }
+  if (props.charset) {
+    return { propKey: "charset" };
+  }
+  const name = ["key", "id", "name", "property", "http-equiv"];
+  for (const n of name) {
+    let value = void 0;
+    if (typeof props.getAttribute === "function" && props.hasAttribute(n)) {
+      value = props.getAttribute(n);
+    } else {
+      value = props[n];
+    }
     if (value !== void 0) {
-      return { name: n, value };
+      return { propValue: n };
     }
   }
+  return false;
 };
 var acceptFields = [
   "title",
@@ -18063,14 +18065,14 @@ var headObjToTags = (obj) => {
       case "titleTemplate":
         break;
       case "base":
-        tags.push({ tag: key, props: __spreadValues({ key: "default" }, obj[key]) });
+        tags.push({ tag: key, props: { key: "default", ...obj[key] } });
         break;
       default:
         if (acceptFields.includes(key)) {
           const value = obj[key];
           if (Array.isArray(value)) {
             value.forEach((item) => {
-              tags.push({ tag: key, props: item });
+              tags.push({ tag: key, props: vue_cjs_prod.unref(item) });
             });
           } else if (value) {
             tags.push({ tag: key, props: value });
@@ -18175,7 +18177,10 @@ var updateElements = (document2 = window.document, type, tags) => {
       head.insertBefore(t.element, headCountEl);
     }
   });
-  headCountEl.setAttribute("content", "" + (headCount - oldHeadElements.length + newElements.filter((t) => !t.body).length));
+  headCountEl.setAttribute(
+    "content",
+    "" + (headCount - oldHeadElements.length + newElements.filter((t) => !t.body).length)
+  );
 };
 var createHead = (initHeadObject) => {
   let allHeadObjs = [];
@@ -18194,26 +18199,34 @@ var createHead = (initHeadObject) => {
       allHeadObjs.forEach((objs) => {
         const tags = headObjToTags(vue_cjs_prod.unref(objs));
         tags.forEach((tag) => {
-          if (tag.tag === "meta" || tag.tag === "base" || tag.tag === "script") {
-            const key = getTagKey(tag.props);
-            if (key) {
-              let index = -1;
-              for (let i = 0; i < deduped.length; i++) {
-                const prev = deduped[i];
-                const prevValue = prev.props[key.name];
-                const nextValue = tag.props[key.name];
-                if (prev.tag === tag.tag && prevValue === nextValue) {
-                  index = i;
-                  break;
-                }
+          const dedupe = getTagDeduper(tag);
+          if (dedupe) {
+            let index = -1;
+            for (let i = 0; i < deduped.length; i++) {
+              const prev = deduped[i];
+              if (prev.tag !== tag.tag) {
+                continue;
+              }
+              if (dedupe === true) {
+                index = i;
+              } else if (dedupe.propValue && vue_cjs_prod.unref(prev.props[dedupe.propValue]) === vue_cjs_prod.unref(tag.props[dedupe.propValue])) {
+                index = i;
+              } else if (dedupe.propKey && prev.props[dedupe.propKey] && tag.props[dedupe.propKey]) {
+                index = i;
               }
               if (index !== -1) {
-                deduped.splice(index, 1);
+                break;
               }
+            }
+            if (index !== -1) {
+              deduped.splice(index, 1);
             }
           }
           if (titleTemplate && tag.tag === "title") {
-            tag.props.children = renderTemplate(titleTemplate, tag.props.children);
+            tag.props.children = renderTemplate(
+              titleTemplate,
+              tag.props.children
+            );
           }
           deduped.push(tag);
         });
@@ -18231,7 +18244,7 @@ var createHead = (initHeadObject) => {
       let htmlAttrs = {};
       let bodyAttrs = {};
       const actualTags = {};
-      for (const tag of head.headTags) {
+      for (const tag of head.headTags.sort(sortTags)) {
         if (tag.tag === "title") {
           title = tag.props.children;
           continue;
@@ -18268,11 +18281,36 @@ var tagToString = (tag) => {
     isBodyTag = true;
     delete tag.props.body;
   }
+  if (tag.props.renderPriority) {
+    delete tag.props.renderPriority;
+  }
   let attrs = stringifyAttrs(tag.props);
   if (SELF_CLOSING_TAGS.includes(tag.tag)) {
     return `<${tag.tag}${attrs}${isBodyTag ? `  ${BODY_TAG_ATTR_NAME}="true"` : ""}>`;
   }
   return `<${tag.tag}${attrs}${isBodyTag ? ` ${BODY_TAG_ATTR_NAME}="true"` : ""}>${tag.props.children || ""}</${tag.tag}>`;
+};
+var sortTags = (aTag, bTag) => {
+  const tagWeight = (tag) => {
+    if (tag.props.renderPriority) {
+      return tag.props.renderPriority;
+    }
+    switch (tag.tag) {
+      case "base":
+        return -1;
+      case "meta":
+        if (tag.props.charset) {
+          return -2;
+        }
+        if (tag.props["http-equiv"] === "content-security-policy") {
+          return 0;
+        }
+        return 10;
+      default:
+        return 10;
+    }
+  };
+  return tagWeight(aTag) - tagWeight(bTag);
 };
 var renderHeadToString = (head) => {
   const tags = [];
@@ -18280,7 +18318,7 @@ var renderHeadToString = (head) => {
   let htmlAttrs = {};
   let bodyAttrs = {};
   let bodyTags = [];
-  for (const tag of head.headTags) {
+  for (const tag of head.headTags.sort(sortTags)) {
     if (tag.tag === "title") {
       titleTag = tagToString(tag);
     } else if (tag.tag === "htmlAttrs") {
@@ -18299,14 +18337,16 @@ var renderHeadToString = (head) => {
       return titleTag + tags.join("");
     },
     get htmlAttrs() {
-      return stringifyAttrs(__spreadProps(__spreadValues({}, htmlAttrs), {
+      return stringifyAttrs({
+        ...htmlAttrs,
         [HEAD_ATTRS_KEY]: Object.keys(htmlAttrs).join(",")
-      }));
+      });
     },
     get bodyAttrs() {
-      return stringifyAttrs(__spreadProps(__spreadValues({}, bodyAttrs), {
+      return stringifyAttrs({
+        ...bodyAttrs,
         [HEAD_ATTRS_KEY]: Object.keys(bodyAttrs).join(",")
-      }));
+      });
     },
     get bodyTags() {
       return bodyTags.join("");
@@ -19523,7 +19563,7 @@ const _sfc_main$k = /* @__PURE__ */ Object.assign(__default__$9, {
   __ssrInlineRender: true,
   setup(__props) {
     const config = useRuntimeConfig();
-    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.public.githubId}&redirect_uri=${config.public.webAddress}/user/login/github`;
+    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.public.githubClientId}&redirect_uri=${config.public.webAddress}/user/login/github`;
     useNotificationStore();
     return (_ctx, _push, _parent, _attrs) => {
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
@@ -20009,7 +20049,7 @@ const useUserStore = defineStore("userStore", {
   getters,
   actions: {
     async getUser() {
-      const user = await $fetch("/api/user", {
+      const user = await $fetch(`/api/user`, {
         credentials: "include",
         parseResponse: JSON.parse
       });
@@ -20120,7 +20160,7 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$7, {
         const a = frag.split("=");
         cookies[a[0].trim()] = a[1];
       });
-      const res = await $fetch(`${useRuntimeConfig().webAddress}/api/paste/${pasteId}`, {
+      const res = await $fetch(`${useRuntimeConfig().internalGatewayAddress}/paste/${pasteId}`, {
         headers: {
           "Authorization": "ApiKey " + cookies.quickpaste_auth
         },
@@ -20142,7 +20182,7 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$7, {
       const _component_PasteEditor = _sfc_main$g;
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
       if (vue_cjs_prod.unref(paste)) {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-600e3eee>`);
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-8e5cd220>`);
         if (_ctx.pastePostingState == 0) {
           _push(serverRenderer.exports.ssrRenderComponent(_component_PasteEditor, {
             onSubmit: _ctx.rePaste,
@@ -20152,17 +20192,17 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$7, {
             submitText: "Re-Paste !"
           }, null, _parent));
         } else if (_ctx.pastePostingState == 1) {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-600e3eee><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img0"].src)} data-v-600e3eee><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-600e3eee></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-600e3eee><h2 class="text-2xl font-bold" data-v-600e3eee>Creating paste</h2></div></div>`);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-8e5cd220><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img0"].src)} data-v-8e5cd220><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-8e5cd220></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-8e5cd220><h2 class="text-2xl font-bold" data-v-8e5cd220>Creating paste</h2></div></div>`);
         } else {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-600e3eee><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img1"].src)} data-v-600e3eee><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-600e3eee></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-600e3eee><h2 class="text-2xl font-bold" data-v-600e3eee>Paste created!</h2><h3 data-v-600e3eee> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-600e3eee>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-8e5cd220><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img1"].src)} data-v-8e5cd220><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-8e5cd220></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-8e5cd220><h2 class="text-2xl font-bold" data-v-8e5cd220>Paste created!</h2><h3 data-v-8e5cd220> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-8e5cd220>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
           _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
           _push(`</a></h3></div></div>`);
         }
         _push(`</div>`);
       } else if (vue_cjs_prod.unref(err) == 401) {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col items-center space-y-4" }, _attrs))} data-v-600e3eee><h2 class="text-xl text-gray-300" data-v-600e3eee>Enter password to view the paste</h2><div class="flex flex-col md:flex-row space-y-2 md:space-y-0" data-v-600e3eee><input${serverRenderer.exports.ssrRenderAttr("value", _ctx.password)} type="password" autocomplete="off" class="p-2 w-full md:w-auto text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray mr-4" data-v-600e3eee><button class="bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg" data-v-600e3eee>Enter</button></div></div>`);
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col items-center space-y-4" }, _attrs))} data-v-8e5cd220><h2 class="text-xl text-gray-300" data-v-8e5cd220>Enter password to view the paste</h2><div class="flex flex-col md:flex-row space-y-2 md:space-y-0" data-v-8e5cd220><input${serverRenderer.exports.ssrRenderAttr("value", _ctx.password)} type="password" autocomplete="off" class="p-2 w-full md:w-auto text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray mr-4" data-v-8e5cd220><button class="bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg" data-v-8e5cd220>Enter</button></div></div>`);
       } else {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-600e3eee><div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded" data-v-600e3eee><h1 class="text-3xl text-white text-shadow-sm" data-v-600e3eee> No paste here </h1></div></div>`);
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-8e5cd220><div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded" data-v-8e5cd220><h1 class="text-3xl text-white text-shadow-sm" data-v-8e5cd220> No paste here </h1></div></div>`);
       }
     };
   }
@@ -20206,7 +20246,7 @@ const __default__$6 = {
   methods: {
     async createPaste(paste) {
       this.postingPaste = true;
-      const res = await fetch("/api/paste", {
+      const res = await fetch(`/api/paste`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -20240,29 +20280,29 @@ const _sfc_main$e = /* @__PURE__ */ Object.assign(__default__$6, {
       const _component_PasteEditor = _sfc_main$g;
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
       const _component_NuxtLink = __nuxt_component_0$5;
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-088c79f6>`);
+      _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-d30edff1>`);
       if (!_ctx.postingPaste) {
-        _push(`<div class="container" data-v-088c79f6>`);
+        _push(`<div class="container" data-v-d30edff1>`);
         _push(serverRenderer.exports.ssrRenderComponent(_component_PasteEditor, {
           onSubmit: _ctx.createPaste,
           loggedIn: _ctx.loggedIn
         }, null, _parent));
         _push(`</div>`);
       } else {
-        _push(`<div data-v-088c79f6>`);
+        _push(`<div data-v-d30edff1>`);
         if (!_ctx.createdPaste) {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-088c79f6><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img0"].src)} data-v-088c79f6><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-088c79f6></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-088c79f6><h2 class="text-2xl font-bold" data-v-088c79f6>Creating paste</h2></div></div>`);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-d30edff1><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$resolveAssetUrl("animated/logo-paste-loading.svg"))} data-v-d30edff1><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-d30edff1></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-d30edff1><h2 class="text-2xl font-bold" data-v-d30edff1>Creating paste</h2></div></div>`);
         } else {
-          _push(`<div data-v-088c79f6>`);
+          _push(`<div data-v-d30edff1>`);
           if (_ctx.requestCode == 200) {
-            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-088c79f6><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img1"].src)} data-v-088c79f6><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-088c79f6></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-088c79f6><h2 class="text-2xl font-bold" data-v-088c79f6>Paste created!</h2><h3 data-v-088c79f6> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-088c79f6>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
+            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-d30edff1><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$resolveAssetUrl("animated/logo-paste-created.svg"))} data-v-d30edff1><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-d30edff1></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-d30edff1><h2 class="text-2xl font-bold" data-v-d30edff1>Paste created!</h2><h3 data-v-d30edff1> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-d30edff1>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
             _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
             _push(`</a></h3></div></div>`);
           } else {
             _push(`<!---->`);
           }
           if (_ctx.requestCode == 429) {
-            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-088c79f6><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-088c79f6><h2 class="text-2xl font-bold" data-v-088c79f6>Daily paste limit reached</h2><h3 data-v-088c79f6> You have surpassed your daily paste limit. For more information see `);
+            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-d30edff1><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-d30edff1><h2 class="text-2xl font-bold" data-v-d30edff1>Daily paste limit reached</h2><h3 data-v-d30edff1> You have surpassed your daily paste limit. For more information see `);
             _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, { href: "/" }, {
               default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
                 if (_push2) {
@@ -20582,7 +20622,7 @@ const __default__$2 = {
       }
     },
     async refreshPastes() {
-      const res = await $fetch("/api/user/pastes", {
+      const res = await $fetch(`/api/user/pastes`, {
         credentials: "include",
         parseResponse: JSON.json
       });
@@ -20687,7 +20727,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api.56205db7.mjs').then((m) => m.default || m)
+    component: () => import('./Api.658ec7c4.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20696,7 +20736,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.a4c3fe7e.mjs').then((m) => m.default || m)
+    component: () => import('./Login.a8181ffd.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20705,7 +20745,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.1b0bb549.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.80ee52f3.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20714,7 +20754,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.8ef89c65.mjs').then((m) => m.default || m)
+    component: () => import('./index.35549f62.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20723,7 +20763,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.dec7611b.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.16d62fdf.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20732,7 +20772,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.e51fc18c.mjs').then((m) => m.default || m)
+    component: () => import('./index.9d2ff2fa.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20862,16 +20902,6 @@ const ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt
   });
   return { provide: { router } };
 });
-const src_modules_plugins_MarkdownLoader_server_ts_IPUzvlClj8 = defineNuxtPlugin(async (app) => {
-  return {
-    provide: {
-      loadFile: async (pathInContent) => {
-        const f = fs.readFileSync(path.join(app.ssrContext.runtimeConfig.rootDir, "content", pathInContent)).toString("utf-8");
-        return f;
-      }
-    }
-  };
-});
 const ______node_modules__pnpm__64pinia_43nuxt_640_4_2_node_modules__64pinia_nuxt_dist_runtime_plugin_vue3_mjs_DEwWvgoLSX = defineNuxtPlugin((nuxtApp) => {
   const pinia = createPinia();
   nuxtApp.vueApp.use(pinia);
@@ -20885,6 +20915,18 @@ const ______node_modules__pnpm__64pinia_43nuxt_640_4_2_node_modules__64pinia_nux
     }
   };
 });
+const src_plugins_AsserUrlResolver_js_lCycnAcfcI = defineNuxtPlugin(async () => {
+  return {
+    provide: {
+      resolveAssetUrl: (pathInAssets) => {
+        if (pathInAssets.charAt(0) == "/") {
+          pathInAssets = pathInAssets.substring(1);
+        }
+        return new URL("/assets/" + pathInAssets, globalThis._importMeta_.url);
+      }
+    }
+  };
+});
 library$1.add(_iconsCache$1, _iconsCache);
 const src_plugins_fontawesome_js_KQNRGomcw2 = defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("FontAwesomeIcon", FontAwesomeIcon);
@@ -20895,15 +20937,15 @@ const _plugins = [
   ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs_xXcBANRZ08,
   ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt_dist_head_runtime_plugin_mjs_6jVJ9ZlHxj,
   ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt_dist_pages_runtime_router_mjs_okSzMtzEt6,
-  src_modules_plugins_MarkdownLoader_server_ts_IPUzvlClj8,
   ______node_modules__pnpm__64pinia_43nuxt_640_4_2_node_modules__64pinia_nuxt_dist_runtime_plugin_vue3_mjs_DEwWvgoLSX,
+  src_plugins_AsserUrlResolver_js_lCycnAcfcI,
   src_plugins_fontawesome_js_KQNRGomcw2
 ];
 const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.e13a0848.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.d16b2ea2.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21295,7 +21337,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-490edb6d"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.bcc6bcef.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.777c2014.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({

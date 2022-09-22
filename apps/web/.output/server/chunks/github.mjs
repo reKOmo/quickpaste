@@ -1,16 +1,16 @@
-import { defineEventHandler, sendRedirect, setCookie } from 'h3';
-import { u as useRuntimeConfig } from './node-server.mjs';
+import { d as defineEventHandler, s as sendRedirect, u as useRuntimeConfig, b as setCookie } from './node-server.mjs';
 import 'node-fetch-native/polyfill';
 import 'http';
 import 'https';
 import 'destr';
-import 'ohmyfetch';
+import 'ufo';
+import 'cookie-es';
 import 'radix3';
+import 'ohmyfetch';
 import 'unenv/runtime/fetch/index';
 import 'hookable';
 import 'scule';
 import 'ohash';
-import 'ufo';
 import 'unstorage';
 import 'fs';
 import 'pathe';
@@ -31,7 +31,7 @@ const github = defineEventHandler(async (e) => {
     await sendRedirect(e, "/user/login/finalize?fail=1", 302);
     return;
   }
-  const res = await fetch(`https://github.com/login/oauth/access_token?client_secret=${useRuntimeConfig().githubSecret}&client_id=${useRuntimeConfig().githubId}&code=${query.code}`, {
+  const res = await fetch(`https://github.com/login/oauth/access_token?client_secret=${useRuntimeConfig().githubClientSecret}&client_id=${useRuntimeConfig().githubClientId}&code=${query.code}`, {
     method: "POST",
     headers: {
       "Accept": "application/json"

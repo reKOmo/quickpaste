@@ -48,6 +48,7 @@ services:
       - NUXT_WEB_ADDRESS=https://${WEB_DOMAIN_NAME}
       - NUXT_GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
       - NUXT_GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - NUXT_API_PATH=/api
       - NODE_ENV="production"
   gateway:
     build:

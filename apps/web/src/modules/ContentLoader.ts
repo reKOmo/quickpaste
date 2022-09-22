@@ -16,5 +16,6 @@ export default defineNuxtModule({
         nuxt.options.runtimeConfig["rootDir"] = path.resolve(__dirname, "../");
 
         addPlugin(resolve('./plugins/MarkdownLoader.server'));
+        // addPlugin(resolve('./plugins/AssetUrlResolver'));
     }
 });

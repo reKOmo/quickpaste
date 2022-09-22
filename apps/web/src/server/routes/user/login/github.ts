@@ -18,7 +18,7 @@ export default defineEventHandler(async (e) => {
         await sendRedirect(e, "/user/login/finalize?fail=1", 302);
         return;
     }
-    const res = await fetch(`https://github.com/login/oauth/access_token?client_secret=${useRuntimeConfig().githubSecret}&client_id=${useRuntimeConfig().githubId}&code=${query.code}`, {
+    const res = await fetch(`https://github.com/login/oauth/access_token?client_secret=${useRuntimeConfig().githubClientSecret}&client_id=${useRuntimeConfig().githubClientId}&code=${query.code}`, {
         method: "POST",
         headers: {
             "Accept": "application/json"

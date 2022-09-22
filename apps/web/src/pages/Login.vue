@@ -13,7 +13,7 @@
 import { useNotificationStore } from '@/store/notification';
 import { NotificationTypes } from '../store/notification';
     const config = useRuntimeConfig();
-    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.public.githubId}&redirect_uri=${config.public.webAddress}/user/login/github`
+    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.public.githubClientId}&redirect_uri=${config.public.webAddress}/user/login/github`
     const notificationStore = useNotificationStore();
 </script>
 

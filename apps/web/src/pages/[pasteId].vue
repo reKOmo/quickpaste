@@ -55,7 +55,7 @@
             cookies[a[0].trim()] = a[1];
         });
 
-        const res = await $fetch(`${useRuntimeConfig().webAddress}/api/paste/${pasteId}`, {
+        const res = await $fetch(`${useRuntimeConfig().internalGatewayAddress}/paste/${pasteId}`, {
             headers: {
                 "Authorization": "ApiKey " + cookies.quickpaste_auth
             },

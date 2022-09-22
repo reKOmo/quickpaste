@@ -64,7 +64,7 @@ export default {
             }
         },
         async refreshPastes() {
-            const res = await $fetch("/api/user/pastes", {
+            const res = await $fetch(`/api/user/pastes`, {
                 credentials: "include",
                 parseResponse: JSON.json
             });
