@@ -79,6 +79,8 @@
     const {data: err} = await useAsyncData("error", () => error.value ? error.value.response.status : 200, { server: true });
 
     let editMode = ref(false);
+    const route = useRoute();
+    let password = "";
     
     function checkEditMode() {
         if (userStore.user() == undefined) return;
@@ -86,6 +88,46 @@
         if (paste.value.owner.id != userStore.id()) return;
         const route = useRoute();
         if (route.query["edit"]) editMode = true;
+    }
+
+    async function reloadPaste() {
+        if (password.length === 0) {
+            notificationStore.addNotification({
+                type: 1,
+                title: "Please enter password to enter",
+                level: 1
+            });
+            return;
+        }
+
+        const res = await fetch(`/api/paste/${route.params["pasteId"]}`, {
+            method: "GET",
+            headers: {
+                "Paste-Authorization": password
+            },
+            credentials: "include",
+        });
+
+        if (res.ok) {
+            paste = await res.json();
+            if (password.length != 0) {
+                paste["password"] = password;
+            }
+            checkEditMode();
+            document.title = "Quickpaste | " + paste.title.substring(0, 25);
+        } else {
+             switch (res.status) {
+                 case 401:
+                    notificationStore.addNotification({
+                        type: 1,
+                        title: "Incorrect password",
+                        level: 1
+                    });
+                    break;
+            }
+            password = "";
+            err = res.status;
+        }
     }
 
     if (process.client) {
@@ -100,13 +142,9 @@
     export default {
         data() {
             return {
-                password: "",
                 pastePostingState: 0,
                 createdPaste: undefined
             }
-        },
-        mounted() {
-            this.checkEditMode();
         },
         methods: {
             async rePaste(paste) {
@@ -134,47 +172,6 @@
                 } else {
                     //TODO
                 }
-            },
-            async reloadPaste() {
-                if (this.password.length === 0) {
-                    this.notificationStore.addNotification({
-                        type: 1,
-                        title: "Please enter password to enter",
-                        level: 1
-                    });
-                    return;
-                }
-
-                const res = await fetch(`/api/paste/${this.$route.params["pasteId"]}`, {
-                    method: "GET",
-                    headers: {
-                        "Paste-Authorization": this.password
-                    },
-                    credentials: "include",
-                });
-
-                if (res.ok) {
-                    this.paste = await res.json();
-                    if (this.password.length != 0) {
-                        this.paste["password"] = this.password;
-                    }
-                    this.checkEditMode();
-                    document.title = "Quickpaste | " + this.paste.title.substring(0, 25);
-                } else {
-                    switch (res.status) {
-                        case 401:
-                            this.notificationStore.addNotification({
-                                type: 1,
-                                title: "Incorrect password",
-                                level: 1
-                            });
-                            break;
-                    }
-                    this.password = "";
-                    this.err = res.status;
-                }
-
-
             }
         }
     }

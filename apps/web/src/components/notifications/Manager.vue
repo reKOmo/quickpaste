@@ -19,52 +19,44 @@
     import {useNotificationStore} from "~/store/notification";
     
     const notificationStore = useNotificationStore()
-</script>
 
-<script>
-    export default {
-        data() {
-            return {
-                confirm: {
-                    show: false,
-                    notification: undefined
-                },
-                alert: {
-                    show: false,
-                    notification: undefined
-                },
-                notifications: []
-            }
-        },
-        methods: {
-            alertDone(val) {
-                this.notificationStore.alerts[0].done(val);
-                this.notificationStore.shiftAlert();
+    const confirm = {
+        show: false,
+        notification: undefined
+    }
+    const alert = {
+        show: false,
+        notification: undefined
+    }
+    const notifications= [];
 
-                this.showAlerts();
-            },
-            showAlerts() {
-                if (this.notificationStore.getAlerts().length > 0) {
-                    this.confirm.show = true;
-                    this.confirm.notification = this.notificationStore.getAlerts()[0];
-                } else {
-                    this.confirm.show = false;
-                    this.confirm.notification = undefined;
-                }
-            },
-            showNotifications(type) {
-                this.notifications = this.notificationStore.getNotifications();
-                if (type === "add") {
-                    setTimeout(this.notificationStore.shiftNotification, 2500);
-                }
-            }
-        },
-        mounted() {
-            this.notificationStore.$subscribe((mutation, state) => {
-                this.showAlerts();
-                this.showNotifications(mutation.events.type);
-            });
+    function alertDone(val) {
+        notificationStore.alerts[0].done(val);
+        notificationStore.shiftAlert();
+
+        showAlerts();
+    }
+    function showAlerts() {
+        if (notificationStore.getAlerts().length > 0) {
+            confirm.show = true;
+            confirm.notification = this.notificationStore.getAlerts()[0];
+        } else {
+            confirm.show = false;
+            confirm.notification = undefined;
         }
+    }
+    function showNotifications(type) {
+        notifications = notificationStore.getNotifications();
+        if (type === "add") {
+            setTimeout(notificationStore.shiftNotification, 2500);
+        }
+    }
+
+    if (process.client) {
+        notificationStore.$subscribe((mutation, state) => {
+            showAlerts();
+            showNotifications(mutation.events.type);
+        });
     }
 </script>
 
