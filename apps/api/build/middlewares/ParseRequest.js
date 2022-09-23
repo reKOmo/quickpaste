@@ -10,15 +10,6 @@ var ServerResponse_1 = require("../utils/ServerResponse");
 var pasteIdSchema = joi_1["default"].string().length(constants_1.Constants.PASTE_UUID_LENGTH).pattern(new RegExp('([A-Z]|[a-z]|[0-9])*'));
 function parseRequest(req, res, next) {
     var _a;
-    if (process.env.NODE_ENV !== 'production') {
-        var cookies = req.header("cookie").split(";").map(function (v) { return v.trim(); });
-        var ob = {};
-        for (var i = 0; i < cookies.length; i++) {
-            var p = cookies[i].split("=");
-            ob[p[0].trim()] = p[1];
-        }
-        req.cookies = ob;
-    }
     var userId = req.headers["x-user"];
     var apiKey = ((_a = req.headers["authorization"]) === null || _a === void 0 ? void 0 : _a.split(" ")[1]) || req.cookies["quickpaste_auth"];
     //internal

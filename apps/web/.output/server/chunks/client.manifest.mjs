@@ -1,9 +1,9 @@
 const client_manifest = {
-  "assets/animated/logo-paste-created.svg": {
+  "assets/quickpase-icon.svg": {
     "resourceType": "image",
     "mimeType": "image/svg+xml",
-    "file": "logo-paste-created.50923283.svg",
-    "src": "assets/animated/logo-paste-created.svg"
+    "file": "quickpase-icon.40f31740.svg",
+    "src": "assets/quickpase-icon.svg"
   },
   "assets/animated/logo-paste-loading.svg": {
     "resourceType": "image",
@@ -11,11 +11,11 @@ const client_manifest = {
     "file": "logo-paste-loading.d9d6ef31.svg",
     "src": "assets/animated/logo-paste-loading.svg"
   },
-  "assets/quickpase-icon.svg": {
+  "assets/animated/logo-paste-created.svg": {
     "resourceType": "image",
     "mimeType": "image/svg+xml",
-    "file": "quickpase-icon.40f31740.svg",
-    "src": "assets/quickpase-icon.svg"
+    "file": "logo-paste-created.50923283.svg",
+    "src": "assets/animated/logo-paste-created.svg"
   },
   "../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/entry.mjs": {
     "resourceType": "script",
@@ -222,11 +222,6 @@ const client_manifest = {
     "file": "error-500.a4adec0a.css",
     "resourceType": "style"
   },
-  "pages/[pasteId].css": {
-    "resourceType": "style",
-    "file": "[pasteId].747a3bf9.css",
-    "src": "pages/[pasteId].css"
-  },
   "pages/index.css": {
     "resourceType": "style",
     "file": "index.d86d23a3.css",
@@ -237,20 +232,25 @@ const client_manifest = {
     "file": "Api-Docs.30488962.css",
     "src": "pages/Api-Docs.css"
   },
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.3/node_modules/@nuxt/ui-templates/dist/templates/error-500.css": {
+  "pages/[pasteId].css": {
     "resourceType": "style",
-    "file": "error-500.a4adec0a.css",
-    "src": "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.3/node_modules/@nuxt/ui-templates/dist/templates/error-500.css"
+    "file": "[pasteId].747a3bf9.css",
+    "src": "pages/[pasteId].css"
+  },
+  "../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/entry.css": {
+    "resourceType": "style",
+    "file": "entry.c28c3de5.css",
+    "src": "../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/entry.css"
   },
   "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.3/node_modules/@nuxt/ui-templates/dist/templates/error-404.css": {
     "resourceType": "style",
     "file": "error-404.3626dc7b.css",
     "src": "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.3/node_modules/@nuxt/ui-templates/dist/templates/error-404.css"
   },
-  "../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/entry.css": {
+  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.3/node_modules/@nuxt/ui-templates/dist/templates/error-500.css": {
     "resourceType": "style",
-    "file": "entry.c28c3de5.css",
-    "src": "../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/entry.css"
+    "file": "error-500.a4adec0a.css",
+    "src": "../../../node_modules/.pnpm/@nuxt+ui-templates@0.3.3/node_modules/@nuxt/ui-templates/dist/templates/error-500.css"
   }
 };
 

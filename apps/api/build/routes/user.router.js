@@ -22,6 +22,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 exports.router = void 0;
 var express_1 = require("express");
@@ -29,8 +32,10 @@ var internalapi = __importStar(require("./internalapi.router"));
 var user_controller_1 = require("../controllers/user.controller");
 var Gatekeeper_1 = require("../middlewares/Gatekeeper");
 var ParseRequest_1 = require("../middlewares/ParseRequest");
+var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var router = (0, express_1.Router)();
 exports.router = router;
-router.get("/", ParseRequest_1.parseRequest, Gatekeeper_1.gatekeep, user_controller_1.getUserInfo);
-router.get("/pastes", ParseRequest_1.parseRequest, Gatekeeper_1.gatekeep, user_controller_1.getUserPastes);
+router.use("*", (0, cookie_parser_1["default"])(), ParseRequest_1.parseRequest, Gatekeeper_1.gatekeep);
+router.get("/", user_controller_1.getUserInfo);
+router.get("/pastes", user_controller_1.getUserPastes);
 internalapi.router["delete"]("/user", ParseRequest_1.parseRequest, Gatekeeper_1.gatekeep, user_controller_1.deleteAccount);
