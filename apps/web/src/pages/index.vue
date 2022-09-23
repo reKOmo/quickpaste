@@ -37,12 +37,8 @@
   </div>
 </template>
 
-<script setup>
-  import { useUserStore } from '@/store/user';
-  const userStore = useUserStore();
-</script>
-
 <script>
+  import { useUserStore } from '@/store/user';
   export default {
     data() {
       return {
@@ -53,6 +49,9 @@
         loggedIn: false,
         requestCode: 200
       }
+    },
+    asyncData({ $pinia }) {
+      const userStore = useUserStore($pinia)
     },
     mounted() {
       this.loggedIn = this.userStore.user() != undefined;

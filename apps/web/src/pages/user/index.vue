@@ -31,21 +31,20 @@
     </div>
 </template>
 
-<script setup>
-import { NotificationTypes, useNotificationStore } from "@/store/notification";
-import { useUserStore } from "@/store/user";
-const notificationStore = useNotificationStore();
-const userStore = useUserStore();
-</script>
-
 <script>
-export default {
+    import { NotificationTypes, useNotificationStore } from "@/store/notification";
+    import { useUserStore } from "@/store/user";
+    export default {
     data() {
         return {
             pastes: [],
             nextPageId: undefined,
             loadingMore: false
         }
+    },
+    asyncData({ $pinia }) {
+        const userStore = useUserStore($pinia)
+        const notificationStore = useNotificationStore();
     },
     methods: {
         async deletePaste(uuid) {

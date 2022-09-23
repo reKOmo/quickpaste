@@ -19545,7 +19545,7 @@ const useNotificationStore = defineStore("notificationStore", {
     }
   }
 });
-const __default__$9 = {
+const __default__$7 = {
   mounted() {
     const failedLogin = this.$route.query.failedLogin;
     document.title = "Quickpaste";
@@ -19558,7 +19558,7 @@ const __default__$9 = {
     }
   }
 };
-const _sfc_main$k = /* @__PURE__ */ Object.assign(__default__$9, {
+const _sfc_main$i = /* @__PURE__ */ Object.assign(__default__$7, {
   __name: "Login",
   __ssrInlineRender: true,
   setup(__props) {
@@ -19578,11 +19578,11 @@ const _sfc_main$k = /* @__PURE__ */ Object.assign(__default__$9, {
     };
   }
 });
-const _sfc_setup$k = _sfc_main$k.setup;
-_sfc_main$k.setup = (props, ctx) => {
+const _sfc_setup$i = _sfc_main$i.setup;
+_sfc_main$i.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/Login.vue");
-  return _sfc_setup$k ? _sfc_setup$k(props, ctx) : void 0;
+  return _sfc_setup$i ? _sfc_setup$i(props, ctx) : void 0;
 };
 const meta$4 = void 0;
 const _export_sfc = (sfc, props) => {
@@ -19592,7 +19592,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$j = {
+const _sfc_main$h = {
   data() {
     return {
       title: this.options !== void 0 ? this.options.title : "",
@@ -19637,13 +19637,13 @@ function _sfc_ssrRender$7(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   }, null, _parent));
   _push(`</span></a><div class="overflow-hidden hidden px-4 py-4 text-xl px-4 bg-blue rounded shadow-md shadow-black/50" data-v-f57cfd42><div class="w-full flex items-center" data-v-f57cfd42><label class="w-1/3" data-v-f57cfd42>Private</label><input${serverRenderer.exports.ssrIncludeBooleanAttr(Array.isArray($data.priv) ? serverRenderer.exports.ssrLooseContain($data.priv, null) : $data.priv) ? " checked" : ""}${serverRenderer.exports.ssrIncludeBooleanAttr(!$props.loggedIn) ? " disabled" : ""} type="checkbox" class="h-4 w-4 rounded border-3 border-black bg-darkgray accent-darkgray text-blue" data-v-f57cfd42><span class="text-sm text-gray-500 px-4" data-v-f57cfd42>Logged in users only</span></div><div class="w-full flex items-center" data-v-f57cfd42><label class="w-1/3" data-v-f57cfd42>Password</label><input${serverRenderer.exports.ssrRenderAttr("value", $data.password)} type="password" class="p-px text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray flex-1" data-v-f57cfd42></div></div></div></div>`);
 }
-const _sfc_setup$j = _sfc_main$j.setup;
-_sfc_main$j.setup = (props, ctx) => {
+const _sfc_setup$h = _sfc_main$h.setup;
+_sfc_main$h.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/SideMenu.vue");
-  return _sfc_setup$j ? _sfc_setup$j(props, ctx) : void 0;
+  return _sfc_setup$h ? _sfc_setup$h(props, ctx) : void 0;
 };
-const __nuxt_component_0$4 = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["ssrRender", _sfc_ssrRender$7], ["__scopeId", "data-v-f57cfd42"]]);
+const __nuxt_component_0$4 = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["ssrRender", _sfc_ssrRender$7], ["__scopeId", "data-v-f57cfd42"]]);
 const __nuxt_component_1$2 = vue_cjs_prod.defineComponent({
   name: "ClientOnly",
   props: ["fallback", "placeholder", "placeholderTag", "fallbackTag"],
@@ -19679,7 +19679,7 @@ function setCaretPosition(elem, caretPos) {
     }
   }
 }
-const _sfc_main$i = {
+const _sfc_main$g = {
   props: {
     lang: {
       type: String,
@@ -19791,14 +19791,14 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
                 </code>
             </pre><pre class="line-numbers">1</pre><textarea${serverRenderer.exports.ssrIncludeBooleanAttr(!$props.editable) ? " disabled" : ""} class="code-container" resize="false" spellcheck="false">${serverRenderer.exports.ssrInterpolate($data.text)}</textarea></div></div>`);
 }
-const _sfc_setup$i = _sfc_main$i.setup;
-_sfc_main$i.setup = (props, ctx) => {
+const _sfc_setup$g = _sfc_main$g.setup;
+_sfc_main$g.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Editor.vue");
-  return _sfc_setup$i ? _sfc_setup$i(props, ctx) : void 0;
+  return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
 };
-const __nuxt_component_0$3 = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["ssrRender", _sfc_ssrRender$6]]);
-const _sfc_main$h = {
+const __nuxt_component_0$3 = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["ssrRender", _sfc_ssrRender$6]]);
+const _sfc_main$f = {
   props: {
     editable: {
       type: Boolean,
@@ -19852,14 +19852,14 @@ function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   }, null, _parent));
   _push(`</div>`);
 }
-const _sfc_setup$h = _sfc_main$h.setup;
-_sfc_main$h.setup = (props, ctx) => {
+const _sfc_setup$f = _sfc_main$f.setup;
+_sfc_main$f.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/SnippetEditor.vue");
-  return _sfc_setup$h ? _sfc_setup$h(props, ctx) : void 0;
+  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
 };
-const __nuxt_component_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["ssrRender", _sfc_ssrRender$5], ["__scopeId", "data-v-62b58418"]]);
-const __default__$8 = {
+const __nuxt_component_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["ssrRender", _sfc_ssrRender$5], ["__scopeId", "data-v-62b58418"]]);
+const __default__$6 = {
   emits: ["submit"],
   props: {
     editable: {
@@ -19920,7 +19920,7 @@ const __default__$8 = {
     }
   }
 };
-const _sfc_main$g = /* @__PURE__ */ Object.assign(__default__$8, {
+const _sfc_main$e = /* @__PURE__ */ Object.assign(__default__$6, {
   __name: "PasteEditor",
   __ssrInlineRender: true,
   setup(__props) {
@@ -20023,11 +20023,11 @@ const _sfc_main$g = /* @__PURE__ */ Object.assign(__default__$8, {
     };
   }
 });
-const _sfc_setup$g = _sfc_main$g.setup;
-_sfc_main$g.setup = (props, ctx) => {
+const _sfc_setup$e = _sfc_main$e.setup;
+_sfc_main$e.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/PasteEditor.vue");
-  return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
+  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
 };
 const _imports_0$1 = "" + globalThis.__buildAssetsURL("logo-paste-loading.d9d6ef31.svg");
 const _imports_1 = "" + globalThis.__buildAssetsURL("logo-paste-created.50923283.svg");
@@ -20062,7 +20062,7 @@ const useUserStore = defineStore("userStore", {
     }
   }
 });
-const __default__$7 = {
+const __default__$5 = {
   data() {
     return {
       editMode: false,
@@ -20145,7 +20145,7 @@ const __default__$7 = {
     }
   }
 };
-const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$7, {
+const _sfc_main$d = /* @__PURE__ */ Object.assign(__default__$5, {
   __name: "[pasteId]",
   __ssrInlineRender: true,
   async setup(__props) {
@@ -20180,7 +20180,7 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$7, {
       console.log(error.value);
     const { data: err } = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => useAsyncData("error", () => error.value ? error.value.response.status : 200, { server: true }, "$QqQhqT5Ucg")), __temp = await __temp, __restore(), __temp);
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_PasteEditor = _sfc_main$g;
+      const _component_PasteEditor = _sfc_main$e;
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
       if (vue_cjs_prod.unref(paste)) {
         _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-030a364f>`);
@@ -20208,134 +20208,15 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$7, {
     };
   }
 });
-const _sfc_setup$f = _sfc_main$f.setup;
-_sfc_main$f.setup = (props, ctx) => {
+const _sfc_setup$d = _sfc_main$d.setup;
+_sfc_main$d.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/[pasteId].vue");
-  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
+  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
 };
 const meta$3 = void 0;
-const __default__$6 = {
-  data() {
-    return {
-      snippets: [0],
-      offscreen: false,
-      postingPaste: false,
-      createdPaste: void 0,
-      loggedIn: false,
-      requestCode: 200
-    };
-  },
-  mounted() {
-    this.loggedIn = this.userStore.user() != void 0;
-    document.title = "Quickpaste";
-  },
-  watch: {
-    snippets: {
-      handler() {
-        setTimeout(() => {
-          const cont = this.$refs["editor-conteiner"];
-          cont.scrollTo({
-            top: cont.scrollHeight,
-            behavior: "smooth"
-          });
-        }, 10);
-      },
-      deep: true
-    }
-  },
-  methods: {
-    async createPaste(paste) {
-      this.postingPaste = true;
-      const res = await fetch(`/api/paste`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify(paste)
-      });
-      const data = await res.json();
-      this.createdPaste = data.result;
-      this.requestCode = res.status;
-    },
-    removeLast() {
-      if (this.snippets.length > 1)
-        this.snippets.pop();
-      if (this.snippets.length == 1)
-        this.$refs["remove"].classList.add("hide");
-    },
-    addSnippet() {
-      this.snippets.push(this.snippets.length);
-      if (this.snippets.length > 1)
-        this.$refs["remove"].classList.remove("hide");
-    }
-  }
-};
-const _sfc_main$e = /* @__PURE__ */ Object.assign(__default__$6, {
-  __name: "index",
-  __ssrInlineRender: true,
-  setup(__props) {
-    useUserStore();
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_PasteEditor = _sfc_main$g;
-      const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-      const _component_NuxtLink = __nuxt_component_0$5;
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-d30edff1>`);
-      if (!_ctx.postingPaste) {
-        _push(`<div class="container" data-v-d30edff1>`);
-        _push(serverRenderer.exports.ssrRenderComponent(_component_PasteEditor, {
-          onSubmit: _ctx.createPaste,
-          loggedIn: _ctx.loggedIn
-        }, null, _parent));
-        _push(`</div>`);
-      } else {
-        _push(`<div data-v-d30edff1>`);
-        if (!_ctx.createdPaste) {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-d30edff1><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$resolveAssetUrl("animated/logo-paste-loading.svg"))} data-v-d30edff1><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-d30edff1></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-d30edff1><h2 class="text-2xl font-bold" data-v-d30edff1>Creating paste</h2></div></div>`);
-        } else {
-          _push(`<div data-v-d30edff1>`);
-          if (_ctx.requestCode == 200) {
-            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-d30edff1><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$resolveAssetUrl("animated/logo-paste-created.svg"))} data-v-d30edff1><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-d30edff1></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-d30edff1><h2 class="text-2xl font-bold" data-v-d30edff1>Paste created!</h2><h3 data-v-d30edff1> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-d30edff1>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
-            _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
-            _push(`</a></h3></div></div>`);
-          } else {
-            _push(`<!---->`);
-          }
-          if (_ctx.requestCode == 429) {
-            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-d30edff1><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-d30edff1><h2 class="text-2xl font-bold" data-v-d30edff1>Daily paste limit reached</h2><h3 data-v-d30edff1> You have surpassed your daily paste limit. For more information see `);
-            _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, { href: "/" }, {
-              default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-                if (_push2) {
-                  _push2(`here`);
-                } else {
-                  return [
-                    vue_cjs_prod.createTextVNode("here")
-                  ];
-                }
-              }),
-              _: 1
-            }, _parent));
-            _push(`</h3></div></div>`);
-          } else {
-            _push(`<!---->`);
-          }
-          _push(`</div>`);
-        }
-        _push(`</div>`);
-      }
-      _push(`</div>`);
-    };
-  }
-});
-const _sfc_setup$e = _sfc_main$e.setup;
-_sfc_main$e.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/index.vue");
-  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
-};
 const meta$2 = void 0;
-const __default__$5 = {
+const __default__$4 = {
   data() {
     return {
       key: void 0
@@ -20364,7 +20245,7 @@ const __default__$5 = {
     }
   }
 };
-const _sfc_main$d = /* @__PURE__ */ Object.assign(__default__$5, {
+const _sfc_main$c = /* @__PURE__ */ Object.assign(__default__$4, {
   __name: "GenerateApiKey",
   __ssrInlineRender: true,
   setup(__props) {
@@ -20390,13 +20271,13 @@ const _sfc_main$d = /* @__PURE__ */ Object.assign(__default__$5, {
     };
   }
 });
-const _sfc_setup$d = _sfc_main$d.setup;
-_sfc_main$d.setup = (props, ctx) => {
+const _sfc_setup$c = _sfc_main$c.setup;
+_sfc_main$c.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/GenerateApiKey.vue");
-  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
+  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
 };
-const __default__$4 = {
+const __default__$3 = {
   methods: {
     async deleteAccount() {
       const proceed = await this.notificationStore.addNotification({
@@ -20422,7 +20303,7 @@ const __default__$4 = {
     }
   }
 };
-const _sfc_main$c = /* @__PURE__ */ Object.assign(__default__$4, {
+const _sfc_main$b = /* @__PURE__ */ Object.assign(__default__$3, {
   __name: "DeleteAccount",
   __ssrInlineRender: true,
   setup(__props) {
@@ -20440,13 +20321,13 @@ const _sfc_main$c = /* @__PURE__ */ Object.assign(__default__$4, {
     };
   }
 });
-const _sfc_setup$c = _sfc_main$c.setup;
-_sfc_main$c.setup = (props, ctx) => {
+const _sfc_setup$b = _sfc_main$b.setup;
+_sfc_main$b.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/DeleteAccount.vue");
-  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
+  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
 };
-const _sfc_main$b = {
+const _sfc_main$a = {
   __name: "UserPanel",
   __ssrInlineRender: true,
   setup(__props) {
@@ -20503,14 +20384,14 @@ const _sfc_main$b = {
     };
   }
 };
-const _sfc_setup$b = _sfc_main$b.setup;
-_sfc_main$b.setup = (props, ctx) => {
+const _sfc_setup$a = _sfc_main$a.setup;
+_sfc_main$a.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/UserPanel.vue");
-  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
+  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
 };
-const __nuxt_component_0$2 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["__scopeId", "data-v-1b0b803f"]]);
-const _sfc_main$a = {
+const __nuxt_component_0$2 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["__scopeId", "data-v-1b0b803f"]]);
+const _sfc_main$9 = {
   emits: ["picked"],
   props: {
     options: {
@@ -20532,14 +20413,14 @@ function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   });
   _push(`<!--]--></ul><!--]-->`);
 }
-const _sfc_setup$a = _sfc_main$a.setup;
-_sfc_main$a.setup = (props, ctx) => {
+const _sfc_setup$9 = _sfc_main$9.setup;
+_sfc_main$9.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/SettingsList.vue");
-  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
+  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
-const __nuxt_component_3$1 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["ssrRender", _sfc_ssrRender$4]]);
-const __default__$3 = {
+const __nuxt_component_3$1 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["ssrRender", _sfc_ssrRender$4]]);
+const __default__$2 = {
   data() {
     return {
       option: void 0,
@@ -20561,7 +20442,7 @@ const __default__$3 = {
     }
   }
 };
-const _sfc_main$9 = /* @__PURE__ */ Object.assign(__default__$3, {
+const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$2, {
   __name: "Settings",
   __ssrInlineRender: true,
   setup(__props) {
@@ -20592,133 +20473,13 @@ const _sfc_main$9 = /* @__PURE__ */ Object.assign(__default__$3, {
     };
   }
 });
-const _sfc_setup$9 = _sfc_main$9.setup;
-_sfc_main$9.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/user/Settings.vue");
-  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
-};
-const meta$1 = void 0;
-const __default__$2 = {
-  data() {
-    return {
-      pastes: [],
-      nextPageId: void 0,
-      loadingMore: false
-    };
-  },
-  methods: {
-    async deletePaste(uuid) {
-      const res = await this.notificationStore.addNotification({
-        type: NotificationTypes.CONFIRM,
-        title: "Delete paste?",
-        description: "This action can not be reversed!"
-      });
-      if (res) {
-        await $fetch(`/api/paste/${uuid}`, {
-          method: "DELETE",
-          credentials: "include"
-        });
-        await this.refreshPastes();
-      }
-    },
-    async refreshPastes() {
-      const res = await $fetch(`/api/user/pastes`, {
-        credentials: "include",
-        parseResponse: JSON.json
-      });
-      this.pastes = res.result.pastes;
-      this.nextPageId = res.result.nextPage;
-      for (let i = 0; i < this.pastes.length; i++) {
-        this.pastes[i].created = new Date(this.pastes[i].created).toLocaleDateString();
-      }
-    },
-    async loadMorePastes() {
-      const cont = this.$refs["paste-container"];
-      const scrollAm = cont.scrollTop + cont.clientHeight;
-      if (this.nextPageId && scrollAm > cont.scrollHeight - 20 && !this.loadingMore) {
-        this.loadingMore = true;
-        const res = await $fetch(`/api/user/pastes?pageId=${this.nextPageId}`, {
-          credentials: "include",
-          parseResponse: JSON.json
-        });
-        this.nextPageId = res.result.nextPage;
-        for (let i = 0; i < res.result.pastes.length; i++) {
-          res.result.pastes[i].created = new Date(res.result.pastes[i].created).toLocaleDateString();
-        }
-        this.pastes = this.pastes.concat(res.result.pastes);
-        this.loadingMore = false;
-      }
-    }
-  },
-  mounted() {
-    document.title = `Quickpaste | ${this.userStore.username()}`;
-    if (this.pastes.length === 0)
-      this.refreshPastes();
-  }
-};
-const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$2, {
-  __name: "index",
-  __ssrInlineRender: true,
-  setup(__props) {
-    useNotificationStore();
-    useUserStore();
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_UserPanel = __nuxt_component_0$2;
-      const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-      const _component_ClientOnly = __nuxt_component_1$2;
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col md:flex-row w-full justify-between" }, _attrs))}>`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_UserPanel, null, null, _parent));
-      _push(`<div class="md:w-4/5"><h1 class="text-5xl mb-6 text-orange text-shadow-sm border-b border-blue pb-4">Pastes</h1>`);
-      if (_ctx.pastes.length > 0) {
-        _push(`<div class="max-h-prose overflow-y-auto"><!--[-->`);
-        serverRenderer.exports.ssrRenderList(_ctx.pastes, (paste) => {
-          _push(`<div class="flex flex-col md:flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue"><a${serverRenderer.exports.ssrRenderAttr("href", `/${paste.uuid}`)}><h3 class="text-2xl font-bold">${serverRenderer.exports.ssrInterpolate(paste.title)} <span class="text-sm font-normal italic text-gray-500">#${serverRenderer.exports.ssrInterpolate(paste.uuid)}</span>`);
-          if (paste.isPrivate) {
-            _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
-              icon: ["fas", "fa-eye-slash"],
-              class: "text-sm ml-2 mb-px"
-            }, null, _parent));
-          } else {
-            _push(`<!---->`);
-          }
-          if (paste.password) {
-            _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
-              icon: ["fas", "fa-lock"],
-              class: "text-sm ml-2 mb-px"
-            }, null, _parent));
-          } else {
-            _push(`<!---->`);
-          }
-          _push(`</h3>`);
-          _push(serverRenderer.exports.ssrRenderComponent(_component_ClientOnly, null, {
-            default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-              if (_push2) {
-                _push2(`<p${_scopeId}>Created: ${serverRenderer.exports.ssrInterpolate(paste.created)}</p>`);
-              } else {
-                return [
-                  vue_cjs_prod.createVNode("p", null, "Created: " + vue_cjs_prod.toDisplayString(paste.created), 1)
-                ];
-              }
-            }),
-            _: 2
-          }, _parent));
-          _push(`</a><div class="flex flex-row justify-between"><a class="bg-green flex-1 m-2 rounded p-4 text-center"${serverRenderer.exports.ssrRenderAttr("href", `/${paste.uuid}?edit=1`)}>Edit</a><button class="bg-red-600 flex-1 m-2 rounded p-4 text-center">Remove</button></div></div>`);
-        });
-        _push(`<!--]--></div>`);
-      } else {
-        _push(`<div class="text-center"><h2 class="text-gray-400">You can create some pastes <a href="/" class="text-green">here</a></h2></div>`);
-      }
-      _push(`</div></div>`);
-    };
-  }
-});
 const _sfc_setup$8 = _sfc_main$8.setup;
 _sfc_main$8.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/user/index.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/user/Settings.vue");
   return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
+const meta$1 = void 0;
 const meta = void 0;
 const routes = [
   {
@@ -20728,7 +20489,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.4d0d458c.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.2a01caf1.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20737,7 +20498,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.b8bdec4c.mjs').then((m) => m.default || m)
+    component: () => import('./Login.fbea3943.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20746,7 +20507,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.0e8444ab.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.99fa5520.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20755,7 +20516,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.39065d97.mjs').then((m) => m.default || m)
+    component: () => import('./index.12c24eea.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20764,7 +20525,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.52637a61.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.3d984f78.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20773,7 +20534,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.cff84aa2.mjs').then((m) => m.default || m)
+    component: () => import('./index.ae1c1ace.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20946,7 +20707,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.55dfea05.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.d1c70b57.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21338,7 +21099,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-490edb6d"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.62b27c4b.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.61cb243f.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({
@@ -21480,5 +21241,5 @@ const plugins = normalizePlugins(_plugins);
 }
 const entry$1 = (ctx) => entry(ctx);
 
-export { NotificationTypes as N, _export_sfc as _, useRuntimeConfig as a, useNotificationStore as b, useUserStore as c, useAsyncData as d, entry$1 as default, useHead as e, _imports_0$1 as f, _imports_1 as g, useRouter as h, useRequestHeaders as i, _sfc_main$g as j, __nuxt_component_0$5 as k, __nuxt_component_0$2 as l, __nuxt_component_3$1 as m, __nuxt_component_1$2 as n, useRoute as o, useNuxtApp as u, vue_cjs_prod as v };
+export { NotificationTypes as N, _export_sfc as _, useRuntimeConfig as a, useNotificationStore as b, useUserStore as c, useAsyncData as d, entry$1 as default, useHead as e, _imports_0$1 as f, _imports_1 as g, useRouter as h, useRequestHeaders as i, _sfc_main$e as j, __nuxt_component_0$5 as k, __nuxt_component_0$2 as l, __nuxt_component_3$1 as m, __nuxt_component_1$2 as n, useRoute as o, useNuxtApp as u, vue_cjs_prod as v };
 //# sourceMappingURL=server.mjs.map
