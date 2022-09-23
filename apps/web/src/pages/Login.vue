@@ -1,18 +1,15 @@
 <template>
     <div class="flex flex-col">
-        <a
-            :href="githubAdress"
-            class="flex flex-row content-center justify-center bg-gradient-to-tr from-green to-orange rounded p-4 m-auto cursor-pointer"
-        >
+        <a :href="githubAdress" class="flex flex-row content-center justify-center bg-gradient-to-tr from-green to-orange rounded p-4 m-auto cursor-pointer">
             <font-awesome-icon :icon="['fab', 'github']" size="2x" fixed-width/> <span class="h-min self-center text-shadow-sm">Continue with Github</span>
         </a>
     </div>
 </template>
 
 <script setup>
-import { useNotificationStore } from '@/store/notification';
-import { NotificationTypes } from '../store/notification';
-    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${useRuntimeConfig().public.githubClientId}&redirect_uri=${useRuntimeConfig().public.webAddress}/user/login/github`
+    import { useNotificationStore, NotificationTypes } from '@/store/notification';
+    const config = useRuntimeConfig().public;
+    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.githubClientId}&redirect_uri=${config.webAddress}/user/login/github`
     const notificationStore = useNotificationStore();
 </script>
 

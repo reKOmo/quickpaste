@@ -5,7 +5,7 @@ import { joinURL, hasProtocol, isEqual } from 'ufo';
 import { createHooks } from 'hookable';
 import { getContext, executeAsync } from 'unctx';
 import destr from 'destr';
-import { u as useRuntimeConfig$2, h as createError$1, i as appendHeader, s as sendRedirect } from './node-server.mjs';
+import { u as useRuntimeConfig$1, h as createError$1, i as appendHeader, s as sendRedirect } from './node-server.mjs';
 import defu from 'defu';
 import Prism$1 from 'prismjs';
 import { parse as parse$1, serialize } from 'cookie-es';
@@ -15724,7 +15724,7 @@ shared_cjs_prod.toTypeString = toTypeString;
   });
   exports.compile = compileToFunction;
 })(vue_cjs_prod);
-const appConfig = useRuntimeConfig$2().app;
+const appConfig = useRuntimeConfig$1().app;
 const baseURL = () => appConfig.baseURL;
 const buildAssetsDir = () => appConfig.buildAssetsDir;
 const buildAssetsURL = (...path) => joinURL(publicAssetsURL(), buildAssetsDir(), ...path);
@@ -15841,7 +15841,7 @@ function useNuxtApp() {
   }
   return nuxtAppInstance;
 }
-function useRuntimeConfig$1() {
+function useRuntimeConfig() {
   return useNuxtApp().$config;
 }
 function defineGetter(obj, key, val) {
@@ -17805,7 +17805,7 @@ const navigateTo = (to, options = {}) => {
   {
     const nuxtApp = useNuxtApp();
     if (nuxtApp.ssrContext && nuxtApp.ssrContext.event) {
-      const redirectLocation = joinURL(useRuntimeConfig$1().app.baseURL, router.resolve(to).fullPath || "/");
+      const redirectLocation = joinURL(useRuntimeConfig().app.baseURL, router.resolve(to).fullPath || "/");
       return nuxtApp.callHook("app:redirected").then(() => sendRedirect(nuxtApp.ssrContext.event, redirectLocation, options.redirectCode || 302));
     }
   }
@@ -19562,7 +19562,8 @@ const _sfc_main$k = /* @__PURE__ */ Object.assign(__default__$9, {
   __name: "Login",
   __ssrInlineRender: true,
   setup(__props) {
-    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${useRuntimeConfig().public.githubClientId}&redirect_uri=${useRuntimeConfig().public.webAddress}/user/login/github`;
+    const config = useRuntimeConfig().public;
+    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.githubClientId}&redirect_uri=${config.webAddress}/user/login/github`;
     useNotificationStore();
     return (_ctx, _push, _parent, _attrs) => {
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
@@ -19819,7 +19820,7 @@ const _sfc_main$h = {
   },
   data() {
     return {
-      languages: useRuntimeConfig$1().public.supportedSyntaxes,
+      languages: useRuntimeConfig().public.supportedSyntaxes,
       selectedLang: this.value.syntax,
       title: this.value.name
     };
@@ -20159,7 +20160,7 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$7, {
         const a = frag.split("=");
         cookies[a[0].trim()] = a[1];
       });
-      const res = await $fetch(`${useRuntimeConfig$1().internalGatewayAddress}/api/paste/${pasteId}`, {
+      const res = await $fetch(`${useRuntimeConfig().internalGatewayAddress}/api/paste/${pasteId}`, {
         headers: {
           "Authorization": "ApiKey " + cookies.quickpaste_auth
         },
@@ -20720,13 +20721,13 @@ _sfc_main$8.setup = (props, ctx) => {
 const meta = void 0;
 const routes = [
   {
-    name: "Api",
-    path: "/Api",
-    file: "C:/Users/Bartosz/Desktop/quickpaste/apps/web/src/pages/Api.vue",
+    name: "Api-Docs",
+    path: "/Api-Docs",
+    file: "C:/Users/Bartosz/Desktop/quickpaste/apps/web/src/pages/Api-Docs.vue",
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api.8f4b67d2.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.dcaa6bea.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20735,7 +20736,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.7a2962f8.mjs').then((m) => m.default || m)
+    component: () => import('./Login.d94b0dc8.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20744,7 +20745,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.b3698097.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.522ab969.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20753,7 +20754,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.6e025bd1.mjs').then((m) => m.default || m)
+    component: () => import('./index.d59ebe5d.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20762,7 +20763,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.ebb43896.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.b0c34250.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20771,7 +20772,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.53d5608e.mjs').then((m) => m.default || m)
+    component: () => import('./index.8c93e953.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20785,7 +20786,7 @@ const ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt
   nuxtApp.vueApp.component("NuxtPage", NuxtPage);
   nuxtApp.vueApp.component("NuxtNestedPage", NuxtPage);
   nuxtApp.vueApp.component("NuxtChild", NuxtPage);
-  const baseURL2 = useRuntimeConfig$1().app.baseURL;
+  const baseURL2 = useRuntimeConfig().app.baseURL;
   const routerHistory = vueRouter_cjs_prod.exports.createMemoryHistory(baseURL2);
   const initialURL = nuxtApp.ssrContext.url;
   const router = vueRouter_cjs_prod.exports.createRouter({
@@ -20944,7 +20945,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.75bad217.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.2c1f7051.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21135,7 +21136,7 @@ function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   _push(`</li><li>`);
   _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
     external: "",
-    href: "/api",
+    href: "/api-docs",
     class: "block py-2 pr-4 pl-3 text-black hover:bg-green md:hover:bg-transparent md:hover:text-white rounded"
   }, {
     default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
@@ -21336,7 +21337,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-490edb6d"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.78cad9af.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.3a50d2b9.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({
@@ -21384,7 +21385,7 @@ const _sfc_main = {
         httpOnly: true
       });
       if (key.value === void 0) {
-        const res = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => fetch(useRuntimeConfig$1().authServiceAddress + "/keys/generate")), __temp = await __temp, __restore(), __temp);
+        const res = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => fetch(useRuntimeConfig().authServiceAddress + "/keys/generate")), __temp = await __temp, __restore(), __temp);
         if (res.ok) {
           const data = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => res.json()), __temp = await __temp, __restore(), __temp);
           key.value = data.result;
@@ -21478,5 +21479,5 @@ const plugins = normalizePlugins(_plugins);
 }
 const entry$1 = (ctx) => entry(ctx);
 
-export { NotificationTypes as N, _export_sfc as _, useNotificationStore as a, useUserStore as b, useAsyncData as c, useHead as d, entry$1 as default, _imports_0$1 as e, _imports_1 as f, useRouter as g, useRequestHeaders as h, useRuntimeConfig$1 as i, _sfc_main$g as j, __nuxt_component_0$5 as k, __nuxt_component_0$2 as l, __nuxt_component_3$1 as m, __nuxt_component_1$2 as n, useRoute as o, useNuxtApp as u, vue_cjs_prod as v };
+export { NotificationTypes as N, _export_sfc as _, useRuntimeConfig as a, useNotificationStore as b, useUserStore as c, useAsyncData as d, entry$1 as default, useHead as e, _imports_0$1 as f, _imports_1 as g, useRouter as h, useRequestHeaders as i, _sfc_main$g as j, __nuxt_component_0$5 as k, __nuxt_component_0$2 as l, __nuxt_component_3$1 as m, __nuxt_component_1$2 as n, useRoute as o, useNuxtApp as u, vue_cjs_prod as v };
 //# sourceMappingURL=server.mjs.map

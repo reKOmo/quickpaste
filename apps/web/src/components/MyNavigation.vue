@@ -38,7 +38,7 @@
                         </li>
                         <li>
                             <!-- Can be staticly rendered when functionality added to nuxt -->
-                            <NuxtLink external href="/api"
+                            <NuxtLink external href="/api-docs"
                                 class="block py-2 pr-4 pl-3 text-black hover:bg-green md:hover:bg-transparent md:hover:text-white rounded">
                                 Api
                             </NuxtLink>
