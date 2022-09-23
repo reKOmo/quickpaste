@@ -23,7 +23,6 @@ function parseRequest(req: FullRequest, res: Response, next: () => void) {
 
     //external
     const pasteId = req.params.pasteId;
-
     if (pasteId != undefined) {
         const pasteTest = pasteIdSchema.validate(pasteId);
 

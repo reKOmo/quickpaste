@@ -31,9 +31,35 @@
     </div>
 </template>
 
-<script>
+<script setup>
     import { NotificationTypes, useNotificationStore } from "@/store/notification";
     import { useUserStore } from "@/store/user";
+
+    const userStore = useUserStore()
+    const notificationStore = useNotificationStore();
+
+    async function deletePaste(uuid) {
+        const res = await notificationStore.addNotification({
+            type: NotificationTypes.CONFIRM,
+            title: "Delete paste?",
+            description: "This action can not be reversed!"
+        });
+        if (res) {
+            const r = await $fetch(`/api/paste/${uuid}`, {
+                method: "DELETE",
+                credentials: "include"
+            });
+
+            await this.refreshPastes()
+        }
+    }
+
+    if (process.client) {
+        document.title = `Quickpaste | ${userStore.username()}`;
+    }
+</script>
+
+<script>
     export default {
     data() {
         return {
@@ -42,26 +68,7 @@
             loadingMore: false
         }
     },
-    asyncData({ $pinia }) {
-        const userStore = useUserStore($pinia)
-        const notificationStore = useNotificationStore();
-    },
     methods: {
-        async deletePaste(uuid) {
-            const res = await this.notificationStore.addNotification({
-                type: NotificationTypes.CONFIRM,
-                title: "Delete paste?",
-                description: "This action can not be reversed!"
-            });
-            if (res) {
-                const r = await $fetch(`/api/paste/${uuid}`, {
-                    method: "DELETE",
-                    credentials: "include"
-                });
-
-                await this.refreshPastes()
-            }
-        },
         async refreshPastes() {
             const res = await $fetch(`/api/user/pastes`, {
                 credentials: "include",
@@ -100,7 +107,6 @@
         }
     },
     mounted() {
-        document.title = `Quickpaste | ${this.userStore.username()}`;
         if (this.pastes.length === 0) this.refreshPastes();
     }
 }

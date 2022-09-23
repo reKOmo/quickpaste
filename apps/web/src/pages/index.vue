@@ -37,8 +37,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
   import { useUserStore } from '@/store/user';
+
+  const userStore = useUserStore();
+  const loggedIn = userStore.user() != undefined;
+</script>
+
+<script>
   export default {
     data() {
       return {
@@ -46,15 +52,10 @@
         offscreen: false,
         postingPaste: false,
         createdPaste: undefined,
-        loggedIn: false,
         requestCode: 200
       }
     },
-    asyncData({ $pinia }) {
-      const userStore = useUserStore($pinia)
-    },
     mounted() {
-      this.loggedIn = this.userStore.user() != undefined;
       document.title = "Quickpaste";
     },
     watch: {

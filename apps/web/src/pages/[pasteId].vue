@@ -77,13 +77,29 @@
     if (error.value) console.log(error.value);
 
     const {data: err} = await useAsyncData("error", () => error.value ? error.value.response.status : 200, { server: true });
+
+    let editMode = ref(false);
+    
+    function checkEditMode() {
+        if (userStore.user() == undefined) return;
+        if (!paste.value) return;
+        if (paste.value.owner.id != userStore.id()) return;
+        const route = useRoute();
+        if (route.query["edit"]) editMode = true;
+    }
+
+    if (process.client) {
+        if (paste.value) {
+            document.title = "Quickpaste | " + paste.value.title.substring(0, 25);
+        }
+        checkEditMode();
+    }
 </script>
 
 <script>
     export default {
         data() {
             return {
-                editMode: false,
                 password: "",
                 pastePostingState: 0,
                 createdPaste: undefined
@@ -91,16 +107,8 @@
         },
         mounted() {
             this.checkEditMode();
-            if (this.paste)
-                document.title = "Quickpaste | " + this.paste.title.substring(0, 25);
         },
         methods: {
-            checkEditMode() {
-                if (this.userStore.user() == undefined) return;
-                if (!this.paste) return;
-                if (this.paste.owner.id != this.userStore.id()) return;
-                if (this.$route.query["edit"]) this.editMode = true;
-            },
             async rePaste(paste) {
                 this.pastePostingState = 1;
 

@@ -12,15 +12,15 @@ import { limitDailyAccess } from "../middlewares/LimitDailyAccess";
 
 const router = Router();
 
-router.use("*", express.json(), cookieParser(), parseRequest);
+router.use("*", express.json(), cookieParser());
 
-router.post("/", limitDailyAccess, checkUploadPaste, uploadPaste);
+router.post("/", parseRequest, limitDailyAccess, checkUploadPaste, uploadPaste);
 
-router.get("/:pasteId", getPasteData, assertPasteOwnershipPrivate, checkPassword, getPaste);
+router.get("/:pasteId", parseRequest, getPasteData, assertPasteOwnershipPrivate, checkPassword, getPaste);
 
-router.delete("/:pasteId", gatekeep, getPasteData, assertPasteOwnership, deletePaste);
+router.delete("/:pasteId", parseRequest, gatekeep, getPasteData, assertPasteOwnership, deletePaste);
 
-router.put("/:pasteId", gatekeep, limitDailyAccess, getPasteData, assertPasteOwnership, checkPassword, checkUploadPaste, editPaste);
+router.put("/:pasteId", parseRequest, gatekeep, limitDailyAccess, getPasteData, assertPasteOwnership, checkPassword, checkUploadPaste, editPaste);
 
 internalapi.router.get("/pastes/clear-old", clearOldPastes);
 
