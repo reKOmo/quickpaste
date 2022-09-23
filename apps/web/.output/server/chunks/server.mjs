@@ -19563,6 +19563,7 @@ const _sfc_main$k = /* @__PURE__ */ Object.assign(__default__$9, {
   __ssrInlineRender: true,
   setup(__props) {
     const config = useRuntimeConfig().public;
+    console.log(config);
     const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.githubClientId}&redirect_uri=${config.webAddress}/user/login/github`;
     useNotificationStore();
     return (_ctx, _push, _parent, _attrs) => {
@@ -19573,7 +19574,7 @@ const _sfc_main$k = /* @__PURE__ */ Object.assign(__default__$9, {
         size: "2x",
         "fixed-width": ""
       }, null, _parent));
-      _push(` <span class="h-min self-center text-shadow-sm">Continue with Github</span></a></div>`);
+      _push(`<span class="h-min self-center text-shadow-sm">Continue with Github</span></a></div>`);
     };
   }
 });
@@ -20727,7 +20728,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.dcaa6bea.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.4d0d458c.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20736,7 +20737,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.d94b0dc8.mjs').then((m) => m.default || m)
+    component: () => import('./Login.b8bdec4c.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20745,7 +20746,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.522ab969.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.0e8444ab.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20754,7 +20755,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.d59ebe5d.mjs').then((m) => m.default || m)
+    component: () => import('./index.39065d97.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20763,7 +20764,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.b0c34250.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.52637a61.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20772,7 +20773,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.8c93e953.mjs').then((m) => m.default || m)
+    component: () => import('./index.cff84aa2.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20945,7 +20946,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.2c1f7051.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.55dfea05.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21337,7 +21338,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-490edb6d"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.3a50d2b9.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.62b27c4b.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({
