@@ -50,7 +50,7 @@
                 credentials: "include"
             });
 
-            await this.refreshPastes()
+            await refreshPastes();
         }
     }
 
