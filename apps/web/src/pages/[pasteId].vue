@@ -45,8 +45,8 @@
     const notificationStore = useNotificationStore();
 
     const {data: paste, error} = await useAsyncData("paste", async (ctx) => {
-        const router = useRouter();
-        const pasteId = router.currentRoute.value.params.pasteId
+        const route = useRoute();
+        const pasteId = route.params.pasteId;
     
         const cookieKey = useRequestHeaders(["cookie"]).cookie;
         const cookies = {};
@@ -60,10 +60,9 @@
                 "Authorization": "ApiKey " + cookies.quickpaste_auth
             },
             parseResponse: JSON.parse
-        })
+        });
 
-
-        return res
+        return res;
     }, {
         server: true
     });

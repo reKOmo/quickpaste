@@ -38,7 +38,7 @@
     const userStore = useUserStore()
     const notificationStore = useNotificationStore();
 
-    async function deletePaste(uuid) {
+    const deletePaste = async (uuid) => {
         const res = await notificationStore.addNotification({
             type: NotificationTypes.CONFIRM,
             title: "Delete paste?",

@@ -17,23 +17,24 @@
 <script setup>
     const generateApiKey = resolveComponent("GenerateApiKey");
     const deleteAccount = resolveComponent("DeleteAccount");
+
+    const options = [
+        {
+            name: "Generate Api Key",
+            component: this.generateApiKey,
+        },
+        {
+            name: "Delete Account",
+            component: this.deleteAccount,
+        }
+    ];
 </script>
 
 <script>
     export default {
         data() {
             return {
-                option: undefined,
-                options: [
-                    {
-                        name: "Generate Api Key",
-                        component: this.generateApiKey,
-                    },
-                    {
-                        name: "Delete Account",
-                        component: this.deleteAccount,
-                    }
-                ]
+                option: undefined
             }
         },
         methods: {

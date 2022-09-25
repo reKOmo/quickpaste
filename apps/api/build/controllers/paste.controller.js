@@ -177,20 +177,24 @@ function uploadPaste(req, res) {
 exports.uploadPaste = uploadPaste;
 function getPaste(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var s3Ret, _a, body, bytes, s3Data, fPaste;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var s3Ret, err_3, body, bytes, s3Data, fPaste;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, (0, s3_service_1.retriveFile)(req.additional.pasteUUID)];
+                    console.log(req.additional.pasteUUID);
+                    _a.label = 1;
                 case 1:
-                    s3Ret = _b.sent();
-                    return [3 /*break*/, 3];
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, (0, s3_service_1.retriveFile)(req.additional.pasteUUID)];
                 case 2:
-                    _a = _b.sent();
+                    s3Ret = _a.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    err_3 = _a.sent();
+                    console.log(err_3);
                     res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
                     return [2 /*return*/];
-                case 3:
+                case 4:
                     body = s3Ret.Body.toString();
                     if (req.additional.pasteData.password) {
                         bytes = crypto_js_1.AES.decrypt(body, req.additional.password);
@@ -217,7 +221,7 @@ function getPaste(req, res) {
 exports.getPaste = getPaste;
 function editPaste(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var paste, uuid, saltRounds, psswd, client, err_3;
+        var paste, uuid, saltRounds, psswd, client, err_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -258,11 +262,11 @@ function editPaste(req, res) {
                     }));
                     return [3 /*break*/, 12];
                 case 10:
-                    err_3 = _a.sent();
+                    err_4 = _a.sent();
                     return [4 /*yield*/, client.query("ROLLBACK;")];
                 case 11:
                     _a.sent();
-                    console.error(err_3);
+                    console.error(err_4);
                     res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
                     return [3 /*break*/, 12];
                 case 12: return [2 /*return*/];
@@ -273,7 +277,7 @@ function editPaste(req, res) {
 exports.editPaste = editPaste;
 function deletePaste(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var uuid, client, err_4;
+        var uuid, client, err_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -299,11 +303,11 @@ function deletePaste(req, res) {
                     res.send((0, ServerResponse_1.ServerResponse)(true, "Paste deleted"));
                     return [3 /*break*/, 9];
                 case 7:
-                    err_4 = _a.sent();
+                    err_5 = _a.sent();
                     return [4 /*yield*/, client.query("ROLLBACK;")];
                 case 8:
                     _a.sent();
-                    console.error(err_4);
+                    console.error(err_5);
                     res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
                     return [3 /*break*/, 9];
                 case 9:
@@ -316,7 +320,7 @@ function deletePaste(req, res) {
 exports.deletePaste = deletePaste;
 function clearOldPastes(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var client, oldGuestRes, guestPastesIds, oldUserRes, userPastesIds, pastesToDelete, err_5;
+        var client, oldGuestRes, guestPastesIds, oldUserRes, userPastesIds, pastesToDelete, err_6;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, db.getClient()];
@@ -385,11 +389,11 @@ function clearOldPastes(req, res) {
                     res.send("Removed (" + pastesToDelete.length + "): " + JSON.stringify(pastesToDelete));
                     return [3 /*break*/, 11];
                 case 9:
-                    err_5 = _a.sent();
+                    err_6 = _a.sent();
                     return [4 /*yield*/, client.query("ROLLBACK;")];
                 case 10:
                     _a.sent();
-                    console.error(err_5);
+                    console.error(err_6);
                     res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
                     return [3 /*break*/, 11];
                 case 11:

@@ -81,9 +81,11 @@ async function uploadPaste(req: FullRequest, res: Response) {
 
 async function getPaste(req: FullRequest, res: Response) {
     let s3Ret: GetObjectOutput;
+    console.log(req.additional.pasteUUID);
     try {
         s3Ret = await retriveFile(req.additional.pasteUUID);
-    } catch {
+    } catch (err) {
+        console.log(err);
         res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
         return;
     }
