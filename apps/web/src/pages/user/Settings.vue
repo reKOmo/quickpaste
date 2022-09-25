@@ -21,11 +21,11 @@
     const options = [
         {
             name: "Generate Api Key",
-            component: this.generateApiKey,
+            component: generateApiKey,
         },
         {
             name: "Delete Account",
-            component: this.deleteAccount,
+            component: deleteAccount,
         }
     ];
 </script>

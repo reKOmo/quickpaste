@@ -55,12 +55,16 @@
             cookies[a[0].trim()] = a[1];
         });
 
+        console.log(`${useRuntimeConfig().internalGatewayAddress}/api/paste/${pasteId}`);
+
         const res = await $fetch(`${useRuntimeConfig().internalGatewayAddress}/api/paste/${pasteId}`, {
             headers: {
                 "Authorization": "ApiKey " + cookies.quickpaste_auth
             },
             parseResponse: JSON.parse
         });
+
+        console.log(res);
 
         return res;
     }, {
