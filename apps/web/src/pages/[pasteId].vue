@@ -44,7 +44,7 @@
     const userStore = useUserStore();
     const notificationStore = useNotificationStore();
 
-    const {data: paste, error} = await useAsyncData("paste", async (ctx) => {
+    let {data: paste, error} = await useAsyncData("paste", async (ctx) => {
         const route = useRoute();
         const pasteId = route.params.pasteId;
     
