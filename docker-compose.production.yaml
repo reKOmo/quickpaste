@@ -68,6 +68,11 @@ services:
     depends_on:
       - api
       - auth
+    networks:
+      default:
+        aliases:
+          - gateway
+          - ${WEB_DOMAIN_NAME}
   maintainer:
     build:
       context: ./apps/maintainer

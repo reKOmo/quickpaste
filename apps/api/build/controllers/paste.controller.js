@@ -181,20 +181,16 @@ function getPaste(req, res) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log(req.additional.pasteUUID);
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
+                    _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, (0, s3_service_1.retriveFile)(req.additional.pasteUUID)];
-                case 2:
+                case 1:
                     s3Ret = _a.sent();
-                    return [3 /*break*/, 4];
-                case 3:
+                    return [3 /*break*/, 3];
+                case 2:
                     err_3 = _a.sent();
-                    console.log(err_3);
                     res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
                     return [2 /*return*/];
-                case 4:
+                case 3:
                     body = s3Ret.Body.toString();
                     if (req.additional.pasteData.password) {
                         bytes = crypto_js_1.AES.decrypt(body, req.additional.password);
