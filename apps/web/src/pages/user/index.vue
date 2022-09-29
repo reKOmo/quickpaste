@@ -37,7 +37,7 @@
 
     const userStore = useUserStore()
     const notificationStore = useNotificationStore();
-    let pastes =  reactive([]);
+    let pastes =  ref([]);
     let nextPageId = ref(undefined);
     let loadingMore = ref(false);
 
@@ -63,12 +63,12 @@
             parseResponse: JSON.json
         });
 
-        pastes = res.result.pastes;
+        pastes.value = res.result.pastes;
 
         nextPageId.value = res.result.nextPage;
 
-        for (let i = 0; i < pastes.length; i++) {
-            pastes[i].created = (new Date(pastes[i].created)).toLocaleDateString();
+        for (let i = 0; i < pastes.value.length; i++) {
+            pastes.value[i].created = (new Date(pastes.value[i].created)).toLocaleDateString();
         }
     }
 

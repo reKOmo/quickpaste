@@ -83,19 +83,19 @@
 
     let editMode = ref(false);
     const route = useRoute();
-    let password = "";
+    let password = ref("");
     
     function checkEditMode() {
         if (userStore.user() == undefined) return;
         if (!paste.value) return;
         if (paste.value.owner.id != userStore.id()) return;
         const route = useRoute();
-        if (route.query["edit"]) editMode = true;
+        if (route.query["edit"]) editMode.value = true;
     }
 
     async function reloadPaste() {
-        if (password.length === 0) {
-            addNotification({
+        if (password.value.length === 0) {
+            notificationStore.addNotification({
                 type: 1,
                 title: "Please enter password to enter",
                 level: 1
@@ -106,7 +106,7 @@
         const res = await fetch(`/api/paste/${route.params["pasteId"]}`, {
             method: "GET",
             headers: {
-                "Paste-Authorization": password
+                "Paste-Authorization": password.value
             },
             credentials: "include",
         });

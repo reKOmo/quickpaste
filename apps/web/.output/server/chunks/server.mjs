@@ -20129,12 +20129,12 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$6, {
     const { data: err } = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => useAsyncData("error", () => error.value ? error.value.response.status : 200, { server: true }, "$QqQhqT5Ucg")), __temp = await __temp, __restore(), __temp);
     let editMode = vue_cjs_prod.ref(false);
     useRoute();
-    let password = "";
+    let password = vue_cjs_prod.ref("");
     return (_ctx, _push, _parent, _attrs) => {
       const _component_PasteEditor = _sfc_main$g;
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
       if (vue_cjs_prod.unref(paste)) {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-d993d121>`);
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-5ee90122>`);
         if (_ctx.pastePostingState == 0) {
           _push(serverRenderer.exports.ssrRenderComponent(_component_PasteEditor, {
             onSubmit: _ctx.rePaste,
@@ -20144,17 +20144,17 @@ const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$6, {
             submitText: "Re-Paste !"
           }, null, _parent));
         } else if (_ctx.pastePostingState == 1) {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-d993d121><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img0"].src)} data-v-d993d121><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-d993d121></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-d993d121><h2 class="text-2xl font-bold" data-v-d993d121>Creating paste</h2></div></div>`);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-5ee90122><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img0"].src)} data-v-5ee90122><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-5ee90122></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-5ee90122><h2 class="text-2xl font-bold" data-v-5ee90122>Creating paste</h2></div></div>`);
         } else {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-d993d121><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img1"].src)} data-v-d993d121><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-d993d121></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-d993d121><h2 class="text-2xl font-bold" data-v-d993d121>Paste created!</h2><h3 data-v-d993d121> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-d993d121>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-5ee90122><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img1"].src)} data-v-5ee90122><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-5ee90122></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-5ee90122><h2 class="text-2xl font-bold" data-v-5ee90122>Paste created!</h2><h3 data-v-5ee90122> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-5ee90122>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
           _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
           _push(`</a></h3></div></div>`);
         }
         _push(`</div>`);
       } else if (vue_cjs_prod.unref(err) == 401) {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col items-center space-y-4" }, _attrs))} data-v-d993d121><h2 class="text-xl text-gray-300" data-v-d993d121>Enter password to view the paste</h2><div class="flex flex-col md:flex-row space-y-2 md:space-y-0" data-v-d993d121><input${serverRenderer.exports.ssrRenderAttr("value", vue_cjs_prod.unref(password))} type="password" autocomplete="off" class="p-2 w-full md:w-auto text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray mr-4" data-v-d993d121><button class="bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg" data-v-d993d121>Enter</button></div></div>`);
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col items-center space-y-4" }, _attrs))} data-v-5ee90122><h2 class="text-xl text-gray-300" data-v-5ee90122>Enter password to view the paste</h2><div class="flex flex-col md:flex-row space-y-2 md:space-y-0" data-v-5ee90122><input${serverRenderer.exports.ssrRenderAttr("value", vue_cjs_prod.unref(password))} type="password" autocomplete="off" class="p-2 w-full md:w-auto text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray mr-4" data-v-5ee90122><button class="bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg" data-v-5ee90122>Enter</button></div></div>`);
       } else {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-d993d121><div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded" data-v-d993d121><h1 class="text-3xl text-white text-shadow-sm" data-v-d993d121> No paste here </h1></div></div>`);
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-5ee90122><div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded" data-v-5ee90122><h1 class="text-3xl text-white text-shadow-sm" data-v-5ee90122> No paste here </h1></div></div>`);
       }
     };
   }
@@ -20582,7 +20582,7 @@ const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$1, {
   setup(__props) {
     useUserStore();
     useNotificationStore();
-    let pastes = vue_cjs_prod.reactive([]);
+    let pastes = vue_cjs_prod.ref([]);
     vue_cjs_prod.ref(void 0);
     vue_cjs_prod.ref(false);
     return (_ctx, _push, _parent, _attrs) => {
@@ -20650,7 +20650,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.3413ea41.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.bd5443bb.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20659,7 +20659,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.cf6eabaa.mjs').then((m) => m.default || m)
+    component: () => import('./Login.0f0fb475.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20668,7 +20668,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.8768a3db.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.b414ce79.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20677,7 +20677,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.903d924a.mjs').then((m) => m.default || m)
+    component: () => import('./index.6d885825.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20686,7 +20686,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.c9344758.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.5351245d.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20695,7 +20695,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.ebee7a56.mjs').then((m) => m.default || m)
+    component: () => import('./index.d5b52d29.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20868,7 +20868,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.8c65caca.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.2fcbd7b8.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21183,7 +21183,7 @@ const _sfc_main$2 = {
       show: false,
       notification: void 0
     });
-    let notifications = vue_cjs_prod.reactive([]);
+    let notifications = vue_cjs_prod.ref([]);
     function alertDone(val) {
       notificationStore.alerts[0].done(val);
       notificationStore.shiftAlert();
@@ -21203,7 +21203,7 @@ const _sfc_main$2 = {
       const _component_NotificationsToast = __nuxt_component_1$1;
       serverRenderer.exports.ssrRenderTeleport(_push, (_push2) => {
         if (confirm.show || alert.show) {
-          _push2(`<div class="absolute z-10 top-0 w-screen h-screen flex justify-center items-center backdrop-filter backdrop-blur-sm shadow-lg bg-zinc-900/50" data-v-3839ac31>`);
+          _push2(`<div class="absolute z-10 top-0 w-screen h-screen flex justify-center items-center backdrop-filter backdrop-blur-sm shadow-lg bg-zinc-900/50" data-v-02dda902>`);
           if (confirm.show) {
             _push2(serverRenderer.exports.ssrRenderComponent(_component_NotificationsConfirm, {
               class: "notification",
@@ -21218,7 +21218,7 @@ const _sfc_main$2 = {
         } else {
           _push2(`<!---->`);
         }
-        _push2(`<div class="absolute flex flex-col w-xs sm:w-sm h-3/4 z-60 right-0 justify-end pointer-events-none overflow-hidden" data-v-3839ac31><!--[-->`);
+        _push2(`<div class="absolute flex flex-col w-xs sm:w-sm h-3/4 z-60 right-0 justify-end pointer-events-none overflow-hidden" data-v-02dda902><!--[-->`);
         serverRenderer.exports.ssrRenderList(vue_cjs_prod.unref(notifications).slice().reverse(), (noti) => {
           _push2(serverRenderer.exports.ssrRenderComponent(_component_NotificationsToast, {
             key: noti.id,
@@ -21238,9 +21238,9 @@ _sfc_main$2.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/notifications/Manager.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-3839ac31"]]);
+const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-02dda902"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.994c9b5d.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.c7cb251d.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({

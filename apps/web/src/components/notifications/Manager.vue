@@ -28,7 +28,7 @@
         show: false,
         notification: undefined
     })
-    let notifications = reactive([]);
+    let notifications = ref([]);
 
     function alertDone(val) {
         notificationStore.alerts[0].done(val);
@@ -46,7 +46,7 @@
         }
     }
     function showNotifications() {
-        notifications = notificationStore.getNotifications();
+        notifications.value = notificationStore.getNotifications();
         setTimeout(notificationStore.shiftNotification, 2500);
     }
 
