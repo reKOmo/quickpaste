@@ -20039,10 +20039,10 @@ const getters = {
     return state2.userData;
   },
   username: (state2) => () => {
-    return state2 ? state2.userData.username : void 0;
+    return state2.userData ? state2.userData.username : "";
   },
   id: (state2) => () => {
-    return state2 ? state2.userData.id : void 0;
+    return state2.userData ? state2.userData.id : -1;
   }
 };
 const useUserStore = defineStore("userStore", {
@@ -20664,7 +20664,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.4818fc43.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.5cc216e6.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20673,7 +20673,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.026a78ae.mjs').then((m) => m.default || m)
+    component: () => import('./Login.67c65f94.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20682,7 +20682,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.0c3eef75.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.4ccf832c.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20691,7 +20691,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.7ef49abb.mjs').then((m) => m.default || m)
+    component: () => import('./index.9084138e.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20700,7 +20700,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.0f35de75.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.49a86a3e.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20709,7 +20709,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.6464726d.mjs').then((m) => m.default || m)
+    component: () => import('./index.7ee2523a.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20882,7 +20882,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.c6c4e3e8.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.ce9b07a5.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21154,7 +21154,7 @@ const _sfc_main$2 = {
         {
           _push2(`<!---->`);
         }
-        _push2(`<div class="absolute flex flex-col w-xs sm:w-sm h-3/4 z-60 right-0 justify-end pointer-events-none overflow-hidden" data-v-8fafd483><!--[-->`);
+        _push2(`<div class="absolute flex flex-col w-xs sm:w-sm h-3/4 z-60 right-0 justify-end pointer-events-none overflow-hidden" data-v-0bf3bc18><!--[-->`);
         serverRenderer.exports.ssrRenderList(notifications.slice().reverse(), (noti) => {
           _push2(serverRenderer.exports.ssrRenderComponent(_component_NotificationsToast, {
             key: noti.id,
@@ -21174,9 +21174,9 @@ _sfc_main$2.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/notifications/Manager.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-8fafd483"]]);
+const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-0bf3bc18"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.59e6ae1c.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.aca2e7f5.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({

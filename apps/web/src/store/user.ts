@@ -14,10 +14,10 @@ const getters = {
         return state.userData;
     },
     username: (state: UserState) => (): string | undefined => {
-        return state ? state.userData.username : undefined;
+        return state.userData ? state.userData.username : "";
     },
     id: (state: UserState) => (): number | undefined => {
-        return state ? state.userData.id : undefined;
+        return state.userData ? state.userData.id : -1;
     }
 };
 

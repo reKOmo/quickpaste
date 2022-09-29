@@ -54,8 +54,21 @@
         }
     }
 
+    const updateTitle = (username) => {
+        document.title = `Quickpaste | ${username}`;
+    } 
+
     if (process.client) {
-        document.title = `Quickpaste | ${userStore.username()}`;
+        let username = userStore.username();
+        if (username == "") {
+            setTimeout(() => {
+                let username = userStore.username();
+                updateTitle(username);
+            })
+        } else {
+            updateTitle(username);
+        }
+        
     }
 </script>
 

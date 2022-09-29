@@ -39,7 +39,7 @@
     function showAlerts() {
         if (notificationStore.getAlerts().length > 0) {
             confirm.show = true;
-            confirm.notification = this.notificationStore.getAlerts()[0];
+            confirm.notification = notificationStore.getAlerts()[0];
         } else {
             confirm.show = false;
             confirm.notification = undefined;
