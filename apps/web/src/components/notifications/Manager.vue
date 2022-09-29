@@ -28,7 +28,7 @@
         show: false,
         notification: undefined
     }
-    const notifications= [];
+    let notifications= [];
 
     function alertDone(val) {
         notificationStore.alerts[0].done(val);
