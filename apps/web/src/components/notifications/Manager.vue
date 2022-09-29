@@ -55,6 +55,7 @@
     if (process.client) {
         notificationStore.$subscribe((mutation, state) => {
             showAlerts();
+            console.log(mutation);
             showNotifications(mutation.events.type);
         });
     }

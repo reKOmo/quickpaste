@@ -64,7 +64,7 @@
             setTimeout(() => {
                 let username = userStore.username();
                 updateTitle(username);
-            })
+            }, 200)
         } else {
             updateTitle(username);
         }
