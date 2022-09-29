@@ -44,6 +44,8 @@
     const userStore = useUserStore();
     const notificationStore = useNotificationStore();
 
+    const addNotification = notificationStore.addNotification;
+
     let {data: paste, error} = await useAsyncData("paste", async (ctx) => {
         const route = useRoute();
         const pasteId = route.params.pasteId;
@@ -91,7 +93,7 @@
 
     async function reloadPaste() {
         if (password.length === 0) {
-            notificationStore.addNotification({
+            addNotification({
                 type: 1,
                 title: "Please enter password to enter",
                 level: 1
@@ -114,10 +116,12 @@
             }
             checkEditMode();
             document.title = "Quickpaste | " + paste.title.substring(0, 25);
+            const instance = getCurrentInstance();
+            instance?.proxy?.$forceUpdate();
         } else {
              switch (res.status) {
                  case 401:
-                    notificationStore.addNotification({
+                    addNotification({
                         type: 1,
                         title: "Incorrect password",
                         level: 1
