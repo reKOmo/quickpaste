@@ -46,7 +46,7 @@
 
     const addNotification = notificationStore.addNotification;
 
-    let {data: paste, error} = await useAsyncData("paste", async (ctx) => {
+    let {data: pasteData, error} = await useAsyncData("paste", async (ctx) => {
         const route = useRoute();
         const pasteId = route.params.pasteId;
     
@@ -68,6 +68,8 @@
     }, {
         server: true
     });
+
+    let paste = reactive(pasteData);
 
     if (paste.value && process.server) {   
         useHead({

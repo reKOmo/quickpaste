@@ -20,15 +20,15 @@
     
     const notificationStore = useNotificationStore()
 
-    const confirm = {
+    const confirm = reactive({
         show: false,
         notification: undefined
-    }
-    const alert = {
+    });
+    const alert = reactive({
         show: false,
         notification: undefined
-    }
-    let notifications= [];
+    })
+    let notifications = reactive([]);
 
     function alertDone(val) {
         notificationStore.alerts[0].done(val);
