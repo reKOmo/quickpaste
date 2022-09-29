@@ -37,6 +37,9 @@
 
     const userStore = useUserStore()
     const notificationStore = useNotificationStore();
+    let pastes =  reactive([]);
+    let nextPageId = ref(undefined);
+    let loadingMore = ref(false);
 
     const deletePaste = async (uuid) => {
         const res = await notificationStore.addNotification({
@@ -51,6 +54,21 @@
             });
 
             await refreshPastes();
+        }
+    }
+
+    const refreshPastes = async () => {
+        const res = await $fetch(`/api/user/pastes`, {
+            credentials: "include",
+            parseResponse: JSON.json
+        });
+
+        pastes = res.result.pastes;
+
+        nextPageId.value = res.result.nextPage;
+
+        for (let i = 0; i < pastes.length; i++) {
+            pastes[i].created = (new Date(pastes[i].created)).toLocaleDateString();
         }
     }
 
@@ -74,28 +92,7 @@
 
 <script>
     export default {
-    data() {
-        return {
-            pastes: [],
-            nextPageId: undefined,
-            loadingMore: false
-        }
-    },
     methods: {
-        async refreshPastes() {
-            const res = await $fetch(`/api/user/pastes`, {
-                credentials: "include",
-                parseResponse: JSON.json
-            });
-
-            this.pastes = res.result.pastes;
-
-            this.nextPageId = res.result.nextPage;
-
-            for (let i = 0; i < this.pastes.length; i++) {
-                this.pastes[i].created = (new Date(this.pastes[i].created)).toLocaleDateString();
-            }
-        },
         async loadMorePastes() {
             const cont = this.$refs["paste-container"];
             const scrollAm = cont.scrollTop + cont.clientHeight;

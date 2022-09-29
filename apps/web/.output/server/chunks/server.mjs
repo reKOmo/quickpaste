@@ -20552,25 +20552,7 @@ _sfc_main$9.setup = (props, ctx) => {
 };
 const meta$1 = void 0;
 const __default__$1 = {
-  data() {
-    return {
-      pastes: [],
-      nextPageId: void 0,
-      loadingMore: false
-    };
-  },
   methods: {
-    async refreshPastes() {
-      const res = await $fetch(`/api/user/pastes`, {
-        credentials: "include",
-        parseResponse: JSON.json
-      });
-      this.pastes = res.result.pastes;
-      this.nextPageId = res.result.nextPage;
-      for (let i = 0; i < this.pastes.length; i++) {
-        this.pastes[i].created = new Date(this.pastes[i].created).toLocaleDateString();
-      }
-    },
     async loadMorePastes() {
       const cont = this.$refs["paste-container"];
       const scrollAm = cont.scrollTop + cont.clientHeight;
@@ -20600,6 +20582,9 @@ const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$1, {
   setup(__props) {
     useUserStore();
     useNotificationStore();
+    let pastes = vue_cjs_prod.reactive([]);
+    vue_cjs_prod.ref(void 0);
+    vue_cjs_prod.ref(false);
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UserPanel = __nuxt_component_0$2;
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
@@ -20607,9 +20592,9 @@ const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$1, {
       _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col md:flex-row w-full justify-between" }, _attrs))}>`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_UserPanel, null, null, _parent));
       _push(`<div class="md:w-4/5"><h1 class="text-5xl mb-6 text-orange text-shadow-sm border-b border-blue pb-4">Pastes</h1>`);
-      if (_ctx.pastes.length > 0) {
+      if (vue_cjs_prod.unref(pastes).length > 0) {
         _push(`<div class="max-h-prose overflow-y-auto"><!--[-->`);
-        serverRenderer.exports.ssrRenderList(_ctx.pastes, (paste) => {
+        serverRenderer.exports.ssrRenderList(vue_cjs_prod.unref(pastes), (paste) => {
           _push(`<div class="flex flex-col md:flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue"><a${serverRenderer.exports.ssrRenderAttr("href", `/${paste.uuid}`)}><h3 class="text-2xl font-bold">${serverRenderer.exports.ssrInterpolate(paste.title)} <span class="text-sm font-normal italic text-gray-500">#${serverRenderer.exports.ssrInterpolate(paste.uuid)}</span>`);
           if (paste.isPrivate) {
             _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
@@ -20665,7 +20650,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.874ce3d1.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.3413ea41.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20674,7 +20659,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.9228679d.mjs').then((m) => m.default || m)
+    component: () => import('./Login.cf6eabaa.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20683,7 +20668,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.a65dfe02.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.8768a3db.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20692,7 +20677,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.60b0d79a.mjs').then((m) => m.default || m)
+    component: () => import('./index.903d924a.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20701,7 +20686,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.2b9f5924.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.c9344758.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20710,7 +20695,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.62a80c84.mjs').then((m) => m.default || m)
+    component: () => import('./index.ebee7a56.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20883,7 +20868,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.29645d09.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.8c65caca.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21255,7 +21240,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-3839ac31"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.5533618b.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.994c9b5d.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({
