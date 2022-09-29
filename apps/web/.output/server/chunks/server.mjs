@@ -20664,7 +20664,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.5079d3d4.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.16a0b7b7.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20673,7 +20673,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.143a2de1.mjs').then((m) => m.default || m)
+    component: () => import('./Login.658f3db4.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20682,7 +20682,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.d5e619a7.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.81f749fa.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20691,7 +20691,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.0a238a9d.mjs').then((m) => m.default || m)
+    component: () => import('./index.7a49a2a6.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20700,7 +20700,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.3e81e43d.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.fa5e490d.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20709,7 +20709,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.0350a405.mjs').then((m) => m.default || m)
+    component: () => import('./index.92d2fc65.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20882,7 +20882,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.8501c526.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.efc20f4e.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21154,7 +21154,7 @@ const _sfc_main$2 = {
         {
           _push2(`<!---->`);
         }
-        _push2(`<div class="absolute flex flex-col w-xs sm:w-sm h-3/4 z-60 right-0 justify-end pointer-events-none overflow-hidden" data-v-3ec8fd7f><!--[-->`);
+        _push2(`<div class="absolute flex flex-col w-xs sm:w-sm h-3/4 z-60 right-0 justify-end pointer-events-none overflow-hidden" data-v-f5648d16><!--[-->`);
         serverRenderer.exports.ssrRenderList(notifications.slice().reverse(), (noti) => {
           _push2(serverRenderer.exports.ssrRenderComponent(_component_NotificationsToast, {
             key: noti.id,
@@ -21174,9 +21174,9 @@ _sfc_main$2.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/notifications/Manager.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-3ec8fd7f"]]);
+const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-f5648d16"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.f803d9ab.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.a0b72cfb.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({

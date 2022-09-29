@@ -45,18 +45,15 @@
             confirm.notification = undefined;
         }
     }
-    function showNotifications(type) {
+    function showNotifications() {
         notifications = notificationStore.getNotifications();
-        if (type === "add") {
-            setTimeout(notificationStore.shiftNotification, 2500);
-        }
+        setTimeout(notificationStore.shiftNotification, 2500);
     }
 
     if (process.client) {
         notificationStore.$subscribe((mutation, state) => {
             showAlerts();
-            console.log(mutation);
-            showNotifications(mutation.events.type);
+            showNotifications();
         });
     }
 </script>
