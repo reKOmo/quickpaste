@@ -39,6 +39,7 @@
     const notificationStore = useNotificationStore();
 
     const addNotification = notificationStore.addNotification;
+    const userName = ref(userStore.username());
 
     const deletePaste = async (uuid) => {
         const res = await addNotification({
@@ -57,7 +58,7 @@
     }
 
     if (process.client) {
-        document.title = `Quickpaste | ${userStore.username()}`;
+        document.title = `Quickpaste | ${userName}`;
     }
 </script>
 

@@ -30,9 +30,9 @@ export default defineNuxtConfig({
     srcDir: "src/",
     modules: [
         "nuxt-windicss",
-        "./src/modules/ContentLoader"
+        "./src/modules/ContentLoader",
         // '@nuxtjs/composition-api/module',
-        // '@pinia/nuxt'
+        '@pinia/nuxt'
     ],
     buildModules: [
         '@pinia/nuxt'
