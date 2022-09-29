@@ -38,11 +38,8 @@
     const userStore = useUserStore()
     const notificationStore = useNotificationStore();
 
-    const addNotification = notificationStore.addNotification;
-    const userName = ref(userStore.username());
-
     const deletePaste = async (uuid) => {
-        const res = await addNotification({
+        const res = await notificationStore.addNotification({
             type: NotificationTypes.CONFIRM,
             title: "Delete paste?",
             description: "This action can not be reversed!"
@@ -58,7 +55,7 @@
     }
 
     if (process.client) {
-        document.title = `Quickpaste | ${userName}`;
+        document.title = `Quickpaste | ${userStore.username()}`;
     }
 </script>
 

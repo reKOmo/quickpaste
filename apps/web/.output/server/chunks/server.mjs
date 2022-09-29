@@ -20597,10 +20597,8 @@ const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$1, {
   __name: "index",
   __ssrInlineRender: true,
   setup(__props) {
-    const userStore = useUserStore();
-    const notificationStore = useNotificationStore();
-    notificationStore.addNotification;
-    vue_cjs_prod.ref(userStore.username());
+    useUserStore();
+    useNotificationStore();
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UserPanel = __nuxt_component_0$1;
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
@@ -20666,7 +20664,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.26dd107f.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.4818fc43.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20675,7 +20673,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.a3ce2302.mjs').then((m) => m.default || m)
+    component: () => import('./Login.026a78ae.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20684,7 +20682,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.27e780ab.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.0c3eef75.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20693,7 +20691,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.deec2517.mjs').then((m) => m.default || m)
+    component: () => import('./index.7ef49abb.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20702,7 +20700,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.b439f227.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.0f35de75.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20711,7 +20709,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.cf3e0ee1.mjs').then((m) => m.default || m)
+    component: () => import('./index.6464726d.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20884,7 +20882,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.b9f893c1.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.c6c4e3e8.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21178,7 +21176,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-8fafd483"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.7a8abf68.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.59e6ae1c.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({
