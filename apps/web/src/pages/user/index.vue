@@ -58,17 +58,18 @@
     }
 
     const refreshPastes = async () => {
+        console.log("reloading pastes");
         const res = await $fetch(`/api/user/pastes`, {
             credentials: "include",
             parseResponse: JSON.json
         });
+        
+        pastes = res.result.pastes;
 
-        pastes.value = res.result.pastes;
+        nextPageId = res.result.nextPage;
 
-        nextPageId.value = res.result.nextPage;
-
-        for (let i = 0; i < pastes.value.length; i++) {
-            pastes.value[i].created = (new Date(pastes.value[i].created)).toLocaleDateString();
+        for (let i = 0; i < pastes.length; i++) {
+            pastes[i].created = (new Date(pastes[i].created)).toLocaleDateString();
         }
     }
 

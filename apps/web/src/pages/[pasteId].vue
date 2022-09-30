@@ -1,6 +1,6 @@
 <template>
     <div v-if="paste">
-        <PasteEditor v-if="pastePostingState == 0" @submit="rePaste" class="m-auto" :class="{'max-w-4xl': !editMode}" :paste="paste" :editable="editMode" submitText="Re-Paste !" />
+        <PasteEditor :key="forceUpdateV" v-if="pastePostingState == 0" @submit="rePaste" class="m-auto" :class="{'max-w-4xl': !editMode}" :paste="paste" :editable="editMode" submitText="Re-Paste !" />
         <div v-else-if="pastePostingState == 1" class="flex flex-row justify-center items-center mt-12">
             <object width="300" height="300" type="image/svg+xml" :data="$refs['img0'].src">
                 <img ref="img0" src="@/assets/animated/logo-paste-loading.svg" />
@@ -70,6 +70,11 @@
     });
 
     let paste = reactive(pasteData);
+    let forceUpdateV = ref(0);
+
+    const forceUpdate = () => {
+        forceUpdateV.value += 1;
+    }
 
     if (paste.value && process.server) {   
         useHead({
@@ -118,8 +123,7 @@
             }
             checkEditMode();
             document.title = "Quickpaste | " + paste.title.substring(0, 25);
-            const instance = getCurrentInstance();
-            instance?.proxy?.$forceUpdate();
+            forceUpdate();
         } else {
              switch (res.status) {
                  case 401:
