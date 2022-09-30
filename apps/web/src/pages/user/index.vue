@@ -3,7 +3,7 @@
         <UserPanel />
         <div class="md:w-4/5">
             <h1 class="text-5xl mb-6 text-orange text-shadow-sm border-b border-blue pb-4">Pastes</h1>
-            <div ref="paste-container" v-if="pastes.length > 0" class="max-h-prose overflow-y-auto" @scroll="loadMorePastes">
+            <div ref="pasteContainer" v-if="pastes.length > 0" class="max-h-prose overflow-y-auto" @scroll="loadMorePastes">
                 <div v-for="paste in pastes" :key="paste.uuid"
                     class="flex flex-col md:flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue">
                     <a :href="`/${paste.uuid}`">
@@ -40,6 +40,7 @@
     let pastes = reactive([]);
     let nextPageId = ref(undefined);
     let loadingMore = ref(false);
+    let pasteContainer = ref(null);
 
     const deletePaste = async (uuid) => {
         const res = await notificationStore.addNotification({
@@ -72,6 +73,28 @@
         }
     }
 
+    const loadMorePastes = async () => {
+        const scrollAm = pasteContainer.value.scrollTop + pasteContainer.value.clientHeight;
+        if (nextPageId && scrollAm > pasteContainer.value.scrollHeight - 20 && !loadingMore) {
+            loadingMore = true;
+            const res = await $fetch(`/api/user/pastes?pageId=${this.nextPageId}`, {
+                credentials: "include",
+                parseResponse: JSON.parse
+            });
+
+                
+            nextPageId = res.result.nextPage;
+
+            for (let i = 0; i < res.result.pastes.length; i++) {
+                res.result.pastes[i].created = (new Date(res.result.pastes[i].created)).toLocaleDateString();
+            }
+
+            pastes = pastes.concat(res.result.pastes);
+
+            loadingMore = false;
+        }
+    }
+
     const updateTitle = (username) => {
         document.title = `Quickpaste | ${username}`;
     } 
@@ -88,36 +111,8 @@
         }
         
     }
-</script>
 
-<script>
-    export default {
-    methods: {
-        async loadMorePastes() {
-            const cont = this.$refs["paste-container"];
-            const scrollAm = cont.scrollTop + cont.clientHeight;
-            if (this.nextPageId && scrollAm > cont.scrollHeight - 20 && !this.loadingMore) {
-                this.loadingMore = true;
-                const res = await $fetch(`/api/user/pastes?pageId=${this.nextPageId}`, {
-                    credentials: "include",
-                    parseResponse: JSON.json
-                });
-
-                
-                this.nextPageId = res.result.nextPage;
-
-                for (let i = 0; i < res.result.pastes.length; i++) {
-                    res.result.pastes[i].created = (new Date(res.result.pastes[i].created)).toLocaleDateString();
-                }
-
-                this.pastes = this.pastes.concat(res.result.pastes);
-
-                this.loadingMore = false;
-            }
-        }
-    },
-    mounted() {
-        if (this.pastes.length === 0) this.refreshPastes();
-    }
-}
+    onMounted(() => {
+        if (pastes.length === 0) refreshPastes();
+    });
 </script>

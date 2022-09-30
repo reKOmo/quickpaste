@@ -118,8 +118,8 @@
 
         if (res.ok) {
             paste = await res.json();
-            if (password.length != 0) {
-                paste["password"] = password;
+            if (password.value.length != 0) {
+                paste["password"] = password.value;
             }
             checkEditMode();
             document.title = "Quickpaste | " + paste.title.substring(0, 25);
@@ -127,15 +127,45 @@
         } else {
              switch (res.status) {
                  case 401:
-                    addNotification({
+                    notificationStore.addNotification({
                         type: 1,
                         title: "Incorrect password",
                         level: 1
                     });
                     break;
             }
-            password = "";
+            password.value = "";
             err = res.status;
+        }
+    }
+
+    let pastePostingState = ref(0);
+    let createdPaste = ref(undefined);
+
+    const rePaste = async (paste) => {
+        pastePostingState.value = 1;
+
+        const headers = {
+            "Content-Type": "application/json"
+        };
+
+        if (password.value.length != 0) {
+            headers["Paste-Authorization"] = password.value;
+        }
+
+
+        const res = await fetch(`/api/paste/${this.$route.params["pasteId"]}`, {
+            method: "PUT",
+            headers,
+            credentials: "include",
+            body: JSON.stringify(paste)
+        });
+
+        if (res.ok) {
+            pastePostingState.value = 2;
+            createdPaste.value = (await res.json()).result;
+        } else {
+            //TODO
         }
     }
 
@@ -151,37 +181,11 @@
     export default {
         data() {
             return {
-                pastePostingState: 0,
-                createdPaste: undefined
+                
             }
         },
         methods: {
-            async rePaste(paste) {
-                this.pastePostingState = 1;
-
-                const headers = {
-                    "Content-Type": "application/json"
-                };
-
-                if (this.password.length != 0) {
-                    headers["Paste-Authorization"] = this.password;
-                }
-
-
-                const res = await fetch(`/api/paste/${this.$route.params["pasteId"]}`, {
-                    method: "PUT",
-                    headers,
-                    credentials: "include",
-                    body: JSON.stringify(paste)
-                });
-
-                if (res.ok) {
-                    this.pastePostingState = 2;
-                    this.createdPaste = (await res.json()).result;
-                } else {
-                    //TODO
-                }
-            }
+            
         }
     }
 </script> 
