@@ -37,7 +37,7 @@
 
     const userStore = useUserStore()
     const notificationStore = useNotificationStore();
-    let pastes =  ref([]);
+    let pastes = [];
     let nextPageId = ref(undefined);
     let loadingMore = ref(false);
 
@@ -66,7 +66,7 @@
         
         pastes = res.result.pastes;
 
-        nextPageId = res.result.nextPage;
+        nextPageId.value = res.result.nextPage;
 
         for (let i = 0; i < pastes.length; i++) {
             pastes[i].created = (new Date(pastes[i].created)).toLocaleDateString();

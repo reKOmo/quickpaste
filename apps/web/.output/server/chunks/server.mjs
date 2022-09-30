@@ -20584,7 +20584,7 @@ const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$1, {
   setup(__props) {
     useUserStore();
     useNotificationStore();
-    let pastes = vue_cjs_prod.ref([]);
+    let pastes = [];
     vue_cjs_prod.ref(void 0);
     vue_cjs_prod.ref(false);
     return (_ctx, _push, _parent, _attrs) => {
@@ -20652,7 +20652,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.30558e0b.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.eb807d63.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20661,7 +20661,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.3ef58641.mjs').then((m) => m.default || m)
+    component: () => import('./Login.62a9a55f.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20670,7 +20670,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.1c61338e.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.2748025e.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20679,7 +20679,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.b076ce75.mjs').then((m) => m.default || m)
+    component: () => import('./index.4ea49415.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20688,7 +20688,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.4e8200ce.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.2019fae1.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20697,7 +20697,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.3f19123d.mjs').then((m) => m.default || m)
+    component: () => import('./index.221b557a.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20870,7 +20870,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.f40fad53.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.e1b05c0e.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21242,7 +21242,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-02dda902"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.686b2598.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.521a0a66.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({
