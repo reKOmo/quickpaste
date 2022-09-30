@@ -58,10 +58,9 @@
     }
 
     const refreshPastes = async () => {
-        console.log("reloading pastes");
         const res = await $fetch(`/api/user/pastes`, {
             credentials: "include",
-            parseResponse: JSON.json
+            parseResponse: JSON.parse
         });
         
         pastes = res.result.pastes;
