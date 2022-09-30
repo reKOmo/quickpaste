@@ -24,6 +24,19 @@
 <script setup>
     import { NotificationTypes, useNotificationStore } from '@/store/notification';    
     const notificationStore = useNotificationStore();
+
+    const keyContainer = ref(null);
+
+    const copyToClickboard = () => {
+        keyContainer.select();
+        document.execCommand("copy");
+
+        notificationStore.addNotification({
+            type: NotificationTypes.NOTIFICATION,
+            level: 0,
+            title: "Copied!"
+        })
+    }
 </script>
 
 <script>
@@ -47,17 +60,6 @@
                     //TODO
                 }
 
-            },
-            copyToClickboard() {
-                const keyCont = this.$refs["keyContainer"];
-                keyCont.select();
-                document.execCommand("copy");
-
-                this.notificationStore.addNotification({
-                    type: NotificationTypes.NOTIFICATION,
-                    level: 0,
-                    title: "Copied!"
-                })
             }
         }
     }

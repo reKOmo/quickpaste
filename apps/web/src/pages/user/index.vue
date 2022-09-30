@@ -37,7 +37,7 @@
 
     const userStore = useUserStore()
     const notificationStore = useNotificationStore();
-    let pastes = [];
+    let pastes = reactive([]);
     let nextPageId = ref(undefined);
     let loadingMore = ref(false);
 

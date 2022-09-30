@@ -20303,16 +20303,6 @@ const __default__$4 = {
         const data = await res.json();
         this.key = data.result;
       }
-    },
-    copyToClickboard() {
-      const keyCont = this.$refs["keyContainer"];
-      keyCont.select();
-      document.execCommand("copy");
-      this.notificationStore.addNotification({
-        type: NotificationTypes.NOTIFICATION,
-        level: 0,
-        title: "Copied!"
-      });
     }
   }
 };
@@ -20321,6 +20311,7 @@ const _sfc_main$d = /* @__PURE__ */ Object.assign(__default__$4, {
   __ssrInlineRender: true,
   setup(__props) {
     useNotificationStore();
+    vue_cjs_prod.ref(null);
     return (_ctx, _push, _parent, _attrs) => {
       const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
       _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col" }, _attrs))}><p class="ml-2 mb-4 text-gray-200">After clicking the button a new API key will be generated and all previous ones will be deemd invalid.</p><div class="flex flex-row bg-darkgray rounded p-4 text-gray-200 shadow-black shadow-sm my-2 max-w-sm mx-auto"><div class="flex justify-center items-center mr-2">`);
@@ -20584,7 +20575,7 @@ const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$1, {
   setup(__props) {
     useUserStore();
     useNotificationStore();
-    let pastes = [];
+    let pastes = vue_cjs_prod.reactive([]);
     vue_cjs_prod.ref(void 0);
     vue_cjs_prod.ref(false);
     return (_ctx, _push, _parent, _attrs) => {
@@ -20652,7 +20643,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.eb807d63.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.d3fbdc7d.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20661,7 +20652,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.62a9a55f.mjs').then((m) => m.default || m)
+    component: () => import('./Login.bb1bb733.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20670,7 +20661,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.2748025e.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.3f6cdd52.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20679,7 +20670,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.4ea49415.mjs').then((m) => m.default || m)
+    component: () => import('./index.c1a838d1.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20688,7 +20679,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.2019fae1.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.2a792fe5.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20697,7 +20688,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.221b557a.mjs').then((m) => m.default || m)
+    component: () => import('./index.6b86eddd.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20870,7 +20861,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.e1b05c0e.mjs'));
+    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.bdada28c.mjs'));
     const nuxtApp = useNuxtApp();
     vue_cjs_prod.provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -21242,7 +21233,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-02dda902"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.521a0a66.mjs'))
+  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.5e49f421.mjs'))
 };
 const defaultLayoutTransition = { name: "layout", mode: "out-in" };
 const __nuxt_component_2 = vue_cjs_prod.defineComponent({
