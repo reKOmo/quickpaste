@@ -28,12 +28,6 @@
     </div>
 </template>
 
-
-<script setup>
-import { useNotificationStore } from '../store/notification';
-    const notificationStore = useNotificationStore();
-</script>
-
 <script>
     export default {
         emits: ["submit"],

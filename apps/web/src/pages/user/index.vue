@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col md:flex-row w-full justify-between">
+    <div :id="update" class="flex flex-col md:flex-row w-full justify-between">
         <UserPanel />
         <div class="md:w-4/5">
             <h1 class="text-5xl mb-6 text-orange text-shadow-sm border-b border-blue pb-4">Pastes</h1>
@@ -37,10 +37,11 @@
 
     const userStore = useUserStore()
     const notificationStore = useNotificationStore();
-    let pastes = reactive([]);
+    let pastes = ref([]);
     let nextPageId = ref(undefined);
     let loadingMore = ref(false);
     let pasteContainer = ref(null);
+    let update = ref(0);
 
     const deletePaste = async (uuid) => {
         const res = await notificationStore.addNotification({
@@ -63,13 +64,14 @@
             credentials: "include",
             parseResponse: JSON.parse
         });
+
         
-        pastes = res.result.pastes;
+        pastes.value = res.result.pastes;
 
         nextPageId.value = res.result.nextPage;
-
-        for (let i = 0; i < pastes.length; i++) {
-            pastes[i].created = (new Date(pastes[i].created)).toLocaleDateString();
+        
+        for (let i = 0; i < pastes.value.length; i++) {
+            pastes.value[i].created = (new Date(pastes.value[i].created)).toLocaleDateString();
         }
     }
 
@@ -113,6 +115,6 @@
     }
 
     onMounted(() => {
-        if (pastes.length === 0) refreshPastes();
+        if (pastes.value.length === 0) refreshPastes();
     });
 </script>

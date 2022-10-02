@@ -1,17 +1,18 @@
-globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import require$$0 from 'unenv/runtime/mock/proxy';
-import { s as serverRenderer, r as require$$1 } from './renderer.mjs';
+globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { getCurrentInstance, inject, computed, defineComponent, provide, h, Suspense, Transition, reactive, useSSRContext, ref, createElementBlock, resolveComponent, mergeProps, defineAsyncComponent, isRef, watchEffect, markRaw, unref, withCtx, createTextVNode, createVNode, resolveDynamicComponent, shallowRef, createApp, toRef, effectScope, onErrorCaptured, withAsyncContext, watch, isReactive, toRaw, onUnmounted, nextTick, toRefs } from 'vue';
 import { $fetch as $fetch$1 } from 'ohmyfetch';
-import { joinURL, hasProtocol, isEqual } from 'ufo';
+import { joinURL, hasProtocol, isEqual, parseURL } from 'ufo';
 import { createHooks } from 'hookable';
 import { getContext, executeAsync } from 'unctx';
+import { RouterView, createMemoryHistory, createRouter } from 'vue-router';
 import destr from 'destr';
 import { u as useRuntimeConfig$1, h as createError$1, i as appendHeader, s as sendRedirect } from './node-server.mjs';
-import defu from 'defu';
+import defu, { defuFn } from 'defu';
+import { isFunction } from '@vue/shared';
+import { ssrRenderAttrs, ssrRenderComponent, ssrRenderAttr, ssrInterpolate, ssrRenderList, ssrRenderVNode, ssrRenderSuspense, ssrRenderTeleport, ssrIncludeBooleanAttr, ssrLooseContain, ssrRenderClass } from 'vue/server-renderer';
 import Prism$1 from 'prismjs';
 import { parse as parse$1, serialize } from 'cookie-es';
 import { isEqual as isEqual$1 } from 'ohash';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import 'stream';
 import 'node-fetch-native/polyfill';
 import 'http';
 import 'https';
@@ -15233,497 +15234,6 @@ var _iconsCache = {
   faZhihu: faZhihu
 };
 
-var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
-var vue_cjs_prod = {};
-var shared_cjs_prod = {};
-Object.defineProperty(shared_cjs_prod, "__esModule", { value: true });
-function makeMap(str, expectsLowerCase) {
-  const map = /* @__PURE__ */ Object.create(null);
-  const list = str.split(",");
-  for (let i = 0; i < list.length; i++) {
-    map[list[i]] = true;
-  }
-  return expectsLowerCase ? (val) => !!map[val.toLowerCase()] : (val) => !!map[val];
-}
-const PatchFlagNames = {
-  [1]: `TEXT`,
-  [2]: `CLASS`,
-  [4]: `STYLE`,
-  [8]: `PROPS`,
-  [16]: `FULL_PROPS`,
-  [32]: `HYDRATE_EVENTS`,
-  [64]: `STABLE_FRAGMENT`,
-  [128]: `KEYED_FRAGMENT`,
-  [256]: `UNKEYED_FRAGMENT`,
-  [512]: `NEED_PATCH`,
-  [1024]: `DYNAMIC_SLOTS`,
-  [2048]: `DEV_ROOT_FRAGMENT`,
-  [-1]: `HOISTED`,
-  [-2]: `BAIL`
-};
-const slotFlagsText = {
-  [1]: "STABLE",
-  [2]: "DYNAMIC",
-  [3]: "FORWARDED"
-};
-const GLOBALS_WHITE_LISTED = "Infinity,undefined,NaN,isFinite,isNaN,parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,BigInt";
-const isGloballyWhitelisted = /* @__PURE__ */ makeMap(GLOBALS_WHITE_LISTED);
-const range = 2;
-function generateCodeFrame(source, start = 0, end = source.length) {
-  let lines = source.split(/(\r?\n)/);
-  const newlineSequences = lines.filter((_, idx) => idx % 2 === 1);
-  lines = lines.filter((_, idx) => idx % 2 === 0);
-  let count = 0;
-  const res = [];
-  for (let i = 0; i < lines.length; i++) {
-    count += lines[i].length + (newlineSequences[i] && newlineSequences[i].length || 0);
-    if (count >= start) {
-      for (let j = i - range; j <= i + range || end > count; j++) {
-        if (j < 0 || j >= lines.length)
-          continue;
-        const line = j + 1;
-        res.push(`${line}${" ".repeat(Math.max(3 - String(line).length, 0))}|  ${lines[j]}`);
-        const lineLength = lines[j].length;
-        const newLineSeqLength = newlineSequences[j] && newlineSequences[j].length || 0;
-        if (j === i) {
-          const pad = start - (count - (lineLength + newLineSeqLength));
-          const length = Math.max(1, end > count ? lineLength - pad : end - start);
-          res.push(`   |  ` + " ".repeat(pad) + "^".repeat(length));
-        } else if (j > i) {
-          if (end > count) {
-            const length = Math.max(Math.min(end - count, lineLength), 1);
-            res.push(`   |  ` + "^".repeat(length));
-          }
-          count += lineLength + newLineSeqLength;
-        }
-      }
-      break;
-    }
-  }
-  return res.join("\n");
-}
-const specialBooleanAttrs = `itemscope,allowfullscreen,formnovalidate,ismap,nomodule,novalidate,readonly`;
-const isSpecialBooleanAttr = /* @__PURE__ */ makeMap(specialBooleanAttrs);
-const isBooleanAttr = /* @__PURE__ */ makeMap(specialBooleanAttrs + `,async,autofocus,autoplay,controls,default,defer,disabled,hidden,loop,open,required,reversed,scoped,seamless,checked,muted,multiple,selected`);
-function includeBooleanAttr(value) {
-  return !!value || value === "";
-}
-const unsafeAttrCharRE = /[>/="'\u0009\u000a\u000c\u0020]/;
-const attrValidationCache = {};
-function isSSRSafeAttrName(name) {
-  if (attrValidationCache.hasOwnProperty(name)) {
-    return attrValidationCache[name];
-  }
-  const isUnsafe = unsafeAttrCharRE.test(name);
-  if (isUnsafe) {
-    console.error(`unsafe attribute name: ${name}`);
-  }
-  return attrValidationCache[name] = !isUnsafe;
-}
-const propsToAttrMap = {
-  acceptCharset: "accept-charset",
-  className: "class",
-  htmlFor: "for",
-  httpEquiv: "http-equiv"
-};
-const isNoUnitNumericStyleProp = /* @__PURE__ */ makeMap(`animation-iteration-count,border-image-outset,border-image-slice,border-image-width,box-flex,box-flex-group,box-ordinal-group,column-count,columns,flex,flex-grow,flex-positive,flex-shrink,flex-negative,flex-order,grid-row,grid-row-end,grid-row-span,grid-row-start,grid-column,grid-column-end,grid-column-span,grid-column-start,font-weight,line-clamp,line-height,opacity,order,orphans,tab-size,widows,z-index,zoom,fill-opacity,flood-opacity,stop-opacity,stroke-dasharray,stroke-dashoffset,stroke-miterlimit,stroke-opacity,stroke-width`);
-const isKnownHtmlAttr = /* @__PURE__ */ makeMap(`accept,accept-charset,accesskey,action,align,allow,alt,async,autocapitalize,autocomplete,autofocus,autoplay,background,bgcolor,border,buffered,capture,challenge,charset,checked,cite,class,code,codebase,color,cols,colspan,content,contenteditable,contextmenu,controls,coords,crossorigin,csp,data,datetime,decoding,default,defer,dir,dirname,disabled,download,draggable,dropzone,enctype,enterkeyhint,for,form,formaction,formenctype,formmethod,formnovalidate,formtarget,headers,height,hidden,high,href,hreflang,http-equiv,icon,id,importance,integrity,ismap,itemprop,keytype,kind,label,lang,language,loading,list,loop,low,manifest,max,maxlength,minlength,media,min,multiple,muted,name,novalidate,open,optimum,pattern,ping,placeholder,poster,preload,radiogroup,readonly,referrerpolicy,rel,required,reversed,rows,rowspan,sandbox,scope,scoped,selected,shape,size,sizes,slot,span,spellcheck,src,srcdoc,srclang,srcset,start,step,style,summary,tabindex,target,title,translate,type,usemap,value,width,wrap`);
-const isKnownSvgAttr = /* @__PURE__ */ makeMap(`xmlns,accent-height,accumulate,additive,alignment-baseline,alphabetic,amplitude,arabic-form,ascent,attributeName,attributeType,azimuth,baseFrequency,baseline-shift,baseProfile,bbox,begin,bias,by,calcMode,cap-height,class,clip,clipPathUnits,clip-path,clip-rule,color,color-interpolation,color-interpolation-filters,color-profile,color-rendering,contentScriptType,contentStyleType,crossorigin,cursor,cx,cy,d,decelerate,descent,diffuseConstant,direction,display,divisor,dominant-baseline,dur,dx,dy,edgeMode,elevation,enable-background,end,exponent,fill,fill-opacity,fill-rule,filter,filterRes,filterUnits,flood-color,flood-opacity,font-family,font-size,font-size-adjust,font-stretch,font-style,font-variant,font-weight,format,from,fr,fx,fy,g1,g2,glyph-name,glyph-orientation-horizontal,glyph-orientation-vertical,glyphRef,gradientTransform,gradientUnits,hanging,height,href,hreflang,horiz-adv-x,horiz-origin-x,id,ideographic,image-rendering,in,in2,intercept,k,k1,k2,k3,k4,kernelMatrix,kernelUnitLength,kerning,keyPoints,keySplines,keyTimes,lang,lengthAdjust,letter-spacing,lighting-color,limitingConeAngle,local,marker-end,marker-mid,marker-start,markerHeight,markerUnits,markerWidth,mask,maskContentUnits,maskUnits,mathematical,max,media,method,min,mode,name,numOctaves,offset,opacity,operator,order,orient,orientation,origin,overflow,overline-position,overline-thickness,panose-1,paint-order,path,pathLength,patternContentUnits,patternTransform,patternUnits,ping,pointer-events,points,pointsAtX,pointsAtY,pointsAtZ,preserveAlpha,preserveAspectRatio,primitiveUnits,r,radius,referrerPolicy,refX,refY,rel,rendering-intent,repeatCount,repeatDur,requiredExtensions,requiredFeatures,restart,result,rotate,rx,ry,scale,seed,shape-rendering,slope,spacing,specularConstant,specularExponent,speed,spreadMethod,startOffset,stdDeviation,stemh,stemv,stitchTiles,stop-color,stop-opacity,strikethrough-position,strikethrough-thickness,string,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,style,surfaceScale,systemLanguage,tabindex,tableValues,target,targetX,targetY,text-anchor,text-decoration,text-rendering,textLength,to,transform,transform-origin,type,u1,u2,underline-position,underline-thickness,unicode,unicode-bidi,unicode-range,units-per-em,v-alphabetic,v-hanging,v-ideographic,v-mathematical,values,vector-effect,version,vert-adv-y,vert-origin-x,vert-origin-y,viewBox,viewTarget,visibility,width,widths,word-spacing,writing-mode,x,x-height,x1,x2,xChannelSelector,xlink:actuate,xlink:arcrole,xlink:href,xlink:role,xlink:show,xlink:title,xlink:type,xml:base,xml:lang,xml:space,y,y1,y2,yChannelSelector,z,zoomAndPan`);
-function normalizeStyle(value) {
-  if (isArray(value)) {
-    const res = {};
-    for (let i = 0; i < value.length; i++) {
-      const item = value[i];
-      const normalized = isString(item) ? parseStringStyle(item) : normalizeStyle(item);
-      if (normalized) {
-        for (const key in normalized) {
-          res[key] = normalized[key];
-        }
-      }
-    }
-    return res;
-  } else if (isString(value)) {
-    return value;
-  } else if (isObject(value)) {
-    return value;
-  }
-}
-const listDelimiterRE = /;(?![^(]*\))/g;
-const propertyDelimiterRE = /:(.+)/;
-function parseStringStyle(cssText) {
-  const ret = {};
-  cssText.split(listDelimiterRE).forEach((item) => {
-    if (item) {
-      const tmp = item.split(propertyDelimiterRE);
-      tmp.length > 1 && (ret[tmp[0].trim()] = tmp[1].trim());
-    }
-  });
-  return ret;
-}
-function stringifyStyle(styles) {
-  let ret = "";
-  if (!styles || isString(styles)) {
-    return ret;
-  }
-  for (const key in styles) {
-    const value = styles[key];
-    const normalizedKey = key.startsWith(`--`) ? key : hyphenate(key);
-    if (isString(value) || typeof value === "number" && isNoUnitNumericStyleProp(normalizedKey)) {
-      ret += `${normalizedKey}:${value};`;
-    }
-  }
-  return ret;
-}
-function normalizeClass(value) {
-  let res = "";
-  if (isString(value)) {
-    res = value;
-  } else if (isArray(value)) {
-    for (let i = 0; i < value.length; i++) {
-      const normalized = normalizeClass(value[i]);
-      if (normalized) {
-        res += normalized + " ";
-      }
-    }
-  } else if (isObject(value)) {
-    for (const name in value) {
-      if (value[name]) {
-        res += name + " ";
-      }
-    }
-  }
-  return res.trim();
-}
-function normalizeProps(props) {
-  if (!props)
-    return null;
-  let { class: klass, style } = props;
-  if (klass && !isString(klass)) {
-    props.class = normalizeClass(klass);
-  }
-  if (style) {
-    props.style = normalizeStyle(style);
-  }
-  return props;
-}
-const HTML_TAGS = "html,body,base,head,link,meta,style,title,address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,summary,template,blockquote,iframe,tfoot";
-const SVG_TAGS = "svg,animate,animateMotion,animateTransform,circle,clipPath,color-profile,defs,desc,discard,ellipse,feBlend,feColorMatrix,feComponentTransfer,feComposite,feConvolveMatrix,feDiffuseLighting,feDisplacementMap,feDistanceLight,feDropShadow,feFlood,feFuncA,feFuncB,feFuncG,feFuncR,feGaussianBlur,feImage,feMerge,feMergeNode,feMorphology,feOffset,fePointLight,feSpecularLighting,feSpotLight,feTile,feTurbulence,filter,foreignObject,g,hatch,hatchpath,image,line,linearGradient,marker,mask,mesh,meshgradient,meshpatch,meshrow,metadata,mpath,path,pattern,polygon,polyline,radialGradient,rect,set,solidcolor,stop,switch,symbol,text,textPath,title,tspan,unknown,use,view";
-const VOID_TAGS = "area,base,br,col,embed,hr,img,input,link,meta,param,source,track,wbr";
-const isHTMLTag = /* @__PURE__ */ makeMap(HTML_TAGS);
-const isSVGTag = /* @__PURE__ */ makeMap(SVG_TAGS);
-const isVoidTag = /* @__PURE__ */ makeMap(VOID_TAGS);
-const escapeRE = /["'&<>]/;
-function escapeHtml(string) {
-  const str = "" + string;
-  const match = escapeRE.exec(str);
-  if (!match) {
-    return str;
-  }
-  let html = "";
-  let escaped;
-  let index;
-  let lastIndex = 0;
-  for (index = match.index; index < str.length; index++) {
-    switch (str.charCodeAt(index)) {
-      case 34:
-        escaped = "&quot;";
-        break;
-      case 38:
-        escaped = "&amp;";
-        break;
-      case 39:
-        escaped = "&#39;";
-        break;
-      case 60:
-        escaped = "&lt;";
-        break;
-      case 62:
-        escaped = "&gt;";
-        break;
-      default:
-        continue;
-    }
-    if (lastIndex !== index) {
-      html += str.slice(lastIndex, index);
-    }
-    lastIndex = index + 1;
-    html += escaped;
-  }
-  return lastIndex !== index ? html + str.slice(lastIndex, index) : html;
-}
-const commentStripRE = /^-?>|<!--|-->|--!>|<!-$/g;
-function escapeHtmlComment(src) {
-  return src.replace(commentStripRE, "");
-}
-function looseCompareArrays(a, b) {
-  if (a.length !== b.length)
-    return false;
-  let equal = true;
-  for (let i = 0; equal && i < a.length; i++) {
-    equal = looseEqual(a[i], b[i]);
-  }
-  return equal;
-}
-function looseEqual(a, b) {
-  if (a === b)
-    return true;
-  let aValidType = isDate(a);
-  let bValidType = isDate(b);
-  if (aValidType || bValidType) {
-    return aValidType && bValidType ? a.getTime() === b.getTime() : false;
-  }
-  aValidType = isSymbol(a);
-  bValidType = isSymbol(b);
-  if (aValidType || bValidType) {
-    return a === b;
-  }
-  aValidType = isArray(a);
-  bValidType = isArray(b);
-  if (aValidType || bValidType) {
-    return aValidType && bValidType ? looseCompareArrays(a, b) : false;
-  }
-  aValidType = isObject(a);
-  bValidType = isObject(b);
-  if (aValidType || bValidType) {
-    if (!aValidType || !bValidType) {
-      return false;
-    }
-    const aKeysCount = Object.keys(a).length;
-    const bKeysCount = Object.keys(b).length;
-    if (aKeysCount !== bKeysCount) {
-      return false;
-    }
-    for (const key in a) {
-      const aHasKey = a.hasOwnProperty(key);
-      const bHasKey = b.hasOwnProperty(key);
-      if (aHasKey && !bHasKey || !aHasKey && bHasKey || !looseEqual(a[key], b[key])) {
-        return false;
-      }
-    }
-  }
-  return String(a) === String(b);
-}
-function looseIndexOf(arr, val) {
-  return arr.findIndex((item) => looseEqual(item, val));
-}
-const toDisplayString = (val) => {
-  return isString(val) ? val : val == null ? "" : isArray(val) || isObject(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
-};
-const replacer = (_key, val) => {
-  if (val && val.__v_isRef) {
-    return replacer(_key, val.value);
-  } else if (isMap(val)) {
-    return {
-      [`Map(${val.size})`]: [...val.entries()].reduce((entries, [key, val2]) => {
-        entries[`${key} =>`] = val2;
-        return entries;
-      }, {})
-    };
-  } else if (isSet(val)) {
-    return {
-      [`Set(${val.size})`]: [...val.values()]
-    };
-  } else if (isObject(val) && !isArray(val) && !isPlainObject$1(val)) {
-    return String(val);
-  }
-  return val;
-};
-const EMPTY_OBJ = {};
-const EMPTY_ARR = [];
-const NOOP = () => {
-};
-const NO = () => false;
-const onRE = /^on[^a-z]/;
-const isOn = (key) => onRE.test(key);
-const isModelListener = (key) => key.startsWith("onUpdate:");
-const extend = Object.assign;
-const remove = (arr, el) => {
-  const i = arr.indexOf(el);
-  if (i > -1) {
-    arr.splice(i, 1);
-  }
-};
-const hasOwnProperty = Object.prototype.hasOwnProperty;
-const hasOwn = (val, key) => hasOwnProperty.call(val, key);
-const isArray = Array.isArray;
-const isMap = (val) => toTypeString(val) === "[object Map]";
-const isSet = (val) => toTypeString(val) === "[object Set]";
-const isDate = (val) => toTypeString(val) === "[object Date]";
-const isFunction = (val) => typeof val === "function";
-const isString = (val) => typeof val === "string";
-const isSymbol = (val) => typeof val === "symbol";
-const isObject = (val) => val !== null && typeof val === "object";
-const isPromise = (val) => {
-  return isObject(val) && isFunction(val.then) && isFunction(val.catch);
-};
-const objectToString = Object.prototype.toString;
-const toTypeString = (value) => objectToString.call(value);
-const toRawType = (value) => {
-  return toTypeString(value).slice(8, -1);
-};
-const isPlainObject$1 = (val) => toTypeString(val) === "[object Object]";
-const isIntegerKey = (key) => isString(key) && key !== "NaN" && key[0] !== "-" && "" + parseInt(key, 10) === key;
-const isReservedProp = /* @__PURE__ */ makeMap(
-  ",key,ref,ref_for,ref_key,onVnodeBeforeMount,onVnodeMounted,onVnodeBeforeUpdate,onVnodeUpdated,onVnodeBeforeUnmount,onVnodeUnmounted"
-);
-const isBuiltInDirective = /* @__PURE__ */ makeMap("bind,cloak,else-if,else,for,html,if,model,on,once,pre,show,slot,text,memo");
-const cacheStringFunction = (fn) => {
-  const cache = /* @__PURE__ */ Object.create(null);
-  return (str) => {
-    const hit = cache[str];
-    return hit || (cache[str] = fn(str));
-  };
-};
-const camelizeRE = /-(\w)/g;
-const camelize = cacheStringFunction((str) => {
-  return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : "");
-});
-const hyphenateRE = /\B([A-Z])/g;
-const hyphenate = cacheStringFunction((str) => str.replace(hyphenateRE, "-$1").toLowerCase());
-const capitalize = cacheStringFunction((str) => str.charAt(0).toUpperCase() + str.slice(1));
-const toHandlerKey = cacheStringFunction((str) => str ? `on${capitalize(str)}` : ``);
-const hasChanged = (value, oldValue) => !Object.is(value, oldValue);
-const invokeArrayFns = (fns, arg) => {
-  for (let i = 0; i < fns.length; i++) {
-    fns[i](arg);
-  }
-};
-const def = (obj, key, value) => {
-  Object.defineProperty(obj, key, {
-    configurable: true,
-    enumerable: false,
-    value
-  });
-};
-const toNumber = (val) => {
-  const n = parseFloat(val);
-  return isNaN(n) ? val : n;
-};
-let _globalThis;
-const getGlobalThis = () => {
-  return _globalThis || (_globalThis = typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : typeof commonjsGlobal !== "undefined" ? commonjsGlobal : {});
-};
-const identRE = /^[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*$/;
-function genPropsAccessExp(name) {
-  return identRE.test(name) ? `__props.${name}` : `__props[${JSON.stringify(name)}]`;
-}
-shared_cjs_prod.EMPTY_ARR = EMPTY_ARR;
-shared_cjs_prod.EMPTY_OBJ = EMPTY_OBJ;
-shared_cjs_prod.NO = NO;
-shared_cjs_prod.NOOP = NOOP;
-shared_cjs_prod.PatchFlagNames = PatchFlagNames;
-shared_cjs_prod.camelize = camelize;
-shared_cjs_prod.capitalize = capitalize;
-shared_cjs_prod.def = def;
-shared_cjs_prod.escapeHtml = escapeHtml;
-shared_cjs_prod.escapeHtmlComment = escapeHtmlComment;
-shared_cjs_prod.extend = extend;
-shared_cjs_prod.genPropsAccessExp = genPropsAccessExp;
-shared_cjs_prod.generateCodeFrame = generateCodeFrame;
-shared_cjs_prod.getGlobalThis = getGlobalThis;
-shared_cjs_prod.hasChanged = hasChanged;
-shared_cjs_prod.hasOwn = hasOwn;
-shared_cjs_prod.hyphenate = hyphenate;
-shared_cjs_prod.includeBooleanAttr = includeBooleanAttr;
-shared_cjs_prod.invokeArrayFns = invokeArrayFns;
-shared_cjs_prod.isArray = isArray;
-shared_cjs_prod.isBooleanAttr = isBooleanAttr;
-shared_cjs_prod.isBuiltInDirective = isBuiltInDirective;
-shared_cjs_prod.isDate = isDate;
-var isFunction_1 = shared_cjs_prod.isFunction = isFunction;
-shared_cjs_prod.isGloballyWhitelisted = isGloballyWhitelisted;
-shared_cjs_prod.isHTMLTag = isHTMLTag;
-shared_cjs_prod.isIntegerKey = isIntegerKey;
-shared_cjs_prod.isKnownHtmlAttr = isKnownHtmlAttr;
-shared_cjs_prod.isKnownSvgAttr = isKnownSvgAttr;
-shared_cjs_prod.isMap = isMap;
-shared_cjs_prod.isModelListener = isModelListener;
-shared_cjs_prod.isNoUnitNumericStyleProp = isNoUnitNumericStyleProp;
-shared_cjs_prod.isObject = isObject;
-shared_cjs_prod.isOn = isOn;
-shared_cjs_prod.isPlainObject = isPlainObject$1;
-shared_cjs_prod.isPromise = isPromise;
-shared_cjs_prod.isReservedProp = isReservedProp;
-shared_cjs_prod.isSSRSafeAttrName = isSSRSafeAttrName;
-shared_cjs_prod.isSVGTag = isSVGTag;
-shared_cjs_prod.isSet = isSet;
-shared_cjs_prod.isSpecialBooleanAttr = isSpecialBooleanAttr;
-shared_cjs_prod.isString = isString;
-shared_cjs_prod.isSymbol = isSymbol;
-shared_cjs_prod.isVoidTag = isVoidTag;
-shared_cjs_prod.looseEqual = looseEqual;
-shared_cjs_prod.looseIndexOf = looseIndexOf;
-shared_cjs_prod.makeMap = makeMap;
-shared_cjs_prod.normalizeClass = normalizeClass;
-shared_cjs_prod.normalizeProps = normalizeProps;
-shared_cjs_prod.normalizeStyle = normalizeStyle;
-shared_cjs_prod.objectToString = objectToString;
-shared_cjs_prod.parseStringStyle = parseStringStyle;
-shared_cjs_prod.propsToAttrMap = propsToAttrMap;
-shared_cjs_prod.remove = remove;
-shared_cjs_prod.slotFlagsText = slotFlagsText;
-shared_cjs_prod.stringifyStyle = stringifyStyle;
-shared_cjs_prod.toDisplayString = toDisplayString;
-shared_cjs_prod.toHandlerKey = toHandlerKey;
-shared_cjs_prod.toNumber = toNumber;
-shared_cjs_prod.toRawType = toRawType;
-shared_cjs_prod.toTypeString = toTypeString;
-(function(exports) {
-  Object.defineProperty(exports, "__esModule", { value: true });
-  var compilerDom = require$$0;
-  var runtimeDom = require$$1;
-  var shared = shared_cjs_prod;
-  function _interopNamespace(e) {
-    if (e && e.__esModule)
-      return e;
-    var n = /* @__PURE__ */ Object.create(null);
-    if (e) {
-      Object.keys(e).forEach(function(k) {
-        n[k] = e[k];
-      });
-    }
-    n["default"] = e;
-    return Object.freeze(n);
-  }
-  var runtimeDom__namespace = /* @__PURE__ */ _interopNamespace(runtimeDom);
-  const compileCache = /* @__PURE__ */ Object.create(null);
-  function compileToFunction(template, options) {
-    if (!shared.isString(template)) {
-      if (template.nodeType) {
-        template = template.innerHTML;
-      } else {
-        return shared.NOOP;
-      }
-    }
-    const key = template;
-    const cached = compileCache[key];
-    if (cached) {
-      return cached;
-    }
-    if (template[0] === "#") {
-      const el = document.querySelector(template);
-      template = el ? el.innerHTML : ``;
-    }
-    const opts = shared.extend({
-      hoistStatic: true,
-      onError: void 0,
-      onWarn: shared.NOOP
-    }, options);
-    if (!opts.isCustomElement && typeof customElements !== "undefined") {
-      opts.isCustomElement = (tag) => !!customElements.get(tag);
-    }
-    const { code } = compilerDom.compile(template, opts);
-    const render = new Function("Vue", code)(runtimeDom__namespace);
-    render._rc = true;
-    return compileCache[key] = render;
-  }
-  runtimeDom.registerRuntimeCompiler(compileToFunction);
-  Object.keys(runtimeDom).forEach(function(k) {
-    if (k !== "default")
-      exports[k] = runtimeDom[k];
-  });
-  exports.compile = compileToFunction;
-})(vue_cjs_prod);
 const appConfig = useRuntimeConfig$1().app;
 const baseURL = () => appConfig.baseURL;
 const buildAssetsDir = () => appConfig.buildAssetsDir;
@@ -15740,7 +15250,7 @@ function createNuxtApp(options) {
   const nuxtApp = {
     provide: void 0,
     globalName: "nuxt",
-    payload: vue_cjs_prod.reactive({
+    payload: reactive({
       data: {},
       state: {},
       _errors: {},
@@ -15748,6 +15258,7 @@ function createNuxtApp(options) {
     }),
     isHydrating: false,
     _asyncDataPromises: {},
+    _asyncData: {},
     ...options
   };
   nuxtApp.hooks = createHooks();
@@ -15796,10 +15307,10 @@ async function applyPlugin(nuxtApp, plugin) {
   if (typeof plugin !== "function") {
     return;
   }
-  const { provide } = await callWithNuxt(nuxtApp, plugin, [nuxtApp]) || {};
-  if (provide && typeof provide === "object") {
-    for (const key in provide) {
-      nuxtApp.provide(key, provide[key]);
+  const { provide: provide2 } = await callWithNuxt(nuxtApp, plugin, [nuxtApp]) || {};
+  if (provide2 && typeof provide2 === "object") {
+    for (const key in provide2) {
+      nuxtApp.provide(key, provide2[key]);
     }
   }
 }
@@ -15833,7 +15344,7 @@ function callWithNuxt(nuxt, setup, args) {
 function useNuxtApp() {
   const nuxtAppInstance = nuxtAppCtx.tryUse();
   if (!nuxtAppInstance) {
-    const vm = vue_cjs_prod.getCurrentInstance();
+    const vm = getCurrentInstance();
     if (!vm) {
       throw new Error("nuxt instance unavailable");
     }
@@ -15847,1878 +15358,32 @@ function useRuntimeConfig() {
 function defineGetter(obj, key, val) {
   Object.defineProperty(obj, key, { get: () => val });
 }
-var vueRouter_cjs_prod = { exports: {} };
-var vueRouter_prod = {};
-/*!
-  * vue-router v4.1.5
-  * (c) 2022 Eduardo San Martin Morote
-  * @license MIT
-  */
-(function(exports) {
-  Object.defineProperty(exports, "__esModule", { value: true });
-  var vue = vue_cjs_prod;
-  function isESModule(obj) {
-    return obj.__esModule || obj[Symbol.toStringTag] === "Module";
-  }
-  const assign2 = Object.assign;
-  function applyToParams(fn, params) {
-    const newParams = {};
-    for (const key in params) {
-      const value = params[key];
-      newParams[key] = isArray2(value) ? value.map(fn) : fn(value);
-    }
-    return newParams;
-  }
-  const noop2 = () => {
-  };
-  const isArray2 = Array.isArray;
-  const TRAILING_SLASH_RE = /\/$/;
-  const removeTrailingSlash = (path) => path.replace(TRAILING_SLASH_RE, "");
-  function parseURL(parseQuery2, location2, currentLocation = "/") {
-    let path, query = {}, searchString = "", hash = "";
-    const hashPos = location2.indexOf("#");
-    let searchPos = location2.indexOf("?");
-    if (hashPos < searchPos && hashPos >= 0) {
-      searchPos = -1;
-    }
-    if (searchPos > -1) {
-      path = location2.slice(0, searchPos);
-      searchString = location2.slice(searchPos + 1, hashPos > -1 ? hashPos : location2.length);
-      query = parseQuery2(searchString);
-    }
-    if (hashPos > -1) {
-      path = path || location2.slice(0, hashPos);
-      hash = location2.slice(hashPos, location2.length);
-    }
-    path = resolveRelativePath(path != null ? path : location2, currentLocation);
-    return {
-      fullPath: path + (searchString && "?") + searchString + hash,
-      path,
-      query,
-      hash
-    };
-  }
-  function stringifyURL(stringifyQuery2, location2) {
-    const query = location2.query ? stringifyQuery2(location2.query) : "";
-    return location2.path + (query && "?") + query + (location2.hash || "");
-  }
-  function stripBase(pathname, base) {
-    if (!base || !pathname.toLowerCase().startsWith(base.toLowerCase()))
-      return pathname;
-    return pathname.slice(base.length) || "/";
-  }
-  function isSameRouteLocation(stringifyQuery2, a, b) {
-    const aLastIndex = a.matched.length - 1;
-    const bLastIndex = b.matched.length - 1;
-    return aLastIndex > -1 && aLastIndex === bLastIndex && isSameRouteRecord(a.matched[aLastIndex], b.matched[bLastIndex]) && isSameRouteLocationParams(a.params, b.params) && stringifyQuery2(a.query) === stringifyQuery2(b.query) && a.hash === b.hash;
-  }
-  function isSameRouteRecord(a, b) {
-    return (a.aliasOf || a) === (b.aliasOf || b);
-  }
-  function isSameRouteLocationParams(a, b) {
-    if (Object.keys(a).length !== Object.keys(b).length)
-      return false;
-    for (const key in a) {
-      if (!isSameRouteLocationParamsValue(a[key], b[key]))
-        return false;
-    }
-    return true;
-  }
-  function isSameRouteLocationParamsValue(a, b) {
-    return isArray2(a) ? isEquivalentArray(a, b) : isArray2(b) ? isEquivalentArray(b, a) : a === b;
-  }
-  function isEquivalentArray(a, b) {
-    return isArray2(b) ? a.length === b.length && a.every((value, i) => value === b[i]) : a.length === 1 && a[0] === b;
-  }
-  function resolveRelativePath(to, from) {
-    if (to.startsWith("/"))
-      return to;
-    if (!to)
-      return from;
-    const fromSegments = from.split("/");
-    const toSegments = to.split("/");
-    let position = fromSegments.length - 1;
-    let toPosition;
-    let segment;
-    for (toPosition = 0; toPosition < toSegments.length; toPosition++) {
-      segment = toSegments[toPosition];
-      if (segment === ".")
-        continue;
-      if (segment === "..") {
-        if (position > 1)
-          position--;
-      } else
-        break;
-    }
-    return fromSegments.slice(0, position).join("/") + "/" + toSegments.slice(toPosition - (toPosition === toSegments.length ? 1 : 0)).join("/");
-  }
-  var NavigationType;
-  (function(NavigationType2) {
-    NavigationType2["pop"] = "pop";
-    NavigationType2["push"] = "push";
-  })(NavigationType || (NavigationType = {}));
-  var NavigationDirection;
-  (function(NavigationDirection2) {
-    NavigationDirection2["back"] = "back";
-    NavigationDirection2["forward"] = "forward";
-    NavigationDirection2["unknown"] = "";
-  })(NavigationDirection || (NavigationDirection = {}));
-  const START = "";
-  function normalizeBase(base) {
-    if (!base) {
-      {
-        base = "/";
-      }
-    }
-    if (base[0] !== "/" && base[0] !== "#")
-      base = "/" + base;
-    return removeTrailingSlash(base);
-  }
-  const BEFORE_HASH_RE = /^[^#]+#/;
-  function createHref(base, location2) {
-    return base.replace(BEFORE_HASH_RE, "#") + location2;
-  }
-  const computeScrollPosition = () => ({
-    left: window.pageXOffset,
-    top: window.pageYOffset
-  });
-  let createBaseLocation = () => location.protocol + "//" + location.host;
-  function createCurrentLocation(base, location2) {
-    const { pathname, search, hash } = location2;
-    const hashPos = base.indexOf("#");
-    if (hashPos > -1) {
-      let slicePos = hash.includes(base.slice(hashPos)) ? base.slice(hashPos).length : 1;
-      let pathFromHash = hash.slice(slicePos);
-      if (pathFromHash[0] !== "/")
-        pathFromHash = "/" + pathFromHash;
-      return stripBase(pathFromHash, "");
-    }
-    const path = stripBase(pathname, base);
-    return path + search + hash;
-  }
-  function useHistoryListeners(base, historyState, currentLocation, replace) {
-    let listeners = [];
-    let teardowns = [];
-    let pauseState = null;
-    const popStateHandler = ({ state: state2 }) => {
-      const to = createCurrentLocation(base, location);
-      const from = currentLocation.value;
-      const fromState = historyState.value;
-      let delta = 0;
-      if (state2) {
-        currentLocation.value = to;
-        historyState.value = state2;
-        if (pauseState && pauseState === from) {
-          pauseState = null;
-          return;
-        }
-        delta = fromState ? state2.position - fromState.position : 0;
-      } else {
-        replace(to);
-      }
-      listeners.forEach((listener) => {
-        listener(currentLocation.value, from, {
-          delta,
-          type: NavigationType.pop,
-          direction: delta ? delta > 0 ? NavigationDirection.forward : NavigationDirection.back : NavigationDirection.unknown
-        });
-      });
-    };
-    function pauseListeners() {
-      pauseState = currentLocation.value;
-    }
-    function listen(callback) {
-      listeners.push(callback);
-      const teardown = () => {
-        const index = listeners.indexOf(callback);
-        if (index > -1)
-          listeners.splice(index, 1);
-      };
-      teardowns.push(teardown);
-      return teardown;
-    }
-    function beforeUnloadListener() {
-      const { history: history2 } = window;
-      if (!history2.state)
-        return;
-      history2.replaceState(assign2({}, history2.state, { scroll: computeScrollPosition() }), "");
-    }
-    function destroy() {
-      for (const teardown of teardowns)
-        teardown();
-      teardowns = [];
-      window.removeEventListener("popstate", popStateHandler);
-      window.removeEventListener("beforeunload", beforeUnloadListener);
-    }
-    window.addEventListener("popstate", popStateHandler);
-    window.addEventListener("beforeunload", beforeUnloadListener);
-    return {
-      pauseListeners,
-      listen,
-      destroy
-    };
-  }
-  function buildState(back, current, forward, replaced = false, computeScroll = false) {
-    return {
-      back,
-      current,
-      forward,
-      replaced,
-      position: window.history.length,
-      scroll: computeScroll ? computeScrollPosition() : null
-    };
-  }
-  function useHistoryStateNavigation(base) {
-    const { history: history2, location: location2 } = window;
-    const currentLocation = {
-      value: createCurrentLocation(base, location2)
-    };
-    const historyState = { value: history2.state };
-    if (!historyState.value) {
-      changeLocation(currentLocation.value, {
-        back: null,
-        current: currentLocation.value,
-        forward: null,
-        position: history2.length - 1,
-        replaced: true,
-        scroll: null
-      }, true);
-    }
-    function changeLocation(to, state2, replace2) {
-      const hashIndex = base.indexOf("#");
-      const url = hashIndex > -1 ? (location2.host && document.querySelector("base") ? base : base.slice(hashIndex)) + to : createBaseLocation() + base + to;
-      try {
-        history2[replace2 ? "replaceState" : "pushState"](state2, "", url);
-        historyState.value = state2;
-      } catch (err) {
-        {
-          console.error(err);
-        }
-        location2[replace2 ? "replace" : "assign"](url);
-      }
-    }
-    function replace(to, data) {
-      const state2 = assign2({}, history2.state, buildState(
-        historyState.value.back,
-        to,
-        historyState.value.forward,
-        true
-      ), data, { position: historyState.value.position });
-      changeLocation(to, state2, true);
-      currentLocation.value = to;
-    }
-    function push(to, data) {
-      const currentState = assign2(
-        {},
-        historyState.value,
-        history2.state,
-        {
-          forward: to,
-          scroll: computeScrollPosition()
-        }
-      );
-      changeLocation(currentState.current, currentState, true);
-      const state2 = assign2({}, buildState(currentLocation.value, to, null), { position: currentState.position + 1 }, data);
-      changeLocation(to, state2, false);
-      currentLocation.value = to;
-    }
-    return {
-      location: currentLocation,
-      state: historyState,
-      push,
-      replace
-    };
-  }
-  function createWebHistory(base) {
-    base = normalizeBase(base);
-    const historyNavigation = useHistoryStateNavigation(base);
-    const historyListeners = useHistoryListeners(base, historyNavigation.state, historyNavigation.location, historyNavigation.replace);
-    function go(delta, triggerListeners = true) {
-      if (!triggerListeners)
-        historyListeners.pauseListeners();
-      history.go(delta);
-    }
-    const routerHistory = assign2({
-      location: "",
-      base,
-      go,
-      createHref: createHref.bind(null, base)
-    }, historyNavigation, historyListeners);
-    Object.defineProperty(routerHistory, "location", {
-      enumerable: true,
-      get: () => historyNavigation.location.value
-    });
-    Object.defineProperty(routerHistory, "state", {
-      enumerable: true,
-      get: () => historyNavigation.state.value
-    });
-    return routerHistory;
-  }
-  function createMemoryHistory(base = "") {
-    let listeners = [];
-    let queue = [START];
-    let position = 0;
-    base = normalizeBase(base);
-    function setLocation(location2) {
-      position++;
-      if (position === queue.length) {
-        queue.push(location2);
-      } else {
-        queue.splice(position);
-        queue.push(location2);
-      }
-    }
-    function triggerListeners(to, from, { direction, delta }) {
-      const info = {
-        direction,
-        delta,
-        type: NavigationType.pop
-      };
-      for (const callback of listeners) {
-        callback(to, from, info);
-      }
-    }
-    const routerHistory = {
-      location: START,
-      state: {},
-      base,
-      createHref: createHref.bind(null, base),
-      replace(to) {
-        queue.splice(position--, 1);
-        setLocation(to);
-      },
-      push(to, data) {
-        setLocation(to);
-      },
-      listen(callback) {
-        listeners.push(callback);
-        return () => {
-          const index = listeners.indexOf(callback);
-          if (index > -1)
-            listeners.splice(index, 1);
-        };
-      },
-      destroy() {
-        listeners = [];
-        queue = [START];
-        position = 0;
-      },
-      go(delta, shouldTrigger = true) {
-        const from = this.location;
-        const direction = delta < 0 ? NavigationDirection.back : NavigationDirection.forward;
-        position = Math.max(0, Math.min(position + delta, queue.length - 1));
-        if (shouldTrigger) {
-          triggerListeners(this.location, from, {
-            direction,
-            delta
-          });
-        }
-      }
-    };
-    Object.defineProperty(routerHistory, "location", {
-      enumerable: true,
-      get: () => queue[position]
-    });
-    return routerHistory;
-  }
-  function createWebHashHistory(base) {
-    base = location.host ? base || location.pathname + location.search : "";
-    if (!base.includes("#"))
-      base += "#";
-    return createWebHistory(base);
-  }
-  function isRouteLocation(route) {
-    return typeof route === "string" || route && typeof route === "object";
-  }
-  function isRouteName(name) {
-    return typeof name === "string" || typeof name === "symbol";
-  }
-  const START_LOCATION_NORMALIZED = {
-    path: "/",
-    name: void 0,
-    params: {},
-    query: {},
-    hash: "",
-    fullPath: "/",
-    matched: [],
-    meta: {},
-    redirectedFrom: void 0
-  };
-  const NavigationFailureSymbol = Symbol("");
-  exports.NavigationFailureType = void 0;
-  (function(NavigationFailureType) {
-    NavigationFailureType[NavigationFailureType["aborted"] = 4] = "aborted";
-    NavigationFailureType[NavigationFailureType["cancelled"] = 8] = "cancelled";
-    NavigationFailureType[NavigationFailureType["duplicated"] = 16] = "duplicated";
-  })(exports.NavigationFailureType || (exports.NavigationFailureType = {}));
-  const ErrorTypeMessages = {
-    [1]({ location: location2, currentLocation }) {
-      return `No match for
- ${JSON.stringify(location2)}${currentLocation ? "\nwhile being at\n" + JSON.stringify(currentLocation) : ""}`;
-    },
-    [2]({ from, to }) {
-      return `Redirected from "${from.fullPath}" to "${stringifyRoute(to)}" via a navigation guard.`;
-    },
-    [4]({ from, to }) {
-      return `Navigation aborted from "${from.fullPath}" to "${to.fullPath}" via a navigation guard.`;
-    },
-    [8]({ from, to }) {
-      return `Navigation cancelled from "${from.fullPath}" to "${to.fullPath}" with a new navigation.`;
-    },
-    [16]({ from, to }) {
-      return `Avoided redundant navigation to current location: "${from.fullPath}".`;
-    }
-  };
-  function createRouterError(type, params) {
-    {
-      return assign2(new Error(ErrorTypeMessages[type](params)), {
-        type,
-        [NavigationFailureSymbol]: true
-      }, params);
-    }
-  }
-  function isNavigationFailure(error, type) {
-    return error instanceof Error && NavigationFailureSymbol in error && (type == null || !!(error.type & type));
-  }
-  const propertiesToLog = ["params", "query", "hash"];
-  function stringifyRoute(to) {
-    if (typeof to === "string")
-      return to;
-    if ("path" in to)
-      return to.path;
-    const location2 = {};
-    for (const key of propertiesToLog) {
-      if (key in to)
-        location2[key] = to[key];
-    }
-    return JSON.stringify(location2, null, 2);
-  }
-  const BASE_PARAM_PATTERN = "[^/]+?";
-  const BASE_PATH_PARSER_OPTIONS = {
-    sensitive: false,
-    strict: false,
-    start: true,
-    end: true
-  };
-  const REGEX_CHARS_RE = /[.+*?^${}()[\]/\\]/g;
-  function tokensToParser(segments, extraOptions) {
-    const options = assign2({}, BASE_PATH_PARSER_OPTIONS, extraOptions);
-    const score = [];
-    let pattern = options.start ? "^" : "";
-    const keys = [];
-    for (const segment of segments) {
-      const segmentScores = segment.length ? [] : [90];
-      if (options.strict && !segment.length)
-        pattern += "/";
-      for (let tokenIndex = 0; tokenIndex < segment.length; tokenIndex++) {
-        const token = segment[tokenIndex];
-        let subSegmentScore = 40 + (options.sensitive ? 0.25 : 0);
-        if (token.type === 0) {
-          if (!tokenIndex)
-            pattern += "/";
-          pattern += token.value.replace(REGEX_CHARS_RE, "\\$&");
-          subSegmentScore += 40;
-        } else if (token.type === 1) {
-          const { value, repeatable, optional, regexp } = token;
-          keys.push({
-            name: value,
-            repeatable,
-            optional
-          });
-          const re2 = regexp ? regexp : BASE_PARAM_PATTERN;
-          if (re2 !== BASE_PARAM_PATTERN) {
-            subSegmentScore += 10;
-            try {
-              new RegExp(`(${re2})`);
-            } catch (err) {
-              throw new Error(`Invalid custom RegExp for param "${value}" (${re2}): ` + err.message);
-            }
-          }
-          let subPattern = repeatable ? `((?:${re2})(?:/(?:${re2}))*)` : `(${re2})`;
-          if (!tokenIndex)
-            subPattern = optional && segment.length < 2 ? `(?:/${subPattern})` : "/" + subPattern;
-          if (optional)
-            subPattern += "?";
-          pattern += subPattern;
-          subSegmentScore += 20;
-          if (optional)
-            subSegmentScore += -8;
-          if (repeatable)
-            subSegmentScore += -20;
-          if (re2 === ".*")
-            subSegmentScore += -50;
-        }
-        segmentScores.push(subSegmentScore);
-      }
-      score.push(segmentScores);
-    }
-    if (options.strict && options.end) {
-      const i = score.length - 1;
-      score[i][score[i].length - 1] += 0.7000000000000001;
-    }
-    if (!options.strict)
-      pattern += "/?";
-    if (options.end)
-      pattern += "$";
-    else if (options.strict)
-      pattern += "(?:/|$)";
-    const re = new RegExp(pattern, options.sensitive ? "" : "i");
-    function parse2(path) {
-      const match = path.match(re);
-      const params = {};
-      if (!match)
-        return null;
-      for (let i = 1; i < match.length; i++) {
-        const value = match[i] || "";
-        const key = keys[i - 1];
-        params[key.name] = value && key.repeatable ? value.split("/") : value;
-      }
-      return params;
-    }
-    function stringify(params) {
-      let path = "";
-      let avoidDuplicatedSlash = false;
-      for (const segment of segments) {
-        if (!avoidDuplicatedSlash || !path.endsWith("/"))
-          path += "/";
-        avoidDuplicatedSlash = false;
-        for (const token of segment) {
-          if (token.type === 0) {
-            path += token.value;
-          } else if (token.type === 1) {
-            const { value, repeatable, optional } = token;
-            const param = value in params ? params[value] : "";
-            if (isArray2(param) && !repeatable) {
-              throw new Error(`Provided param "${value}" is an array but it is not repeatable (* or + modifiers)`);
-            }
-            const text = isArray2(param) ? param.join("/") : param;
-            if (!text) {
-              if (optional) {
-                if (segment.length < 2) {
-                  if (path.endsWith("/"))
-                    path = path.slice(0, -1);
-                  else
-                    avoidDuplicatedSlash = true;
-                }
-              } else
-                throw new Error(`Missing required param "${value}"`);
-            }
-            path += text;
-          }
-        }
-      }
-      return path || "/";
-    }
-    return {
-      re,
-      score,
-      keys,
-      parse: parse2,
-      stringify
-    };
-  }
-  function compareScoreArray(a, b) {
-    let i = 0;
-    while (i < a.length && i < b.length) {
-      const diff = b[i] - a[i];
-      if (diff)
-        return diff;
-      i++;
-    }
-    if (a.length < b.length) {
-      return a.length === 1 && a[0] === 40 + 40 ? -1 : 1;
-    } else if (a.length > b.length) {
-      return b.length === 1 && b[0] === 40 + 40 ? 1 : -1;
-    }
-    return 0;
-  }
-  function comparePathParserScore(a, b) {
-    let i = 0;
-    const aScore = a.score;
-    const bScore = b.score;
-    while (i < aScore.length && i < bScore.length) {
-      const comp = compareScoreArray(aScore[i], bScore[i]);
-      if (comp)
-        return comp;
-      i++;
-    }
-    if (Math.abs(bScore.length - aScore.length) === 1) {
-      if (isLastScoreNegative(aScore))
-        return 1;
-      if (isLastScoreNegative(bScore))
-        return -1;
-    }
-    return bScore.length - aScore.length;
-  }
-  function isLastScoreNegative(score) {
-    const last = score[score.length - 1];
-    return score.length > 0 && last[last.length - 1] < 0;
-  }
-  const ROOT_TOKEN = {
-    type: 0,
-    value: ""
-  };
-  const VALID_PARAM_RE = /[a-zA-Z0-9_]/;
-  function tokenizePath(path) {
-    if (!path)
-      return [[]];
-    if (path === "/")
-      return [[ROOT_TOKEN]];
-    if (!path.startsWith("/")) {
-      throw new Error(`Invalid path "${path}"`);
-    }
-    function crash(message) {
-      throw new Error(`ERR (${state2})/"${buffer}": ${message}`);
-    }
-    let state2 = 0;
-    let previousState = state2;
-    const tokens = [];
-    let segment;
-    function finalizeSegment() {
-      if (segment)
-        tokens.push(segment);
-      segment = [];
-    }
-    let i = 0;
-    let char;
-    let buffer = "";
-    let customRe = "";
-    function consumeBuffer() {
-      if (!buffer)
-        return;
-      if (state2 === 0) {
-        segment.push({
-          type: 0,
-          value: buffer
-        });
-      } else if (state2 === 1 || state2 === 2 || state2 === 3) {
-        if (segment.length > 1 && (char === "*" || char === "+"))
-          crash(`A repeatable param (${buffer}) must be alone in its segment. eg: '/:ids+.`);
-        segment.push({
-          type: 1,
-          value: buffer,
-          regexp: customRe,
-          repeatable: char === "*" || char === "+",
-          optional: char === "*" || char === "?"
-        });
-      } else {
-        crash("Invalid state to consume buffer");
-      }
-      buffer = "";
-    }
-    function addCharToBuffer() {
-      buffer += char;
-    }
-    while (i < path.length) {
-      char = path[i++];
-      if (char === "\\" && state2 !== 2) {
-        previousState = state2;
-        state2 = 4;
-        continue;
-      }
-      switch (state2) {
-        case 0:
-          if (char === "/") {
-            if (buffer) {
-              consumeBuffer();
-            }
-            finalizeSegment();
-          } else if (char === ":") {
-            consumeBuffer();
-            state2 = 1;
-          } else {
-            addCharToBuffer();
-          }
-          break;
-        case 4:
-          addCharToBuffer();
-          state2 = previousState;
-          break;
-        case 1:
-          if (char === "(") {
-            state2 = 2;
-          } else if (VALID_PARAM_RE.test(char)) {
-            addCharToBuffer();
-          } else {
-            consumeBuffer();
-            state2 = 0;
-            if (char !== "*" && char !== "?" && char !== "+")
-              i--;
-          }
-          break;
-        case 2:
-          if (char === ")") {
-            if (customRe[customRe.length - 1] == "\\")
-              customRe = customRe.slice(0, -1) + char;
-            else
-              state2 = 3;
-          } else {
-            customRe += char;
-          }
-          break;
-        case 3:
-          consumeBuffer();
-          state2 = 0;
-          if (char !== "*" && char !== "?" && char !== "+")
-            i--;
-          customRe = "";
-          break;
-        default:
-          crash("Unknown state");
-          break;
-      }
-    }
-    if (state2 === 2)
-      crash(`Unfinished custom RegExp for param "${buffer}"`);
-    consumeBuffer();
-    finalizeSegment();
-    return tokens;
-  }
-  function createRouteRecordMatcher(record, parent, options) {
-    const parser = tokensToParser(tokenizePath(record.path), options);
-    const matcher = assign2(parser, {
-      record,
-      parent,
-      children: [],
-      alias: []
-    });
-    if (parent) {
-      if (!matcher.record.aliasOf === !parent.record.aliasOf)
-        parent.children.push(matcher);
-    }
-    return matcher;
-  }
-  function createRouterMatcher(routes2, globalOptions) {
-    const matchers = [];
-    const matcherMap = /* @__PURE__ */ new Map();
-    globalOptions = mergeOptions({ strict: false, end: true, sensitive: false }, globalOptions);
-    function getRecordMatcher(name) {
-      return matcherMap.get(name);
-    }
-    function addRoute(record, parent, originalRecord) {
-      const isRootAdd = !originalRecord;
-      const mainNormalizedRecord = normalizeRouteRecord(record);
-      mainNormalizedRecord.aliasOf = originalRecord && originalRecord.record;
-      const options = mergeOptions(globalOptions, record);
-      const normalizedRecords = [
-        mainNormalizedRecord
-      ];
-      if ("alias" in record) {
-        const aliases = typeof record.alias === "string" ? [record.alias] : record.alias;
-        for (const alias of aliases) {
-          normalizedRecords.push(assign2({}, mainNormalizedRecord, {
-            components: originalRecord ? originalRecord.record.components : mainNormalizedRecord.components,
-            path: alias,
-            aliasOf: originalRecord ? originalRecord.record : mainNormalizedRecord
-          }));
-        }
-      }
-      let matcher;
-      let originalMatcher;
-      for (const normalizedRecord of normalizedRecords) {
-        const { path } = normalizedRecord;
-        if (parent && path[0] !== "/") {
-          const parentPath = parent.record.path;
-          const connectingSlash = parentPath[parentPath.length - 1] === "/" ? "" : "/";
-          normalizedRecord.path = parent.record.path + (path && connectingSlash + path);
-        }
-        matcher = createRouteRecordMatcher(normalizedRecord, parent, options);
-        if (originalRecord) {
-          originalRecord.alias.push(matcher);
-        } else {
-          originalMatcher = originalMatcher || matcher;
-          if (originalMatcher !== matcher)
-            originalMatcher.alias.push(matcher);
-          if (isRootAdd && record.name && !isAliasRecord(matcher))
-            removeRoute(record.name);
-        }
-        if (mainNormalizedRecord.children) {
-          const children = mainNormalizedRecord.children;
-          for (let i = 0; i < children.length; i++) {
-            addRoute(children[i], matcher, originalRecord && originalRecord.children[i]);
-          }
-        }
-        originalRecord = originalRecord || matcher;
-        insertMatcher(matcher);
-      }
-      return originalMatcher ? () => {
-        removeRoute(originalMatcher);
-      } : noop2;
-    }
-    function removeRoute(matcherRef) {
-      if (isRouteName(matcherRef)) {
-        const matcher = matcherMap.get(matcherRef);
-        if (matcher) {
-          matcherMap.delete(matcherRef);
-          matchers.splice(matchers.indexOf(matcher), 1);
-          matcher.children.forEach(removeRoute);
-          matcher.alias.forEach(removeRoute);
-        }
-      } else {
-        const index = matchers.indexOf(matcherRef);
-        if (index > -1) {
-          matchers.splice(index, 1);
-          if (matcherRef.record.name)
-            matcherMap.delete(matcherRef.record.name);
-          matcherRef.children.forEach(removeRoute);
-          matcherRef.alias.forEach(removeRoute);
-        }
-      }
-    }
-    function getRoutes() {
-      return matchers;
-    }
-    function insertMatcher(matcher) {
-      let i = 0;
-      while (i < matchers.length && comparePathParserScore(matcher, matchers[i]) >= 0 && (matcher.record.path !== matchers[i].record.path || !isRecordChildOf(matcher, matchers[i])))
-        i++;
-      matchers.splice(i, 0, matcher);
-      if (matcher.record.name && !isAliasRecord(matcher))
-        matcherMap.set(matcher.record.name, matcher);
-    }
-    function resolve(location2, currentLocation) {
-      let matcher;
-      let params = {};
-      let path;
-      let name;
-      if ("name" in location2 && location2.name) {
-        matcher = matcherMap.get(location2.name);
-        if (!matcher)
-          throw createRouterError(1, {
-            location: location2
-          });
-        name = matcher.record.name;
-        params = assign2(
-          paramsFromLocation(
-            currentLocation.params,
-            matcher.keys.filter((k) => !k.optional).map((k) => k.name)
-          ),
-          location2.params && paramsFromLocation(location2.params, matcher.keys.map((k) => k.name))
-        );
-        path = matcher.stringify(params);
-      } else if ("path" in location2) {
-        path = location2.path;
-        matcher = matchers.find((m) => m.re.test(path));
-        if (matcher) {
-          params = matcher.parse(path);
-          name = matcher.record.name;
-        }
-      } else {
-        matcher = currentLocation.name ? matcherMap.get(currentLocation.name) : matchers.find((m) => m.re.test(currentLocation.path));
-        if (!matcher)
-          throw createRouterError(1, {
-            location: location2,
-            currentLocation
-          });
-        name = matcher.record.name;
-        params = assign2({}, currentLocation.params, location2.params);
-        path = matcher.stringify(params);
-      }
-      const matched = [];
-      let parentMatcher = matcher;
-      while (parentMatcher) {
-        matched.unshift(parentMatcher.record);
-        parentMatcher = parentMatcher.parent;
-      }
-      return {
-        name,
-        path,
-        params,
-        matched,
-        meta: mergeMetaFields(matched)
-      };
-    }
-    routes2.forEach((route) => addRoute(route));
-    return { addRoute, resolve, removeRoute, getRoutes, getRecordMatcher };
-  }
-  function paramsFromLocation(params, keys) {
-    const newParams = {};
-    for (const key of keys) {
-      if (key in params)
-        newParams[key] = params[key];
-    }
-    return newParams;
-  }
-  function normalizeRouteRecord(record) {
-    return {
-      path: record.path,
-      redirect: record.redirect,
-      name: record.name,
-      meta: record.meta || {},
-      aliasOf: void 0,
-      beforeEnter: record.beforeEnter,
-      props: normalizeRecordProps(record),
-      children: record.children || [],
-      instances: {},
-      leaveGuards: /* @__PURE__ */ new Set(),
-      updateGuards: /* @__PURE__ */ new Set(),
-      enterCallbacks: {},
-      components: "components" in record ? record.components || null : record.component && { default: record.component }
-    };
-  }
-  function normalizeRecordProps(record) {
-    const propsObject = {};
-    const props = record.props || false;
-    if ("component" in record) {
-      propsObject.default = props;
-    } else {
-      for (const name in record.components)
-        propsObject[name] = typeof props === "boolean" ? props : props[name];
-    }
-    return propsObject;
-  }
-  function isAliasRecord(record) {
-    while (record) {
-      if (record.record.aliasOf)
-        return true;
-      record = record.parent;
-    }
-    return false;
-  }
-  function mergeMetaFields(matched) {
-    return matched.reduce((meta2, record) => assign2(meta2, record.meta), {});
-  }
-  function mergeOptions(defaults, partialOptions) {
-    const options = {};
-    for (const key in defaults) {
-      options[key] = key in partialOptions ? partialOptions[key] : defaults[key];
-    }
-    return options;
-  }
-  function isRecordChildOf(record, parent) {
-    return parent.children.some((child) => child === record || isRecordChildOf(record, child));
-  }
-  const HASH_RE = /#/g;
-  const AMPERSAND_RE = /&/g;
-  const SLASH_RE = /\//g;
-  const EQUAL_RE = /=/g;
-  const IM_RE = /\?/g;
-  const PLUS_RE = /\+/g;
-  const ENC_BRACKET_OPEN_RE = /%5B/g;
-  const ENC_BRACKET_CLOSE_RE = /%5D/g;
-  const ENC_CARET_RE = /%5E/g;
-  const ENC_BACKTICK_RE = /%60/g;
-  const ENC_CURLY_OPEN_RE = /%7B/g;
-  const ENC_PIPE_RE = /%7C/g;
-  const ENC_CURLY_CLOSE_RE = /%7D/g;
-  const ENC_SPACE_RE = /%20/g;
-  function commonEncode(text) {
-    return encodeURI("" + text).replace(ENC_PIPE_RE, "|").replace(ENC_BRACKET_OPEN_RE, "[").replace(ENC_BRACKET_CLOSE_RE, "]");
-  }
-  function encodeHash(text) {
-    return commonEncode(text).replace(ENC_CURLY_OPEN_RE, "{").replace(ENC_CURLY_CLOSE_RE, "}").replace(ENC_CARET_RE, "^");
-  }
-  function encodeQueryValue(text) {
-    return commonEncode(text).replace(PLUS_RE, "%2B").replace(ENC_SPACE_RE, "+").replace(HASH_RE, "%23").replace(AMPERSAND_RE, "%26").replace(ENC_BACKTICK_RE, "`").replace(ENC_CURLY_OPEN_RE, "{").replace(ENC_CURLY_CLOSE_RE, "}").replace(ENC_CARET_RE, "^");
-  }
-  function encodeQueryKey(text) {
-    return encodeQueryValue(text).replace(EQUAL_RE, "%3D");
-  }
-  function encodePath(text) {
-    return commonEncode(text).replace(HASH_RE, "%23").replace(IM_RE, "%3F");
-  }
-  function encodeParam(text) {
-    return text == null ? "" : encodePath(text).replace(SLASH_RE, "%2F");
-  }
-  function decode(text) {
-    try {
-      return decodeURIComponent("" + text);
-    } catch (err) {
-    }
-    return "" + text;
-  }
-  function parseQuery(search) {
-    const query = {};
-    if (search === "" || search === "?")
-      return query;
-    const hasLeadingIM = search[0] === "?";
-    const searchParams = (hasLeadingIM ? search.slice(1) : search).split("&");
-    for (let i = 0; i < searchParams.length; ++i) {
-      const searchParam = searchParams[i].replace(PLUS_RE, " ");
-      const eqPos = searchParam.indexOf("=");
-      const key = decode(eqPos < 0 ? searchParam : searchParam.slice(0, eqPos));
-      const value = eqPos < 0 ? null : decode(searchParam.slice(eqPos + 1));
-      if (key in query) {
-        let currentValue = query[key];
-        if (!isArray2(currentValue)) {
-          currentValue = query[key] = [currentValue];
-        }
-        currentValue.push(value);
-      } else {
-        query[key] = value;
-      }
-    }
-    return query;
-  }
-  function stringifyQuery(query) {
-    let search = "";
-    for (let key in query) {
-      const value = query[key];
-      key = encodeQueryKey(key);
-      if (value == null) {
-        if (value !== void 0) {
-          search += (search.length ? "&" : "") + key;
-        }
-        continue;
-      }
-      const values = isArray2(value) ? value.map((v) => v && encodeQueryValue(v)) : [value && encodeQueryValue(value)];
-      values.forEach((value2) => {
-        if (value2 !== void 0) {
-          search += (search.length ? "&" : "") + key;
-          if (value2 != null)
-            search += "=" + value2;
-        }
-      });
-    }
-    return search;
-  }
-  function normalizeQuery(query) {
-    const normalizedQuery = {};
-    for (const key in query) {
-      const value = query[key];
-      if (value !== void 0) {
-        normalizedQuery[key] = isArray2(value) ? value.map((v) => v == null ? null : "" + v) : value == null ? value : "" + value;
-      }
-    }
-    return normalizedQuery;
-  }
-  const matchedRouteKey = Symbol("");
-  const viewDepthKey = Symbol("");
-  const routerKey = Symbol("");
-  const routeLocationKey = Symbol("");
-  const routerViewLocationKey = Symbol("");
-  function useCallbacks() {
-    let handlers = [];
-    function add(handler) {
-      handlers.push(handler);
-      return () => {
-        const i = handlers.indexOf(handler);
-        if (i > -1)
-          handlers.splice(i, 1);
-      };
-    }
-    function reset() {
-      handlers = [];
-    }
-    return {
-      add,
-      list: () => handlers,
-      reset
-    };
-  }
-  function registerGuard(record, name, guard) {
-    const removeFromList = () => {
-      record[name].delete(guard);
-    };
-    vue.onUnmounted(removeFromList);
-    vue.onDeactivated(removeFromList);
-    vue.onActivated(() => {
-      record[name].add(guard);
-    });
-    record[name].add(guard);
-  }
-  function onBeforeRouteLeave(leaveGuard) {
-    const activeRecord = vue.inject(
-      matchedRouteKey,
-      {}
-    ).value;
-    if (!activeRecord) {
-      return;
-    }
-    registerGuard(activeRecord, "leaveGuards", leaveGuard);
-  }
-  function onBeforeRouteUpdate(updateGuard) {
-    const activeRecord = vue.inject(
-      matchedRouteKey,
-      {}
-    ).value;
-    if (!activeRecord) {
-      return;
-    }
-    registerGuard(activeRecord, "updateGuards", updateGuard);
-  }
-  function guardToPromiseFn(guard, to, from, record, name) {
-    const enterCallbackArray = record && (record.enterCallbacks[name] = record.enterCallbacks[name] || []);
-    return () => new Promise((resolve, reject) => {
-      const next = (valid) => {
-        if (valid === false) {
-          reject(createRouterError(4, {
-            from,
-            to
-          }));
-        } else if (valid instanceof Error) {
-          reject(valid);
-        } else if (isRouteLocation(valid)) {
-          reject(createRouterError(2, {
-            from: to,
-            to: valid
-          }));
-        } else {
-          if (enterCallbackArray && record.enterCallbacks[name] === enterCallbackArray && typeof valid === "function") {
-            enterCallbackArray.push(valid);
-          }
-          resolve();
-        }
-      };
-      const guardReturn = guard.call(record && record.instances[name], to, from, next);
-      let guardCall = Promise.resolve(guardReturn);
-      if (guard.length < 3)
-        guardCall = guardCall.then(next);
-      guardCall.catch((err) => reject(err));
-    });
-  }
-  function extractComponentsGuards(matched, guardType, to, from) {
-    const guards = [];
-    for (const record of matched) {
-      for (const name in record.components) {
-        let rawComponent = record.components[name];
-        if (guardType !== "beforeRouteEnter" && !record.instances[name])
-          continue;
-        if (isRouteComponent(rawComponent)) {
-          const options = rawComponent.__vccOpts || rawComponent;
-          const guard = options[guardType];
-          guard && guards.push(guardToPromiseFn(guard, to, from, record, name));
-        } else {
-          let componentPromise = rawComponent();
-          guards.push(() => componentPromise.then((resolved) => {
-            if (!resolved)
-              return Promise.reject(new Error(`Couldn't resolve component "${name}" at "${record.path}"`));
-            const resolvedComponent = isESModule(resolved) ? resolved.default : resolved;
-            record.components[name] = resolvedComponent;
-            const options = resolvedComponent.__vccOpts || resolvedComponent;
-            const guard = options[guardType];
-            return guard && guardToPromiseFn(guard, to, from, record, name)();
-          }));
-        }
-      }
-    }
-    return guards;
-  }
-  function isRouteComponent(component) {
-    return typeof component === "object" || "displayName" in component || "props" in component || "__vccOpts" in component;
-  }
-  function loadRouteLocation(route) {
-    return route.matched.every((record) => record.redirect) ? Promise.reject(new Error("Cannot load a route that redirects.")) : Promise.all(route.matched.map((record) => record.components && Promise.all(Object.keys(record.components).reduce((promises, name) => {
-      const rawComponent = record.components[name];
-      if (typeof rawComponent === "function" && !("displayName" in rawComponent)) {
-        promises.push(rawComponent().then((resolved) => {
-          if (!resolved)
-            return Promise.reject(new Error(`Couldn't resolve component "${name}" at "${record.path}". Ensure you passed a function that returns a promise.`));
-          const resolvedComponent = isESModule(resolved) ? resolved.default : resolved;
-          record.components[name] = resolvedComponent;
-          return;
-        }));
-      }
-      return promises;
-    }, [])))).then(() => route);
-  }
-  function useLink(props) {
-    const router = vue.inject(routerKey);
-    const currentRoute = vue.inject(routeLocationKey);
-    const route = vue.computed(() => router.resolve(vue.unref(props.to)));
-    const activeRecordIndex = vue.computed(() => {
-      const { matched } = route.value;
-      const { length } = matched;
-      const routeMatched = matched[length - 1];
-      const currentMatched = currentRoute.matched;
-      if (!routeMatched || !currentMatched.length)
-        return -1;
-      const index = currentMatched.findIndex(isSameRouteRecord.bind(null, routeMatched));
-      if (index > -1)
-        return index;
-      const parentRecordPath = getOriginalPath(matched[length - 2]);
-      return length > 1 && getOriginalPath(routeMatched) === parentRecordPath && currentMatched[currentMatched.length - 1].path !== parentRecordPath ? currentMatched.findIndex(isSameRouteRecord.bind(null, matched[length - 2])) : index;
-    });
-    const isActive = vue.computed(() => activeRecordIndex.value > -1 && includesParams(currentRoute.params, route.value.params));
-    const isExactActive = vue.computed(() => activeRecordIndex.value > -1 && activeRecordIndex.value === currentRoute.matched.length - 1 && isSameRouteLocationParams(currentRoute.params, route.value.params));
-    function navigate(e = {}) {
-      if (guardEvent(e)) {
-        return router[vue.unref(props.replace) ? "replace" : "push"](
-          vue.unref(props.to)
-        ).catch(noop2);
-      }
-      return Promise.resolve();
-    }
-    return {
-      route,
-      href: vue.computed(() => route.value.href),
-      isActive,
-      isExactActive,
-      navigate
-    };
-  }
-  const RouterLinkImpl = /* @__PURE__ */ vue.defineComponent({
-    name: "RouterLink",
-    compatConfig: { MODE: 3 },
-    props: {
-      to: {
-        type: [String, Object],
-        required: true
-      },
-      replace: Boolean,
-      activeClass: String,
-      exactActiveClass: String,
-      custom: Boolean,
-      ariaCurrentValue: {
-        type: String,
-        default: "page"
-      }
-    },
-    useLink,
-    setup(props, { slots }) {
-      const link = vue.reactive(useLink(props));
-      const { options } = vue.inject(routerKey);
-      const elClass = vue.computed(() => ({
-        [getLinkClass(props.activeClass, options.linkActiveClass, "router-link-active")]: link.isActive,
-        [getLinkClass(props.exactActiveClass, options.linkExactActiveClass, "router-link-exact-active")]: link.isExactActive
-      }));
-      return () => {
-        const children = slots.default && slots.default(link);
-        return props.custom ? children : vue.h("a", {
-          "aria-current": link.isExactActive ? props.ariaCurrentValue : null,
-          href: link.href,
-          onClick: link.navigate,
-          class: elClass.value
-        }, children);
-      };
-    }
-  });
-  const RouterLink = RouterLinkImpl;
-  function guardEvent(e) {
-    if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey)
-      return;
-    if (e.defaultPrevented)
-      return;
-    if (e.button !== void 0 && e.button !== 0)
-      return;
-    if (e.currentTarget && e.currentTarget.getAttribute) {
-      const target = e.currentTarget.getAttribute("target");
-      if (/\b_blank\b/i.test(target))
-        return;
-    }
-    if (e.preventDefault)
-      e.preventDefault();
-    return true;
-  }
-  function includesParams(outer, inner) {
-    for (const key in inner) {
-      const innerValue = inner[key];
-      const outerValue = outer[key];
-      if (typeof innerValue === "string") {
-        if (innerValue !== outerValue)
-          return false;
-      } else {
-        if (!isArray2(outerValue) || outerValue.length !== innerValue.length || innerValue.some((value, i) => value !== outerValue[i]))
-          return false;
-      }
-    }
-    return true;
-  }
-  function getOriginalPath(record) {
-    return record ? record.aliasOf ? record.aliasOf.path : record.path : "";
-  }
-  const getLinkClass = (propClass, globalClass, defaultClass) => propClass != null ? propClass : globalClass != null ? globalClass : defaultClass;
-  const RouterViewImpl = /* @__PURE__ */ vue.defineComponent({
-    name: "RouterView",
-    inheritAttrs: false,
-    props: {
-      name: {
-        type: String,
-        default: "default"
-      },
-      route: Object
-    },
-    compatConfig: { MODE: 3 },
-    setup(props, { attrs, slots }) {
-      const injectedRoute = vue.inject(routerViewLocationKey);
-      const routeToDisplay = vue.computed(() => props.route || injectedRoute.value);
-      const injectedDepth = vue.inject(viewDepthKey, 0);
-      const depth = vue.computed(() => {
-        let initialDepth = vue.unref(injectedDepth);
-        const { matched } = routeToDisplay.value;
-        let matchedRoute;
-        while ((matchedRoute = matched[initialDepth]) && !matchedRoute.components) {
-          initialDepth++;
-        }
-        return initialDepth;
-      });
-      const matchedRouteRef = vue.computed(() => routeToDisplay.value.matched[depth.value]);
-      vue.provide(viewDepthKey, vue.computed(() => depth.value + 1));
-      vue.provide(matchedRouteKey, matchedRouteRef);
-      vue.provide(routerViewLocationKey, routeToDisplay);
-      const viewRef = vue.ref();
-      vue.watch(() => [viewRef.value, matchedRouteRef.value, props.name], ([instance, to, name], [oldInstance, from, oldName]) => {
-        if (to) {
-          to.instances[name] = instance;
-          if (from && from !== to && instance && instance === oldInstance) {
-            if (!to.leaveGuards.size) {
-              to.leaveGuards = from.leaveGuards;
-            }
-            if (!to.updateGuards.size) {
-              to.updateGuards = from.updateGuards;
-            }
-          }
-        }
-        if (instance && to && (!from || !isSameRouteRecord(to, from) || !oldInstance)) {
-          (to.enterCallbacks[name] || []).forEach((callback) => callback(instance));
-        }
-      }, { flush: "post" });
-      return () => {
-        const route = routeToDisplay.value;
-        const currentName = props.name;
-        const matchedRoute = matchedRouteRef.value;
-        const ViewComponent = matchedRoute && matchedRoute.components[currentName];
-        if (!ViewComponent) {
-          return normalizeSlot(slots.default, { Component: ViewComponent, route });
-        }
-        const routePropsOption = matchedRoute.props[currentName];
-        const routeProps = routePropsOption ? routePropsOption === true ? route.params : typeof routePropsOption === "function" ? routePropsOption(route) : routePropsOption : null;
-        const onVnodeUnmounted = (vnode) => {
-          if (vnode.component.isUnmounted) {
-            matchedRoute.instances[currentName] = null;
-          }
-        };
-        const component = vue.h(ViewComponent, assign2({}, routeProps, attrs, {
-          onVnodeUnmounted,
-          ref: viewRef
-        }));
-        return normalizeSlot(slots.default, { Component: component, route }) || component;
-      };
-    }
-  });
-  function normalizeSlot(slot, data) {
-    if (!slot)
-      return null;
-    const slotContent = slot(data);
-    return slotContent.length === 1 ? slotContent[0] : slotContent;
-  }
-  const RouterView = RouterViewImpl;
-  function createRouter(options) {
-    const matcher = createRouterMatcher(options.routes, options);
-    const parseQuery$1 = options.parseQuery || parseQuery;
-    const stringifyQuery$1 = options.stringifyQuery || stringifyQuery;
-    const routerHistory = options.history;
-    const beforeGuards = useCallbacks();
-    const beforeResolveGuards = useCallbacks();
-    const afterGuards = useCallbacks();
-    const currentRoute = vue.shallowRef(START_LOCATION_NORMALIZED);
-    let pendingLocation = START_LOCATION_NORMALIZED;
-    const normalizeParams = applyToParams.bind(null, (paramValue) => "" + paramValue);
-    const encodeParams = applyToParams.bind(null, encodeParam);
-    const decodeParams = applyToParams.bind(null, decode);
-    function addRoute(parentOrRoute, route) {
-      let parent;
-      let record;
-      if (isRouteName(parentOrRoute)) {
-        parent = matcher.getRecordMatcher(parentOrRoute);
-        record = route;
-      } else {
-        record = parentOrRoute;
-      }
-      return matcher.addRoute(record, parent);
-    }
-    function removeRoute(name) {
-      const recordMatcher = matcher.getRecordMatcher(name);
-      if (recordMatcher) {
-        matcher.removeRoute(recordMatcher);
-      }
-    }
-    function getRoutes() {
-      return matcher.getRoutes().map((routeMatcher) => routeMatcher.record);
-    }
-    function hasRoute(name) {
-      return !!matcher.getRecordMatcher(name);
-    }
-    function resolve(rawLocation, currentLocation) {
-      currentLocation = assign2({}, currentLocation || currentRoute.value);
-      if (typeof rawLocation === "string") {
-        const locationNormalized = parseURL(parseQuery$1, rawLocation, currentLocation.path);
-        const matchedRoute2 = matcher.resolve({ path: locationNormalized.path }, currentLocation);
-        const href2 = routerHistory.createHref(locationNormalized.fullPath);
-        return assign2(locationNormalized, matchedRoute2, {
-          params: decodeParams(matchedRoute2.params),
-          hash: decode(locationNormalized.hash),
-          redirectedFrom: void 0,
-          href: href2
-        });
-      }
-      let matcherLocation;
-      if ("path" in rawLocation) {
-        matcherLocation = assign2({}, rawLocation, {
-          path: parseURL(parseQuery$1, rawLocation.path, currentLocation.path).path
-        });
-      } else {
-        const targetParams = assign2({}, rawLocation.params);
-        for (const key in targetParams) {
-          if (targetParams[key] == null) {
-            delete targetParams[key];
-          }
-        }
-        matcherLocation = assign2({}, rawLocation, {
-          params: encodeParams(rawLocation.params)
-        });
-        currentLocation.params = encodeParams(currentLocation.params);
-      }
-      const matchedRoute = matcher.resolve(matcherLocation, currentLocation);
-      const hash = rawLocation.hash || "";
-      matchedRoute.params = normalizeParams(decodeParams(matchedRoute.params));
-      const fullPath = stringifyURL(stringifyQuery$1, assign2({}, rawLocation, {
-        hash: encodeHash(hash),
-        path: matchedRoute.path
-      }));
-      const href = routerHistory.createHref(fullPath);
-      return assign2({
-        fullPath,
-        hash,
-        query: stringifyQuery$1 === stringifyQuery ? normalizeQuery(rawLocation.query) : rawLocation.query || {}
-      }, matchedRoute, {
-        redirectedFrom: void 0,
-        href
-      });
-    }
-    function locationAsObject(to) {
-      return typeof to === "string" ? parseURL(parseQuery$1, to, currentRoute.value.path) : assign2({}, to);
-    }
-    function checkCanceledNavigation(to, from) {
-      if (pendingLocation !== to) {
-        return createRouterError(8, {
-          from,
-          to
-        });
-      }
-    }
-    function push(to) {
-      return pushWithRedirect(to);
-    }
-    function replace(to) {
-      return push(assign2(locationAsObject(to), { replace: true }));
-    }
-    function handleRedirectRecord(to) {
-      const lastMatched = to.matched[to.matched.length - 1];
-      if (lastMatched && lastMatched.redirect) {
-        const { redirect } = lastMatched;
-        let newTargetLocation = typeof redirect === "function" ? redirect(to) : redirect;
-        if (typeof newTargetLocation === "string") {
-          newTargetLocation = newTargetLocation.includes("?") || newTargetLocation.includes("#") ? newTargetLocation = locationAsObject(newTargetLocation) : { path: newTargetLocation };
-          newTargetLocation.params = {};
-        }
-        return assign2({
-          query: to.query,
-          hash: to.hash,
-          params: "path" in newTargetLocation ? {} : to.params
-        }, newTargetLocation);
-      }
-    }
-    function pushWithRedirect(to, redirectedFrom) {
-      const targetLocation = pendingLocation = resolve(to);
-      const from = currentRoute.value;
-      const data = to.state;
-      const force = to.force;
-      const replace2 = to.replace === true;
-      const shouldRedirect = handleRedirectRecord(targetLocation);
-      if (shouldRedirect)
-        return pushWithRedirect(
-          assign2(locationAsObject(shouldRedirect), {
-            state: typeof shouldRedirect === "object" ? assign2({}, data, shouldRedirect.state) : data,
-            force,
-            replace: replace2
-          }),
-          redirectedFrom || targetLocation
-        );
-      const toLocation = targetLocation;
-      toLocation.redirectedFrom = redirectedFrom;
-      let failure;
-      if (!force && isSameRouteLocation(stringifyQuery$1, from, targetLocation)) {
-        failure = createRouterError(16, { to: toLocation, from });
-        handleScroll();
-      }
-      return (failure ? Promise.resolve(failure) : navigate(toLocation, from)).catch((error) => isNavigationFailure(error) ? isNavigationFailure(error, 2) ? error : markAsReady(error) : triggerError(error, toLocation, from)).then((failure2) => {
-        if (failure2) {
-          if (isNavigationFailure(failure2, 2)) {
-            return pushWithRedirect(
-              assign2({
-                replace: replace2
-              }, locationAsObject(failure2.to), {
-                state: typeof failure2.to === "object" ? assign2({}, data, failure2.to.state) : data,
-                force
-              }),
-              redirectedFrom || toLocation
-            );
-          }
-        } else {
-          failure2 = finalizeNavigation(toLocation, from, true, replace2, data);
-        }
-        triggerAfterEach(toLocation, from, failure2);
-        return failure2;
-      });
-    }
-    function checkCanceledNavigationAndReject(to, from) {
-      const error = checkCanceledNavigation(to, from);
-      return error ? Promise.reject(error) : Promise.resolve();
-    }
-    function navigate(to, from) {
-      let guards;
-      const [leavingRecords, updatingRecords, enteringRecords] = extractChangingRecords(to, from);
-      guards = extractComponentsGuards(leavingRecords.reverse(), "beforeRouteLeave", to, from);
-      for (const record of leavingRecords) {
-        record.leaveGuards.forEach((guard) => {
-          guards.push(guardToPromiseFn(guard, to, from));
-        });
-      }
-      const canceledNavigationCheck = checkCanceledNavigationAndReject.bind(null, to, from);
-      guards.push(canceledNavigationCheck);
-      return runGuardQueue(guards).then(() => {
-        guards = [];
-        for (const guard of beforeGuards.list()) {
-          guards.push(guardToPromiseFn(guard, to, from));
-        }
-        guards.push(canceledNavigationCheck);
-        return runGuardQueue(guards);
-      }).then(() => {
-        guards = extractComponentsGuards(updatingRecords, "beforeRouteUpdate", to, from);
-        for (const record of updatingRecords) {
-          record.updateGuards.forEach((guard) => {
-            guards.push(guardToPromiseFn(guard, to, from));
-          });
-        }
-        guards.push(canceledNavigationCheck);
-        return runGuardQueue(guards);
-      }).then(() => {
-        guards = [];
-        for (const record of to.matched) {
-          if (record.beforeEnter && !from.matched.includes(record)) {
-            if (isArray2(record.beforeEnter)) {
-              for (const beforeEnter of record.beforeEnter)
-                guards.push(guardToPromiseFn(beforeEnter, to, from));
-            } else {
-              guards.push(guardToPromiseFn(record.beforeEnter, to, from));
-            }
-          }
-        }
-        guards.push(canceledNavigationCheck);
-        return runGuardQueue(guards);
-      }).then(() => {
-        to.matched.forEach((record) => record.enterCallbacks = {});
-        guards = extractComponentsGuards(enteringRecords, "beforeRouteEnter", to, from);
-        guards.push(canceledNavigationCheck);
-        return runGuardQueue(guards);
-      }).then(() => {
-        guards = [];
-        for (const guard of beforeResolveGuards.list()) {
-          guards.push(guardToPromiseFn(guard, to, from));
-        }
-        guards.push(canceledNavigationCheck);
-        return runGuardQueue(guards);
-      }).catch((err) => isNavigationFailure(err, 8) ? err : Promise.reject(err));
-    }
-    function triggerAfterEach(to, from, failure) {
-      for (const guard of afterGuards.list())
-        guard(to, from, failure);
-    }
-    function finalizeNavigation(toLocation, from, isPush, replace2, data) {
-      const error = checkCanceledNavigation(toLocation, from);
-      if (error)
-        return error;
-      const isFirstNavigation = from === START_LOCATION_NORMALIZED;
-      const state2 = {};
-      if (isPush) {
-        if (replace2 || isFirstNavigation)
-          routerHistory.replace(toLocation.fullPath, assign2({
-            scroll: isFirstNavigation && state2 && state2.scroll
-          }, data));
-        else
-          routerHistory.push(toLocation.fullPath, data);
-      }
-      currentRoute.value = toLocation;
-      handleScroll();
-      markAsReady();
-    }
-    let removeHistoryListener;
-    function setupListeners() {
-      if (removeHistoryListener)
-        return;
-      removeHistoryListener = routerHistory.listen((to, _from, info) => {
-        if (!router.listening)
-          return;
-        const toLocation = resolve(to);
-        const shouldRedirect = handleRedirectRecord(toLocation);
-        if (shouldRedirect) {
-          pushWithRedirect(assign2(shouldRedirect, { replace: true }), toLocation).catch(noop2);
-          return;
-        }
-        pendingLocation = toLocation;
-        const from = currentRoute.value;
-        navigate(toLocation, from).catch((error) => {
-          if (isNavigationFailure(error, 4 | 8)) {
-            return error;
-          }
-          if (isNavigationFailure(error, 2)) {
-            pushWithRedirect(
-              error.to,
-              toLocation
-            ).then((failure) => {
-              if (isNavigationFailure(failure, 4 | 16) && !info.delta && info.type === NavigationType.pop) {
-                routerHistory.go(-1, false);
-              }
-            }).catch(noop2);
-            return Promise.reject();
-          }
-          if (info.delta) {
-            routerHistory.go(-info.delta, false);
-          }
-          return triggerError(error, toLocation, from);
-        }).then((failure) => {
-          failure = failure || finalizeNavigation(
-            toLocation,
-            from,
-            false
-          );
-          if (failure) {
-            if (info.delta && !isNavigationFailure(failure, 8)) {
-              routerHistory.go(-info.delta, false);
-            } else if (info.type === NavigationType.pop && isNavigationFailure(failure, 4 | 16)) {
-              routerHistory.go(-1, false);
-            }
-          }
-          triggerAfterEach(toLocation, from, failure);
-        }).catch(noop2);
-      });
-    }
-    let readyHandlers = useCallbacks();
-    let errorHandlers = useCallbacks();
-    let ready;
-    function triggerError(error, to, from) {
-      markAsReady(error);
-      const list = errorHandlers.list();
-      if (list.length) {
-        list.forEach((handler) => handler(error, to, from));
-      } else {
-        console.error(error);
-      }
-      return Promise.reject(error);
-    }
-    function isReady() {
-      if (ready && currentRoute.value !== START_LOCATION_NORMALIZED)
-        return Promise.resolve();
-      return new Promise((resolve2, reject) => {
-        readyHandlers.add([resolve2, reject]);
-      });
-    }
-    function markAsReady(err) {
-      if (!ready) {
-        ready = !err;
-        setupListeners();
-        readyHandlers.list().forEach(([resolve2, reject]) => err ? reject(err) : resolve2());
-        readyHandlers.reset();
-      }
-      return err;
-    }
-    function handleScroll(to, from, isPush, isFirstNavigation) {
-      return Promise.resolve();
-    }
-    const go = (delta) => routerHistory.go(delta);
-    const installedApps = /* @__PURE__ */ new Set();
-    const router = {
-      currentRoute,
-      listening: true,
-      addRoute,
-      removeRoute,
-      hasRoute,
-      getRoutes,
-      resolve,
-      options,
-      push,
-      replace,
-      go,
-      back: () => go(-1),
-      forward: () => go(1),
-      beforeEach: beforeGuards.add,
-      beforeResolve: beforeResolveGuards.add,
-      afterEach: afterGuards.add,
-      onError: errorHandlers.add,
-      isReady,
-      install(app) {
-        const router2 = this;
-        app.component("RouterLink", RouterLink);
-        app.component("RouterView", RouterView);
-        app.config.globalProperties.$router = router2;
-        Object.defineProperty(app.config.globalProperties, "$route", {
-          enumerable: true,
-          get: () => vue.unref(currentRoute)
-        });
-        const reactiveRoute = {};
-        for (const key in START_LOCATION_NORMALIZED) {
-          reactiveRoute[key] = vue.computed(() => currentRoute.value[key]);
-        }
-        app.provide(routerKey, router2);
-        app.provide(routeLocationKey, vue.reactive(reactiveRoute));
-        app.provide(routerViewLocationKey, currentRoute);
-        const unmountApp = app.unmount;
-        installedApps.add(app);
-        app.unmount = function() {
-          installedApps.delete(app);
-          if (installedApps.size < 1) {
-            pendingLocation = START_LOCATION_NORMALIZED;
-            removeHistoryListener && removeHistoryListener();
-            removeHistoryListener = null;
-            currentRoute.value = START_LOCATION_NORMALIZED;
-            ready = false;
-          }
-          unmountApp();
-        };
-      }
-    };
-    return router;
-  }
-  function runGuardQueue(guards) {
-    return guards.reduce((promise, guard) => promise.then(() => guard()), Promise.resolve());
-  }
-  function extractChangingRecords(to, from) {
-    const leavingRecords = [];
-    const updatingRecords = [];
-    const enteringRecords = [];
-    const len = Math.max(from.matched.length, to.matched.length);
-    for (let i = 0; i < len; i++) {
-      const recordFrom = from.matched[i];
-      if (recordFrom) {
-        if (to.matched.find((record) => isSameRouteRecord(record, recordFrom)))
-          updatingRecords.push(recordFrom);
-        else
-          leavingRecords.push(recordFrom);
-      }
-      const recordTo = to.matched[i];
-      if (recordTo) {
-        if (!from.matched.find((record) => isSameRouteRecord(record, recordTo))) {
-          enteringRecords.push(recordTo);
-        }
-      }
-    }
-    return [leavingRecords, updatingRecords, enteringRecords];
-  }
-  function useRouter2() {
-    return vue.inject(routerKey);
-  }
-  function useRoute2() {
-    return vue.inject(routeLocationKey);
-  }
-  exports.RouterLink = RouterLink;
-  exports.RouterView = RouterView;
-  exports.START_LOCATION = START_LOCATION_NORMALIZED;
-  exports.createMemoryHistory = createMemoryHistory;
-  exports.createRouter = createRouter;
-  exports.createRouterMatcher = createRouterMatcher;
-  exports.createWebHashHistory = createWebHashHistory;
-  exports.createWebHistory = createWebHistory;
-  exports.isNavigationFailure = isNavigationFailure;
-  exports.loadRouteLocation = loadRouteLocation;
-  exports.matchedRouteKey = matchedRouteKey;
-  exports.onBeforeRouteLeave = onBeforeRouteLeave;
-  exports.onBeforeRouteUpdate = onBeforeRouteUpdate;
-  exports.parseQuery = parseQuery;
-  exports.routeLocationKey = routeLocationKey;
-  exports.routerKey = routerKey;
-  exports.routerViewLocationKey = routerViewLocationKey;
-  exports.stringifyQuery = stringifyQuery;
-  exports.useLink = useLink;
-  exports.useRoute = useRoute2;
-  exports.useRouter = useRouter2;
-  exports.viewDepthKey = viewDepthKey;
-})(vueRouter_prod);
-(function(module) {
-  module.exports = vueRouter_prod;
-})(vueRouter_cjs_prod);
-const wrapInRef = (value) => vue_cjs_prod.isRef(value) ? value : vue_cjs_prod.ref(value);
-const getDefault = () => null;
-function useAsyncData(...args) {
-  var _a, _b, _c, _d, _e, _f, _g;
+function useState(...args) {
   const autoKey = typeof args[args.length - 1] === "string" ? args.pop() : void 0;
   if (typeof args[0] !== "string") {
     args.unshift(autoKey);
   }
-  let [key, handler, options = {}] = args;
-  if (typeof key !== "string") {
-    throw new TypeError("[nuxt] [asyncData] key must be a string.");
+  const [_key, init] = args;
+  if (!_key || typeof _key !== "string") {
+    throw new TypeError("[nuxt] [useState] key must be a string: " + _key);
   }
-  if (typeof handler !== "function") {
-    throw new TypeError("[nuxt] [asyncData] handler must be a function.");
+  if (init !== void 0 && typeof init !== "function") {
+    throw new Error("[nuxt] [useState] init must be a function: " + init);
   }
-  options.server = (_a = options.server) != null ? _a : true;
-  options.default = (_b = options.default) != null ? _b : getDefault;
-  if (options.defer) {
-    console.warn("[useAsyncData] `defer` has been renamed to `lazy`. Support for `defer` will be removed in RC.");
-  }
-  options.lazy = (_d = (_c = options.lazy) != null ? _c : options.defer) != null ? _d : false;
-  options.initialCache = (_e = options.initialCache) != null ? _e : true;
+  const key = "$s" + _key;
   const nuxt = useNuxtApp();
-  const instance = vue_cjs_prod.getCurrentInstance();
-  if (instance && !instance._nuxtOnBeforeMountCbs) {
-    const cbs = instance._nuxtOnBeforeMountCbs = [];
-    if (instance && false) {
-      vue_cjs_prod.onUnmounted(() => cbs.splice(0, cbs.length));
+  const state2 = toRef(nuxt.payload.state, key);
+  if (state2.value === void 0 && init) {
+    const initialValue = init();
+    if (isRef(initialValue)) {
+      nuxt.payload.state[key] = initialValue;
+      return initialValue;
     }
+    state2.value = initialValue;
   }
-  const useInitialCache = () => options.initialCache && nuxt.payload.data[key] !== void 0;
-  const asyncData = {
-    data: wrapInRef((_f = nuxt.payload.data[key]) != null ? _f : options.default()),
-    pending: vue_cjs_prod.ref(!useInitialCache()),
-    error: vue_cjs_prod.ref((_g = nuxt.payload._errors[key]) != null ? _g : null)
-  };
-  asyncData.refresh = (opts = {}) => {
-    if (nuxt._asyncDataPromises[key]) {
-      return nuxt._asyncDataPromises[key];
-    }
-    if (opts._initial && useInitialCache()) {
-      return nuxt.payload.data[key];
-    }
-    asyncData.pending.value = true;
-    nuxt._asyncDataPromises[key] = new Promise(
-      (resolve, reject) => {
-        try {
-          resolve(handler(nuxt));
-        } catch (err) {
-          reject(err);
-        }
-      }
-    ).then((result) => {
-      if (options.transform) {
-        result = options.transform(result);
-      }
-      if (options.pick) {
-        result = pick(result, options.pick);
-      }
-      asyncData.data.value = result;
-      asyncData.error.value = null;
-    }).catch((error) => {
-      asyncData.error.value = error;
-      asyncData.data.value = vue_cjs_prod.unref(options.default());
-    }).finally(() => {
-      asyncData.pending.value = false;
-      nuxt.payload.data[key] = asyncData.data.value;
-      if (asyncData.error.value) {
-        nuxt.payload._errors[key] = true;
-      }
-      delete nuxt._asyncDataPromises[key];
-    });
-    return nuxt._asyncDataPromises[key];
-  };
-  const initialFetch = () => asyncData.refresh({ _initial: true });
-  const fetchOnServer = options.server !== false && nuxt.payload.serverRendered;
-  if (fetchOnServer) {
-    const promise = initialFetch();
-    vue_cjs_prod.onServerPrefetch(() => promise);
-  }
-  const asyncDataPromise = Promise.resolve(nuxt._asyncDataPromises[key]).then(() => asyncData);
-  Object.assign(asyncDataPromise, asyncData);
-  return asyncDataPromise;
+  return state2;
 }
-function pick(obj, keys) {
-  const newObj = {};
-  for (const key of keys) {
-    newObj[key] = obj[key];
-  }
-  return newObj;
-}
-const useError = () => vue_cjs_prod.toRef(useNuxtApp().payload, "error");
+const useError = () => toRef(useNuxtApp().payload, "error");
 const showError = (_err) => {
   const err = createError(_err);
   try {
@@ -17756,8 +15421,8 @@ const CookieDefaults = {
 function useCookie(name, _opts) {
   var _a, _b;
   const opts = { ...CookieDefaults, ..._opts };
-  const cookies = readRawCookies(opts);
-  const cookie = wrapInRef((_b = cookies[name]) != null ? _b : (_a = opts.default) == null ? void 0 : _a.call(opts));
+  const cookies = readRawCookies(opts) || {};
+  const cookie = ref((_b = cookies[name]) != null ? _b : (_a = opts.default) == null ? void 0 : _a.call(opts));
   {
     const nuxtApp = useNuxtApp();
     const writeFinalCookieValue = () => {
@@ -17765,8 +15430,11 @@ function useCookie(name, _opts) {
         writeServerCookie(useRequestEvent(nuxtApp), name, cookie.value, opts);
       }
     };
-    nuxtApp.hooks.hookOnce("app:rendered", writeFinalCookieValue);
-    nuxtApp.hooks.hookOnce("app:redirected", writeFinalCookieValue);
+    const unhook = nuxtApp.hooks.hookOnce("app:rendered", writeFinalCookieValue);
+    nuxtApp.hooks.hookOnce("app:redirected", () => {
+      unhook();
+      return writeFinalCookieValue();
+    });
   }
   return cookie;
 }
@@ -17792,30 +15460,46 @@ const useRouter = () => {
   return (_a = useNuxtApp()) == null ? void 0 : _a.$router;
 };
 const useRoute = () => {
-  if (vue_cjs_prod.getCurrentInstance()) {
-    return vue_cjs_prod.inject("_route", useNuxtApp()._route);
+  if (getCurrentInstance()) {
+    return inject("_route", useNuxtApp()._route);
   }
   return useNuxtApp()._route;
 };
-const navigateTo = (to, options = {}) => {
+const navigateTo = (to, options) => {
   if (!to) {
     to = "/";
+  }
+  const toPath = typeof to === "string" ? to : to.path || "/";
+  const isExternal = hasProtocol(toPath, true);
+  if (isExternal && !(options == null ? void 0 : options.external)) {
+    throw new Error("Navigating to external URL is not allowed by default. Use `nagivateTo (url, { external: true })`.");
+  }
+  if (isExternal && parseURL(toPath).protocol === "script:") {
+    throw new Error("Cannot navigate to an URL with script protocol.");
   }
   const router = useRouter();
   {
     const nuxtApp = useNuxtApp();
     if (nuxtApp.ssrContext && nuxtApp.ssrContext.event) {
-      const redirectLocation = joinURL(useRuntimeConfig().app.baseURL, router.resolve(to).fullPath || "/");
-      return nuxtApp.callHook("app:redirected").then(() => sendRedirect(nuxtApp.ssrContext.event, redirectLocation, options.redirectCode || 302));
+      const redirectLocation = isExternal ? toPath : joinURL(useRuntimeConfig().app.baseURL, router.resolve(to).fullPath || "/");
+      return nuxtApp.callHook("app:redirected").then(() => sendRedirect(nuxtApp.ssrContext.event, redirectLocation, (options == null ? void 0 : options.redirectCode) || 302));
     }
   }
-  return options.replace ? router.replace(to) : router.push(to);
+  if (isExternal) {
+    if (options == null ? void 0 : options.replace) {
+      location.replace(toPath);
+    } else {
+      location.href = toPath;
+    }
+    return Promise.resolve();
+  }
+  return (options == null ? void 0 : options.replace) ? router.replace(to) : router.push(to);
 };
 const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
 const DEFAULT_EXTERNAL_REL_ATTRIBUTE = "noopener noreferrer";
 function defineNuxtLink(options) {
   const componentName = options.componentName || "NuxtLink";
-  return vue_cjs_prod.defineComponent({
+  return defineComponent({
     name: componentName,
     props: {
       to: {
@@ -17843,12 +15527,27 @@ function defineNuxtLink(options) {
         default: void 0,
         required: false
       },
+      prefetch: {
+        type: Boolean,
+        default: void 0,
+        required: false
+      },
+      noPrefetch: {
+        type: Boolean,
+        default: void 0,
+        required: false
+      },
       activeClass: {
         type: String,
         default: void 0,
         required: false
       },
       exactActiveClass: {
+        type: String,
+        default: void 0,
+        required: false
+      },
+      prefetchedClass: {
         type: String,
         default: void 0,
         required: false
@@ -17876,10 +15575,10 @@ function defineNuxtLink(options) {
     },
     setup(props, { slots }) {
       const router = useRouter();
-      const to = vue_cjs_prod.computed(() => {
+      const to = computed(() => {
         return props.to || props.href || "";
       });
-      const isExternal = vue_cjs_prod.computed(() => {
+      const isExternal = computed(() => {
         if (props.external) {
           return true;
         }
@@ -17891,13 +15590,16 @@ function defineNuxtLink(options) {
         }
         return to.value === "" || hasProtocol(to.value, true);
       });
+      const prefetched = ref(false);
       return () => {
         var _a, _b, _c;
         if (!isExternal.value) {
-          return vue_cjs_prod.h(
-            vue_cjs_prod.resolveComponent("RouterLink"),
+          return h(
+            resolveComponent("RouterLink"),
             {
+              ref: void 0,
               to: to.value,
+              ...prefetched.value && !props.custom ? { class: props.prefetchedClass || options.prefetchedClass } : {},
               activeClass: props.activeClass || options.activeClass,
               exactActiveClass: props.exactActiveClass || options.exactActiveClass,
               replace: props.replace,
@@ -17925,25 +15627,18 @@ function defineNuxtLink(options) {
             isExactActive: false
           });
         }
-        return vue_cjs_prod.h("a", { href, rel, target }, (_c = slots.default) == null ? void 0 : _c.call(slots));
+        return h("a", { href, rel, target }, (_c = slots.default) == null ? void 0 : _c.call(slots));
       };
     }
   });
 }
-const __nuxt_component_0$5 = defineNuxtLink({ componentName: "NuxtLink" });
+const __nuxt_component_0$6 = defineNuxtLink({ componentName: "NuxtLink" });
+const inlineConfig = {};
+defuFn(inlineConfig);
 function useHead(meta2) {
-  const resolvedMeta = isFunction_1(meta2) ? vue_cjs_prod.computed(meta2) : meta2;
+  const resolvedMeta = isFunction(meta2) ? computed(meta2) : meta2;
   useNuxtApp()._useHead(resolvedMeta);
 }
-const preload = defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.mixin({
-    beforeCreate() {
-      const { _registeredComponents } = this.$nuxt.ssrContext;
-      const { __moduleIdentifier } = this.$options;
-      _registeredComponents.add(__moduleIdentifier);
-    }
-  });
-});
 const components = {};
 const _nuxt_components_plugin_mjs_KR1HBZs4kY = defineNuxtPlugin((nuxtApp) => {
   for (const name in components) {
@@ -18050,7 +15745,7 @@ var renderTemplate = (template, title) => {
   if (typeof template === "string") {
     return template.replace("%s", title != null ? title : "");
   }
-  return template(vue_cjs_prod.unref(title));
+  return template(unref(title));
 };
 var headObjToTags = (obj) => {
   const tags = [];
@@ -18072,7 +15767,7 @@ var headObjToTags = (obj) => {
           const value = obj[key];
           if (Array.isArray(value)) {
             value.forEach((item) => {
-              tags.push({ tag: key, props: vue_cjs_prod.unref(item) });
+              tags.push({ tag: key, props: unref(item) });
             });
           } else if (value) {
             tags.push({ tag: key, props: value });
@@ -18186,7 +15881,7 @@ var createHead = (initHeadObject) => {
   let allHeadObjs = [];
   let previousTags = /* @__PURE__ */ new Set();
   if (initHeadObject) {
-    allHeadObjs.push(vue_cjs_prod.shallowRef(initHeadObject));
+    allHeadObjs.push(shallowRef(initHeadObject));
   }
   const head = {
     install(app) {
@@ -18195,9 +15890,9 @@ var createHead = (initHeadObject) => {
     },
     get headTags() {
       const deduped = [];
-      const titleTemplate = allHeadObjs.map((i) => vue_cjs_prod.unref(i).titleTemplate).reverse().find((i) => i != null);
+      const titleTemplate = allHeadObjs.map((i) => unref(i).titleTemplate).reverse().find((i) => i != null);
       allHeadObjs.forEach((objs) => {
-        const tags = headObjToTags(vue_cjs_prod.unref(objs));
+        const tags = headObjToTags(unref(objs));
         tags.forEach((tag) => {
           const dedupe = getTagDeduper(tag);
           if (dedupe) {
@@ -18209,7 +15904,7 @@ var createHead = (initHeadObject) => {
               }
               if (dedupe === true) {
                 index = i;
-              } else if (dedupe.propValue && vue_cjs_prod.unref(prev.props[dedupe.propValue]) === vue_cjs_prod.unref(tag.props[dedupe.propValue])) {
+              } else if (dedupe.propValue && unref(prev.props[dedupe.propValue]) === unref(tag.props[dedupe.propValue])) {
                 index = i;
               } else if (dedupe.propKey && prev.props[dedupe.propKey] && tag.props[dedupe.propKey]) {
                 index = i;
@@ -18353,17 +16048,17 @@ var renderHeadToString = (head) => {
     }
   };
 };
-const ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs_xXcBANRZ08 = defineNuxtPlugin((nuxtApp) => {
+const ______node_modules__pnpm_nuxt_643_0_0_rc_11_eslint_647_32_0_43sass_641_54_6_node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs_REfm4eTJ85 = defineNuxtPlugin((nuxtApp) => {
   const head = createHead();
   nuxtApp.vueApp.use(head);
   nuxtApp.hooks.hookOnce("app:mounted", () => {
-    vue_cjs_prod.watchEffect(() => {
+    watchEffect(() => {
       head.updateDOM();
     });
   });
   nuxtApp._useHead = (_meta) => {
-    const meta2 = vue_cjs_prod.ref(_meta);
-    const headObj = vue_cjs_prod.computed(() => {
+    const meta2 = ref(_meta);
+    const headObj = computed(() => {
       const overrides = { meta: [] };
       if (meta2.value.charset) {
         overrides.meta.push({ key: "charset", charset: meta2.value.charset });
@@ -18441,7 +16136,7 @@ const globalProps = {
   title: String,
   translate: String
 };
-const Script = vue_cjs_prod.defineComponent({
+const Script = defineComponent({
   name: "Script",
   inheritAttrs: false,
   props: {
@@ -18466,7 +16161,7 @@ const Script = vue_cjs_prod.defineComponent({
     script: [script]
   }))
 });
-const NoScript = vue_cjs_prod.defineComponent({
+const NoScript = defineComponent({
   name: "NoScript",
   inheritAttrs: false,
   props: {
@@ -18485,7 +16180,7 @@ const NoScript = vue_cjs_prod.defineComponent({
     };
   })
 });
-const Link = vue_cjs_prod.defineComponent({
+const Link = defineComponent({
   name: "Link",
   inheritAttrs: false,
   props: {
@@ -18516,7 +16211,7 @@ const Link = vue_cjs_prod.defineComponent({
     link: [link]
   }))
 });
-const Base = vue_cjs_prod.defineComponent({
+const Base = defineComponent({
   name: "Base",
   inheritAttrs: false,
   props: {
@@ -18528,7 +16223,7 @@ const Base = vue_cjs_prod.defineComponent({
     base
   }))
 });
-const Title = vue_cjs_prod.defineComponent({
+const Title = defineComponent({
   name: "Title",
   inheritAttrs: false,
   setup: setupForUseMeta((_, { slots }) => {
@@ -18539,7 +16234,7 @@ const Title = vue_cjs_prod.defineComponent({
     };
   })
 });
-const Meta = vue_cjs_prod.defineComponent({
+const Meta = defineComponent({
   name: "Meta",
   inheritAttrs: false,
   props: {
@@ -18549,11 +16244,18 @@ const Meta = vue_cjs_prod.defineComponent({
     httpEquiv: String,
     name: String
   },
-  setup: setupForUseMeta((meta2) => ({
-    meta: [meta2]
-  }))
+  setup: setupForUseMeta((props) => {
+    const meta2 = { ...props };
+    if (meta2.httpEquiv) {
+      meta2["http-equiv"] = meta2.httpEquiv;
+      delete meta2.httpEquiv;
+    }
+    return {
+      meta: [meta2]
+    };
+  })
 });
-const Style = vue_cjs_prod.defineComponent({
+const Style = defineComponent({
   name: "Style",
   inheritAttrs: false,
   props: {
@@ -18579,7 +16281,7 @@ const Style = vue_cjs_prod.defineComponent({
     };
   })
 });
-const Head = vue_cjs_prod.defineComponent({
+const Head = defineComponent({
   name: "Head",
   inheritAttrs: false,
   setup: (_props, ctx) => () => {
@@ -18587,7 +16289,7 @@ const Head = vue_cjs_prod.defineComponent({
     return (_b = (_a = ctx.slots).default) == null ? void 0 : _b.call(_a);
   }
 });
-const Html = vue_cjs_prod.defineComponent({
+const Html = defineComponent({
   name: "Html",
   inheritAttrs: false,
   props: {
@@ -18598,7 +16300,7 @@ const Html = vue_cjs_prod.defineComponent({
   },
   setup: setupForUseMeta((htmlAttrs) => ({ htmlAttrs }), true)
 });
-const Body = vue_cjs_prod.defineComponent({
+const Body = defineComponent({
   name: "Body",
   inheritAttrs: false,
   props: globalProps,
@@ -18617,10 +16319,13 @@ const Components = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePr
   Html,
   Body
 }, Symbol.toStringTag, { value: "Module" }));
-const metaConfig = { "globalMeta": { "meta": [], "link": [], "style": [], "script": [], "noscript": [], "charset": "utf-8", "viewport": "width=device-width, initial-scale=1" } };
+const appHead = { "meta": [], "link": [], "style": [], "script": [], "noscript": [], "charset": "utf-8", "viewport": "width=device-width, initial-scale=1" };
+const appLayoutTransition = { "name": "layout", "mode": "out-in" };
+const appPageTransition = { "name": "page", "mode": "out-in" };
+const appKeepalive = false;
 const metaMixin = {
   created() {
-    const instance = vue_cjs_prod.getCurrentInstance();
+    const instance = getCurrentInstance();
     if (!instance) {
       return;
     }
@@ -18629,12 +16334,12 @@ const metaMixin = {
       return;
     }
     const nuxtApp = useNuxtApp();
-    const source = typeof options.head === "function" ? vue_cjs_prod.computed(() => options.head(nuxtApp)) : options.head;
+    const source = typeof options.head === "function" ? computed(() => options.head(nuxtApp)) : options.head;
     useHead(source);
   }
 };
-const ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt_dist_head_runtime_plugin_mjs_6jVJ9ZlHxj = defineNuxtPlugin((nuxtApp) => {
-  useHead(vue_cjs_prod.markRaw({ title: "", ...metaConfig.globalMeta }));
+const ______node_modules__pnpm_nuxt_643_0_0_rc_11_eslint_647_32_0_43sass_641_54_6_node_modules_nuxt_dist_head_runtime_plugin_mjs_gJP84J1FIS = defineNuxtPlugin((nuxtApp) => {
+  useHead(markRaw({ title: "", ...appHead }));
   nuxtApp.vueApp.mixin(metaMixin);
   for (const name in Components) {
     nuxtApp.vueApp.component(name, Components[name]);
@@ -18648,31 +16353,42 @@ const interpolatePath = (route, match) => {
 };
 const generateRouteKey = (override, routeProps) => {
   var _a;
-  const matchedRoute = routeProps.route.matched.find((m) => m.components.default === routeProps.Component.type);
-  const source = (_a = override != null ? override : matchedRoute == null ? void 0 : matchedRoute.meta.key) != null ? _a : interpolatePath(routeProps.route, matchedRoute);
+  const matchedRoute = routeProps.route.matched.find((m) => {
+    var _a2;
+    return ((_a2 = m.components) == null ? void 0 : _a2.default) === routeProps.Component.type;
+  });
+  const source = (_a = override != null ? override : matchedRoute == null ? void 0 : matchedRoute.meta.key) != null ? _a : matchedRoute && interpolatePath(routeProps.route, matchedRoute);
   return typeof source === "function" ? source(routeProps.route) : source;
 };
 const wrapInKeepAlive = (props, children) => {
   return { default: () => children };
 };
-const Fragment = {
+const Fragment = defineComponent({
   setup(_props, { slots }) {
     return () => {
       var _a;
       return (_a = slots.default) == null ? void 0 : _a.call(slots);
     };
   }
-};
+});
 const _wrapIf = (component, props, slots) => {
-  return { default: () => props ? vue_cjs_prod.h(component, props === true ? {} : props, slots) : vue_cjs_prod.h(Fragment, {}, slots) };
+  return { default: () => props ? h(component, props === true ? {} : props, slots) : h(Fragment, {}, slots) };
 };
 const isNestedKey = Symbol("isNested");
-const NuxtPage = vue_cjs_prod.defineComponent({
+const NuxtPage = defineComponent({
   name: "NuxtPage",
   inheritAttrs: false,
   props: {
     name: {
       type: String
+    },
+    transition: {
+      type: [Boolean, Object],
+      default: void 0
+    },
+    keepalive: {
+      type: [Boolean, Object],
+      default: void 0
     },
     route: {
       type: Object
@@ -18684,25 +16400,26 @@ const NuxtPage = vue_cjs_prod.defineComponent({
   },
   setup(props, { attrs }) {
     const nuxtApp = useNuxtApp();
-    const isNested = vue_cjs_prod.inject(isNestedKey, false);
-    vue_cjs_prod.provide(isNestedKey, true);
+    const isNested = inject(isNestedKey, false);
+    provide(isNestedKey, true);
     return () => {
-      return vue_cjs_prod.h(vueRouter_cjs_prod.exports.RouterView, { name: props.name, route: props.route, ...attrs }, {
+      return h(RouterView, { name: props.name, route: props.route, ...attrs }, {
         default: (routeProps) => {
-          var _a;
+          var _a, _b, _c, _d;
           if (!routeProps.Component) {
             return;
           }
           const key = generateRouteKey(props.pageKey, routeProps);
+          const transitionProps = (_b = (_a = props.transition) != null ? _a : routeProps.route.meta.pageTransition) != null ? _b : appPageTransition;
           return _wrapIf(
-            vue_cjs_prod.Transition,
-            (_a = routeProps.route.meta.pageTransition) != null ? _a : defaultPageTransition,
+            Transition,
+            transitionProps,
             wrapInKeepAlive(
-              routeProps.route.meta.keepalive,
-              isNested && nuxtApp.isHydrating ? vue_cjs_prod.h(Component, { key, routeProps, pageKey: key }) : vue_cjs_prod.h(vue_cjs_prod.Suspense, {
+              (_d = (_c = props.keepalive) != null ? _c : routeProps.route.meta.keepalive) != null ? _d : appKeepalive,
+              isNested && nuxtApp.isHydrating ? h(Component, { key, routeProps, pageKey: key, hasTransition: !!transitionProps }) : h(Suspense, {
                 onPending: () => nuxtApp.callHook("page:start", routeProps.Component),
                 onResolve: () => nuxtApp.callHook("page:finish", routeProps.Component)
-              }, { default: () => vue_cjs_prod.h(Component, { key, routeProps, pageKey: key }) })
+              }, { default: () => h(Component, { key, routeProps, pageKey: key, hasTransition: !!transitionProps }) })
             )
           ).default();
         }
@@ -18710,18 +16427,19 @@ const NuxtPage = vue_cjs_prod.defineComponent({
     };
   }
 });
-const defaultPageTransition = { name: "page", mode: "out-in" };
-const Component = vue_cjs_prod.defineComponent({
-  props: ["routeProps", "pageKey"],
+const Component = defineComponent({
+  props: ["routeProps", "pageKey", "hasTransition"],
   setup(props) {
     const previousKey = props.pageKey;
     const previousRoute = props.routeProps.route;
     const route = {};
     for (const key in props.routeProps.route) {
-      route[key] = vue_cjs_prod.computed(() => previousKey === props.pageKey ? props.routeProps.route[key] : previousRoute[key]);
+      route[key] = computed(() => previousKey === props.pageKey ? props.routeProps.route[key] : previousRoute[key]);
     }
-    vue_cjs_prod.provide("_route", vue_cjs_prod.reactive(route));
-    return () => vue_cjs_prod.h(props.routeProps.Component);
+    provide("_route", reactive(route));
+    return () => {
+      return h(props.routeProps.Component);
+    };
   }
 });
 (function() {
@@ -19175,11 +16893,11 @@ var MutationType;
   MutationType2["patchFunction"] = "patch function";
 })(MutationType || (MutationType = {}));
 function createPinia() {
-  const scope = vue_cjs_prod.effectScope(true);
-  const state2 = scope.run(() => vue_cjs_prod.ref({}));
+  const scope = effectScope(true);
+  const state2 = scope.run(() => ref({}));
   let _p = [];
   let toBeInstalled = [];
-  const pinia = vue_cjs_prod.markRaw({
+  const pinia = markRaw({
     install(app) {
       setActivePinia(pinia);
       {
@@ -19217,8 +16935,8 @@ function addSubscription(subscriptions, callback, detached, onCleanup = noop) {
       onCleanup();
     }
   };
-  if (!detached && vue_cjs_prod.getCurrentInstance()) {
-    vue_cjs_prod.onUnmounted(removeSubscription);
+  if (!detached && getCurrentInstance()) {
+    onUnmounted(removeSubscription);
   }
   return removeSubscription;
 }
@@ -19239,7 +16957,7 @@ function mergeReactiveObjects(target, patchToApply) {
       continue;
     const subPatch = patchToApply[key];
     const targetValue = target[key];
-    if (isPlainObject(targetValue) && isPlainObject(subPatch) && target.hasOwnProperty(key) && !vue_cjs_prod.isRef(subPatch) && !vue_cjs_prod.isReactive(subPatch)) {
+    if (isPlainObject(targetValue) && isPlainObject(subPatch) && target.hasOwnProperty(key) && !isRef(subPatch) && !isReactive(subPatch)) {
       target[key] = mergeReactiveObjects(targetValue, subPatch);
     } else {
       target[key] = subPatch;
@@ -19253,7 +16971,7 @@ function shouldHydrate(obj) {
 }
 const { assign } = Object;
 function isComputed(o) {
-  return !!(vue_cjs_prod.isRef(o) && o.effect);
+  return !!(isRef(o) && o.effect);
 }
 function createOptionsStore(id, options, pinia, hot) {
   const { state: state2, actions, getters: getters2 } = options;
@@ -19265,9 +16983,9 @@ function createOptionsStore(id, options, pinia, hot) {
         pinia.state.value[id] = state2 ? state2() : {};
       }
     }
-    const localState = vue_cjs_prod.toRefs(pinia.state.value[id]);
+    const localState = toRefs(pinia.state.value[id]);
     return assign(localState, actions, Object.keys(getters2 || {}).reduce((computedGetters, name) => {
-      computedGetters[name] = vue_cjs_prod.markRaw(vue_cjs_prod.computed(() => {
+      computedGetters[name] = markRaw(computed(() => {
         setActivePinia(pinia);
         const store2 = pinia._s.get(id);
         return getters2[name].call(store2, store2);
@@ -19292,8 +17010,8 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
   };
   let isListening;
   let isSyncListening;
-  let subscriptions = vue_cjs_prod.markRaw([]);
-  let actionSubscriptions = vue_cjs_prod.markRaw([]);
+  let subscriptions = markRaw([]);
+  let actionSubscriptions = markRaw([]);
   let debuggerEvents;
   const initialState = pinia.state.value[$id];
   if (!isOptionsStore && !initialState && (!("production" !== "production") )) {
@@ -19301,7 +17019,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
       pinia.state.value[$id] = {};
     }
   }
-  vue_cjs_prod.ref({});
+  ref({});
   let activeListener;
   function $patch(partialStateOrMutator) {
     let subscriptionMutation;
@@ -19323,7 +17041,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
       };
     }
     const myListenerId = activeListener = Symbol();
-    vue_cjs_prod.nextTick().then(() => {
+    nextTick().then(() => {
       if (activeListener === myListenerId) {
         isListening = true;
       }
@@ -19385,7 +17103,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
     $reset,
     $subscribe(callback, options2 = {}) {
       const removeSubscription = addSubscription(subscriptions, callback, options2.detached, () => stopWatcher());
-      const stopWatcher = scope.run(() => vue_cjs_prod.watch(() => pinia.state.value[$id], (state2) => {
+      const stopWatcher = scope.run(() => watch(() => pinia.state.value[$id], (state2) => {
         if (options2.flush === "sync" ? isSyncListening : isListening) {
           callback({
             storeId: $id,
@@ -19398,21 +17116,21 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
     },
     $dispose
   };
-  const store = vue_cjs_prod.reactive(assign(
+  const store = reactive(assign(
     {},
     partialStore
   ));
   pinia._s.set($id, store);
   const setupStore = pinia._e.run(() => {
-    scope = vue_cjs_prod.effectScope();
+    scope = effectScope();
     return scope.run(() => setup());
   });
   for (const key in setupStore) {
     const prop = setupStore[key];
-    if (vue_cjs_prod.isRef(prop) && !isComputed(prop) || vue_cjs_prod.isReactive(prop)) {
+    if (isRef(prop) && !isComputed(prop) || isReactive(prop)) {
       if (!isOptionsStore) {
         if (initialState && shouldHydrate(prop)) {
-          if (vue_cjs_prod.isRef(prop)) {
+          if (isRef(prop)) {
             prop.value = initialState[key];
           } else {
             mergeReactiveObjects(prop, initialState[key]);
@@ -19432,7 +17150,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
   }
   {
     assign(store, setupStore);
-    assign(vue_cjs_prod.toRaw(store), setupStore);
+    assign(toRaw(store), setupStore);
   }
   Object.defineProperty(store, "$state", {
     get: () => pinia.state.value[$id],
@@ -19471,8 +17189,8 @@ function defineStore(idOrOptions, setup, setupOptions) {
     id = idOrOptions.id;
   }
   function useStore(pinia, hot) {
-    const currentInstance = vue_cjs_prod.getCurrentInstance();
-    pinia = (pinia) || currentInstance && vue_cjs_prod.inject(piniaSymbol);
+    const currentInstance = getCurrentInstance();
+    pinia = (pinia) || currentInstance && inject(piniaSymbol);
     if (pinia)
       setActivePinia(pinia);
     pinia = activePinia;
@@ -19545,7 +17263,7 @@ const useNotificationStore = defineStore("notificationStore", {
     }
   }
 });
-const __default__$7 = {
+const __default__$5 = {
   mounted() {
     const failedLogin = this.$route.query.failedLogin;
     document.title = "Quickpaste";
@@ -19558,7 +17276,7 @@ const __default__$7 = {
     }
   }
 };
-const _sfc_main$j = /* @__PURE__ */ Object.assign(__default__$7, {
+const _sfc_main$i = /* @__PURE__ */ Object.assign(__default__$5, {
   __name: "Login",
   __ssrInlineRender: true,
   setup(__props) {
@@ -19567,9 +17285,9 @@ const _sfc_main$j = /* @__PURE__ */ Object.assign(__default__$7, {
     const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.githubClientId}&redirect_uri=${config.webAddress}/user/login/github`;
     useNotificationStore();
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col" }, _attrs))}><a${serverRenderer.exports.ssrRenderAttr("href", githubAdress)} class="flex flex-row content-center justify-center bg-gradient-to-tr from-green to-orange rounded p-4 m-auto cursor-pointer">`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
+      const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex flex-col" }, _attrs))}><a${ssrRenderAttr("href", githubAdress)} class="flex flex-row content-center justify-center bg-gradient-to-tr from-green to-orange rounded p-4 m-auto cursor-pointer">`);
+      _push(ssrRenderComponent(_component_font_awesome_icon, {
         icon: ["fab", "github"],
         size: "2x",
         "fixed-width": ""
@@ -19578,11 +17296,11 @@ const _sfc_main$j = /* @__PURE__ */ Object.assign(__default__$7, {
     };
   }
 });
-const _sfc_setup$j = _sfc_main$j.setup;
-_sfc_main$j.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+const _sfc_setup$i = _sfc_main$i.setup;
+_sfc_main$i.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/Login.vue");
-  return _sfc_setup$j ? _sfc_setup$j(props, ctx) : void 0;
+  return _sfc_setup$i ? _sfc_setup$i(props, ctx) : void 0;
 };
 const meta$4 = void 0;
 const _export_sfc = (sfc, props) => {
@@ -19592,7 +17310,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$i = {
+const _sfc_main$h = {
   data() {
     return {
       title: this.options !== void 0 ? this.options.title : "",
@@ -19628,27 +17346,27 @@ const _sfc_main$i = {
     }
   }
 };
-function _sfc_ssrRender$7(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-  _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "mt-2 w-full lg:w-2xl" }, _attrs))} data-v-f57cfd42><div class="flex flex-row lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2" data-v-f57cfd42><input${serverRenderer.exports.ssrRenderAttr("value", $data.title)} maxlength="50" tooltip="Click to edit" placeholder="Add paste title +" class="p-2 text-center text-white rounded placeholder-white-100 border-none focus:outline-none text-lg text-bold flex-1 bg-darkgray" data-v-f57cfd42><button class="accept bg-gradient-to-tr from-green to-orange rounded w-1/4 lg:w-full p-2 text-center hover:shadow-lg" data-v-f57cfd42>${serverRenderer.exports.ssrInterpolate($props.submitText)}</button></div><div class="flex flex-col justify-center" data-v-f57cfd42><a class="select-none font-bold bg-clip-text text-lg m-2 text-transparent bg-gradient-to-tr from-green to-orange text-center cursor-pointer" data-v-f57cfd42> Options <span class="text-green ml-2" data-v-f57cfd42>`);
-  _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
+function _sfc_ssrRender$8(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "mt-2 w-full lg:w-2xl" }, _attrs))} data-v-f57cfd42><div class="flex flex-row lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2" data-v-f57cfd42><input${ssrRenderAttr("value", $data.title)} maxlength="50" tooltip="Click to edit" placeholder="Add paste title +" class="p-2 text-center text-white rounded placeholder-white-100 border-none focus:outline-none text-lg text-bold flex-1 bg-darkgray" data-v-f57cfd42><button class="accept bg-gradient-to-tr from-green to-orange rounded w-1/4 lg:w-full p-2 text-center hover:shadow-lg" data-v-f57cfd42>${ssrInterpolate($props.submitText)}</button></div><div class="flex flex-col justify-center" data-v-f57cfd42><a class="select-none font-bold bg-clip-text text-lg m-2 text-transparent bg-gradient-to-tr from-green to-orange text-center cursor-pointer" data-v-f57cfd42> Options <span class="text-green ml-2" data-v-f57cfd42>`);
+  _push(ssrRenderComponent(_component_font_awesome_icon, {
     icon: ["fas", "fa-caret-down"],
     rotation: $data.rotation
   }, null, _parent));
-  _push(`</span></a><div class="overflow-hidden hidden px-4 py-4 text-xl px-4 bg-blue rounded shadow-md shadow-black/50" data-v-f57cfd42><div class="w-full flex items-center" data-v-f57cfd42><label class="w-1/3" data-v-f57cfd42>Private</label><input${serverRenderer.exports.ssrIncludeBooleanAttr(Array.isArray($data.priv) ? serverRenderer.exports.ssrLooseContain($data.priv, null) : $data.priv) ? " checked" : ""}${serverRenderer.exports.ssrIncludeBooleanAttr(!$props.loggedIn) ? " disabled" : ""} type="checkbox" class="h-4 w-4 rounded border-3 border-black bg-darkgray accent-darkgray text-blue" data-v-f57cfd42><span class="text-sm text-gray-500 px-4" data-v-f57cfd42>Logged in users only</span></div><div class="w-full flex items-center" data-v-f57cfd42><label class="w-1/3" data-v-f57cfd42>Password</label><input${serverRenderer.exports.ssrRenderAttr("value", $data.password)} type="password" class="p-px text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray flex-1" data-v-f57cfd42></div></div></div></div>`);
+  _push(`</span></a><div class="overflow-hidden hidden px-4 py-4 text-xl px-4 bg-blue rounded shadow-md shadow-black/50" data-v-f57cfd42><div class="w-full flex items-center" data-v-f57cfd42><label class="w-1/3" data-v-f57cfd42>Private</label><input${ssrIncludeBooleanAttr(Array.isArray($data.priv) ? ssrLooseContain($data.priv, null) : $data.priv) ? " checked" : ""}${ssrIncludeBooleanAttr(!$props.loggedIn) ? " disabled" : ""} type="checkbox" class="h-4 w-4 rounded border-3 border-black bg-darkgray accent-darkgray text-blue" data-v-f57cfd42><span class="text-sm text-gray-500 px-4" data-v-f57cfd42>Logged in users only</span></div><div class="w-full flex items-center" data-v-f57cfd42><label class="w-1/3" data-v-f57cfd42>Password</label><input${ssrRenderAttr("value", $data.password)} type="password" class="p-px text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray flex-1" data-v-f57cfd42></div></div></div></div>`);
 }
-const _sfc_setup$i = _sfc_main$i.setup;
-_sfc_main$i.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+const _sfc_setup$h = _sfc_main$h.setup;
+_sfc_main$h.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/SideMenu.vue");
-  return _sfc_setup$i ? _sfc_setup$i(props, ctx) : void 0;
+  return _sfc_setup$h ? _sfc_setup$h(props, ctx) : void 0;
 };
-const __nuxt_component_0$4 = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["ssrRender", _sfc_ssrRender$7], ["__scopeId", "data-v-f57cfd42"]]);
-const __nuxt_component_1$2 = vue_cjs_prod.defineComponent({
+const __nuxt_component_0$5 = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["ssrRender", _sfc_ssrRender$8], ["__scopeId", "data-v-f57cfd42"]]);
+const __nuxt_component_1$2 = defineComponent({
   name: "ClientOnly",
   props: ["fallback", "placeholder", "placeholderTag", "fallbackTag"],
   setup(_, { slots }) {
-    const mounted = vue_cjs_prod.ref(false);
+    const mounted = ref(false);
     return (props) => {
       var _a;
       if (mounted.value) {
@@ -19660,16 +17378,16 @@ const __nuxt_component_1$2 = vue_cjs_prod.defineComponent({
       }
       const fallbackStr = props.fallback || props.placeholder || "";
       const fallbackTag = props.fallbackTag || props.placeholderTag || "span";
-      return vue_cjs_prod.createElementBlock(fallbackTag, null, fallbackStr);
+      return createElementBlock(fallbackTag, null, fallbackStr);
     };
   }
 });
 function setCaretPosition(elem, caretPos) {
   if (elem != null) {
     if (elem.createTextRange) {
-      var range2 = elem.createTextRange();
-      range2.move("character", caretPos);
-      range2.select();
+      var range = elem.createTextRange();
+      range.move("character", caretPos);
+      range.select();
     } else {
       if (elem.selectionStart) {
         elem.focus();
@@ -19679,7 +17397,7 @@ function setCaretPosition(elem, caretPos) {
     }
   }
 }
-const _sfc_main$h = {
+const _sfc_main$g = {
   props: {
     lang: {
       type: String,
@@ -19783,22 +17501,22 @@ const _sfc_main$h = {
     }
   }
 };
-function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({
+function _sfc_ssrRender$7(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  _push(`<div${ssrRenderAttrs(mergeProps({
     class: "editor-container",
     style: _ctx.$attrs.style
-  }, _attrs))}><div class="editor hide-editor"><pre class="${serverRenderer.exports.ssrRenderClass(["language-" + $props.lang, "pre-code code-container overflow-hidden h-md"])}">                <code class="${serverRenderer.exports.ssrRenderClass(["language-" + $props.lang, "code"])}">
+  }, _attrs))}><div class="editor hide-editor"><pre class="${ssrRenderClass(["language-" + $props.lang, "pre-code code-container overflow-hidden h-md"])}">                <code class="${ssrRenderClass(["language-" + $props.lang, "code"])}">
                 </code>
-            </pre><pre class="line-numbers">1</pre><textarea${serverRenderer.exports.ssrIncludeBooleanAttr(!$props.editable) ? " disabled" : ""} class="code-container" resize="false" spellcheck="false">${serverRenderer.exports.ssrInterpolate($data.text)}</textarea></div></div>`);
+            </pre><pre class="line-numbers">1</pre><textarea${ssrIncludeBooleanAttr(!$props.editable) ? " disabled" : ""} class="code-container" resize="false" spellcheck="false">${ssrInterpolate($data.text)}</textarea></div></div>`);
 }
-const _sfc_setup$h = _sfc_main$h.setup;
-_sfc_main$h.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+const _sfc_setup$g = _sfc_main$g.setup;
+_sfc_main$g.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Editor.vue");
-  return _sfc_setup$h ? _sfc_setup$h(props, ctx) : void 0;
+  return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
 };
-const __nuxt_component_0$3 = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["ssrRender", _sfc_ssrRender$6]]);
-const _sfc_main$g = {
+const __nuxt_component_0$4 = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["ssrRender", _sfc_ssrRender$7]]);
+const _sfc_main$f = {
   props: {
     editable: {
       type: Boolean,
@@ -19836,14 +17554,14 @@ const _sfc_main$g = {
     }
   }
 };
-function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _component_Editor = __nuxt_component_0$3;
-  _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "main shadow-black shadow-lg rounded" }, _attrs))} data-v-62b58418><div class="header bg-gradient-to-tr from-green to-orange p-2 flex justify-center rounded" data-v-62b58418><input${serverRenderer.exports.ssrIncludeBooleanAttr(!$props.editable) ? " disabled" : ""}${serverRenderer.exports.ssrRenderAttr("value", $data.title)} type="text" maxlength="50" tooltip="Click to edit" placeholder="Name this snippet +" class="flex-1 sm:mr-4 py-2 text-center text-white rounded placeholder-white-100 border-none focus:outline-none text-lg text-bold" data-v-62b58418><select class="bg-transparent rounded text-center border-none" data-v-62b58418><!--[-->`);
-  serverRenderer.exports.ssrRenderList($data.languages, (lang, index) => {
-    _push(`<option${serverRenderer.exports.ssrRenderAttr("value", lang)} data-v-62b58418>${serverRenderer.exports.ssrInterpolate(lang)}</option>`);
+function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  const _component_Editor = __nuxt_component_0$4;
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "main shadow-black shadow-lg rounded" }, _attrs))} data-v-62b58418><div class="header bg-gradient-to-tr from-green to-orange p-2 flex justify-center rounded" data-v-62b58418><input${ssrIncludeBooleanAttr(!$props.editable) ? " disabled" : ""}${ssrRenderAttr("value", $data.title)} type="text" maxlength="50" tooltip="Click to edit" placeholder="Name this snippet +" class="flex-1 sm:mr-4 py-2 text-center text-white rounded placeholder-white-100 border-none focus:outline-none text-lg text-bold" data-v-62b58418><select class="bg-transparent rounded text-center border-none" data-v-62b58418><!--[-->`);
+  ssrRenderList($data.languages, (lang, index) => {
+    _push(`<option${ssrRenderAttr("value", lang)} data-v-62b58418>${ssrInterpolate(lang)}</option>`);
   });
   _push(`<!--]--></select></div>`);
-  _push(serverRenderer.exports.ssrRenderComponent(_component_Editor, {
+  _push(ssrRenderComponent(_component_Editor, {
     ref: "editor",
     style: { "width": "100%", "border-radius": "0 0 5px 5px" },
     lang: $data.selectedLang,
@@ -19852,14 +17570,14 @@ function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   }, null, _parent));
   _push(`</div>`);
 }
-const _sfc_setup$g = _sfc_main$g.setup;
-_sfc_main$g.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+const _sfc_setup$f = _sfc_main$f.setup;
+_sfc_main$f.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/SnippetEditor.vue");
-  return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
+  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
 };
-const __nuxt_component_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["ssrRender", _sfc_ssrRender$5], ["__scopeId", "data-v-62b58418"]]);
-const __default__$6 = {
+const __nuxt_component_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["ssrRender", _sfc_ssrRender$6], ["__scopeId", "data-v-62b58418"]]);
+const _sfc_main$e = {
   emits: ["submit"],
   props: {
     editable: {
@@ -19920,115 +17638,98 @@ const __default__$6 = {
     }
   }
 };
-const _sfc_main$f = /* @__PURE__ */ Object.assign(__default__$6, {
-  __name: "PasteEditor",
-  __ssrInlineRender: true,
-  setup(__props) {
-    useNotificationStore();
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_SideMenu = __nuxt_component_0$4;
-      const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-      const _component_ClientOnly = __nuxt_component_1$2;
-      const _component_SnippetEditor = __nuxt_component_2$1;
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({
-        class: ["flex flex-col", { "lg:flex-row-reverse": __props.editable }]
-      }, _attrs))}>`);
-      if (__props.editable) {
-        _push(serverRenderer.exports.ssrRenderComponent(_component_SideMenu, {
-          onSubmit: _ctx.createPaste,
-          ref: "side-menu",
-          class: "mb-4 side-menu",
-          options: __props.paste,
-          submitText: __props.submitText,
-          loggedIn: __props.loggedIn
-        }, null, _parent));
-      } else {
-        _push(`<div class="sticky z-10 top-0 flex flex-col md:flex-row justify-between content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded md:mr-2"><h1 class="text-3xl text-white text-shadow-sm">${serverRenderer.exports.ssrInterpolate(__props.paste.title)} <span class="text-lg text-black text-shadow-none">by ${serverRenderer.exports.ssrInterpolate(__props.paste.owner.username)}</span><span class="text-sm mb-1 text-dark-700">`);
-        if (__props.paste != void 0 && __props.paste.isPrivate) {
-          _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
-            icon: ["fas", "fa-eye-slash"],
-            class: "ml-2"
-          }, null, _parent));
-        } else {
-          _push(`<!---->`);
-        }
-        if (__props.paste != void 0 && __props.paste.password) {
-          _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
-            icon: ["fas", "fa-lock"],
-            class: "ml-2"
-          }, null, _parent));
-        } else {
-          _push(`<!---->`);
-        }
-        _push(`</span></h1><h2 class="h-min self-center">Created on `);
-        _push(serverRenderer.exports.ssrRenderComponent(_component_ClientOnly, null, {
-          default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-            if (_push2) {
-              _push2(`${serverRenderer.exports.ssrInterpolate(__props.paste.created)}`);
-            } else {
-              return [
-                vue_cjs_prod.createTextVNode(vue_cjs_prod.toDisplayString(__props.paste.created), 1)
-              ];
-            }
-          }),
-          _: 1
-        }, _parent));
-        _push(`</h2></div>`);
-      }
-      _push(`<div class="flex flex-col min-w-xs w-full editor lg:mr-8 pr-4 overflow-x-hidden md:overflow-y-auto md:max-h-2xl"><div>`);
-      if (__props.paste) {
-        _push(`<div><!--[-->`);
-        serverRenderer.exports.ssrRenderList(__props.paste.fragments, (post, index) => {
-          _push(serverRenderer.exports.ssrRenderComponent(_component_SnippetEditor, {
-            ref_for: true,
-            ref: "snippet",
-            key: index,
-            value: post,
-            editable: __props.editable,
-            class: "mb-8"
-          }, null, _parent));
-        });
-        _push(`<!--]--></div>`);
-      } else {
-        _push(`<div><!--[-->`);
-        serverRenderer.exports.ssrRenderList(_ctx.snippets, (id) => {
-          _push(serverRenderer.exports.ssrRenderComponent(_component_SnippetEditor, {
-            ref_for: true,
-            ref: "snippet",
-            key: id,
-            editable: __props.editable,
-            class: "mb-8"
-          }, null, _parent));
-        });
-        _push(`<!--]--></div>`);
-      }
-      _push(`</div>`);
-      if (__props.editable) {
-        _push(`<div class="w-full px-4 flex justify-center space-x-4">`);
-        if (__props.loggedIn && _ctx.snippets.length < 500 || _ctx.snippets.length < 5) {
-          _push(`<button class="bg-green sm:px-10 flex-1 md:max-w-xs rounded py-2 hover:shadow-lg">Add snippet</button>`);
-        } else {
-          _push(`<!---->`);
-        }
-        if (_ctx.snippets.length > 1) {
-          _push(`<button class="bg-red-500 sm:px-10 flex-1 md:max-w-xs rounded py-2 hover:shadow-lg hide">Remove last snippet</button>`);
-        } else {
-          _push(`<!---->`);
-        }
-        _push(`</div>`);
-      } else {
-        _push(`<!---->`);
-      }
-      _push(`</div></div>`);
-    };
+function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  const _component_SideMenu = __nuxt_component_0$5;
+  const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
+  const _component_ClientOnly = __nuxt_component_1$2;
+  const _component_SnippetEditor = __nuxt_component_2$1;
+  _push(`<div${ssrRenderAttrs(mergeProps({
+    class: ["flex flex-col", { "lg:flex-row-reverse": $props.editable }]
+  }, _attrs))}>`);
+  if ($props.editable) {
+    _push(ssrRenderComponent(_component_SideMenu, {
+      onSubmit: $options.createPaste,
+      ref: "side-menu",
+      class: "mb-4 side-menu",
+      options: $props.paste,
+      submitText: $props.submitText,
+      loggedIn: $props.loggedIn
+    }, null, _parent));
+  } else {
+    _push(`<div class="sticky z-10 top-0 flex flex-col md:flex-row justify-between content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded md:mr-2"><h1 class="text-3xl text-white text-shadow-sm">${ssrInterpolate($props.paste.title)} <span class="text-lg text-black text-shadow-none">by ${ssrInterpolate($props.paste.owner.username)}</span><span class="text-sm mb-1 text-dark-700">`);
+    if ($props.paste != void 0 && $props.paste.isPrivate) {
+      _push(ssrRenderComponent(_component_font_awesome_icon, {
+        icon: ["fas", "fa-eye-slash"],
+        class: "ml-2"
+      }, null, _parent));
+    } else {
+      _push(`<!---->`);
+    }
+    if ($props.paste != void 0 && $props.paste.password) {
+      _push(ssrRenderComponent(_component_font_awesome_icon, {
+        icon: ["fas", "fa-lock"],
+        class: "ml-2"
+      }, null, _parent));
+    } else {
+      _push(`<!---->`);
+    }
+    _push(`</span></h1><h2 class="h-min self-center">Created on `);
+    _push(ssrRenderComponent(_component_ClientOnly, null, null, _parent));
+    _push(`</h2></div>`);
   }
-});
-const _sfc_setup$f = _sfc_main$f.setup;
-_sfc_main$f.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  _push(`<div class="flex flex-col min-w-xs w-full editor lg:mr-8 pr-4 overflow-x-hidden md:overflow-y-auto md:max-h-2xl"><div>`);
+  if ($props.paste) {
+    _push(`<div><!--[-->`);
+    ssrRenderList($props.paste.fragments, (post, index) => {
+      _push(ssrRenderComponent(_component_SnippetEditor, {
+        ref_for: true,
+        ref: "snippet",
+        key: index,
+        value: post,
+        editable: $props.editable,
+        class: "mb-8"
+      }, null, _parent));
+    });
+    _push(`<!--]--></div>`);
+  } else {
+    _push(`<div><!--[-->`);
+    ssrRenderList($data.snippets, (id) => {
+      _push(ssrRenderComponent(_component_SnippetEditor, {
+        ref_for: true,
+        ref: "snippet",
+        key: id,
+        editable: $props.editable,
+        class: "mb-8"
+      }, null, _parent));
+    });
+    _push(`<!--]--></div>`);
+  }
+  _push(`</div>`);
+  if ($props.editable) {
+    _push(`<div class="w-full px-4 flex justify-center space-x-4">`);
+    if ($props.loggedIn && $data.snippets.length < 500 || $data.snippets.length < 5) {
+      _push(`<button class="bg-green sm:px-10 flex-1 md:max-w-xs rounded py-2 hover:shadow-lg">Add snippet</button>`);
+    } else {
+      _push(`<!---->`);
+    }
+    if ($data.snippets.length > 1) {
+      _push(`<button class="bg-red-500 sm:px-10 flex-1 md:max-w-xs rounded py-2 hover:shadow-lg hide">Remove last snippet</button>`);
+    } else {
+      _push(`<!---->`);
+    }
+    _push(`</div>`);
+  } else {
+    _push(`<!---->`);
+  }
+  _push(`</div></div>`);
+}
+const _sfc_setup$e = _sfc_main$e.setup;
+_sfc_main$e.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/PasteEditor.vue");
-  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
+  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
 };
+const __nuxt_component_0$3 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["ssrRender", _sfc_ssrRender$5]]);
 const _imports_0$1 = "" + globalThis.__buildAssetsURL("logo-paste-loading.d9d6ef31.svg");
 const _imports_1 = "" + globalThis.__buildAssetsURL("logo-paste-created.50923283.svg");
 const state = () => ({
@@ -20050,7 +17751,7 @@ const useUserStore = defineStore("userStore", {
   getters,
   actions: {
     async getUser() {
-      const user = await $fetch(`/api/user`, {
+      const user = await $fetch(useRuntimeConfig().public.webAddress + `/api/user`, {
         credentials: "include",
         parseResponse: JSON.parse
       });
@@ -20062,109 +17763,6 @@ const useUserStore = defineStore("userStore", {
     }
   }
 });
-const __default__$5 = {
-  data() {
-    return {};
-  },
-  methods: {}
-};
-const _sfc_main$e = /* @__PURE__ */ Object.assign(__default__$5, {
-  __name: "[pasteId]",
-  __ssrInlineRender: true,
-  async setup(__props) {
-    let __temp, __restore;
-    useUserStore();
-    const notificationStore = useNotificationStore();
-    notificationStore.addNotification;
-    let { data: pasteData, error } = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(async () => useAsyncData("paste", async (ctx) => {
-      const route = useRoute();
-      const pasteId = route.params.pasteId;
-      const cookieKey = useRequestHeaders(["cookie"]).cookie;
-      const cookies = {};
-      cookieKey.split(";").forEach((frag) => {
-        const a = frag.split("=");
-        cookies[a[0].trim()] = a[1];
-      });
-      const res = await $fetch(`${useRuntimeConfig().public.webAddress}/api/paste/${pasteId}`, {
-        headers: {
-          "Authorization": "ApiKey " + cookies.quickpaste_auth
-        },
-        parseResponse: JSON.parse
-      });
-      return res;
-    }, {
-      server: true
-    }, "$KfIyGaWv8G")), __temp = await __temp, __restore(), __temp);
-    let paste = vue_cjs_prod.reactive(pasteData);
-    let forceUpdateV = vue_cjs_prod.ref(0);
-    if (paste.value && true) {
-      useHead({
-        title: "Quickpaste | " + paste.value.title.substring(0, 25)
-      });
-    }
-    if (error.value)
-      console.log(error.value);
-    const { data: err } = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => useAsyncData("error", () => error.value ? error.value.response.status : 200, { server: true }, "$QqQhqT5Ucg")), __temp = await __temp, __restore(), __temp);
-    let editMode = vue_cjs_prod.ref(false);
-    useRoute();
-    let password = vue_cjs_prod.ref("");
-    let pastePostingState = vue_cjs_prod.ref(0);
-    let createdPaste = vue_cjs_prod.ref(void 0);
-    const rePaste = async (paste2) => {
-      pastePostingState.value = 1;
-      const headers = {
-        "Content-Type": "application/json"
-      };
-      if (password.value.length != 0) {
-        headers["Paste-Authorization"] = password.value;
-      }
-      const res = await fetch(`/api/paste/${this.$route.params["pasteId"]}`, {
-        method: "PUT",
-        headers,
-        credentials: "include",
-        body: JSON.stringify(paste2)
-      });
-      if (res.ok) {
-        pastePostingState.value = 2;
-        createdPaste.value = (await res.json()).result;
-      }
-    };
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_PasteEditor = _sfc_main$f;
-      const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-      if (vue_cjs_prod.unref(paste)) {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-38418c6f>`);
-        if (vue_cjs_prod.unref(pastePostingState) == 0) {
-          _push(serverRenderer.exports.ssrRenderComponent(_component_PasteEditor, {
-            key: vue_cjs_prod.unref(forceUpdateV),
-            onSubmit: rePaste,
-            class: ["m-auto", { "max-w-4xl": !vue_cjs_prod.unref(editMode) }],
-            paste: vue_cjs_prod.unref(paste),
-            editable: vue_cjs_prod.unref(editMode),
-            submitText: "Re-Paste !"
-          }, null, _parent));
-        } else if (vue_cjs_prod.unref(pastePostingState) == 1) {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-38418c6f><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img0"].src)} data-v-38418c6f><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-38418c6f></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-38418c6f><h2 class="text-2xl font-bold" data-v-38418c6f>Creating paste</h2></div></div>`);
-        } else {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-38418c6f><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$refs["img1"].src)} data-v-38418c6f><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-38418c6f></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-38418c6f><h2 class="text-2xl font-bold" data-v-38418c6f>Paste created!</h2><h3 data-v-38418c6f> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${vue_cjs_prod.unref(createdPaste).pasteId}`)} data-v-38418c6f>${serverRenderer.exports.ssrInterpolate(vue_cjs_prod.unref(createdPaste).pasteId)} `);
-          _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
-          _push(`</a></h3></div></div>`);
-        }
-        _push(`</div>`);
-      } else if (vue_cjs_prod.unref(err) == 401) {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col items-center space-y-4" }, _attrs))} data-v-38418c6f><h2 class="text-xl text-gray-300" data-v-38418c6f>Enter password to view the paste</h2><div class="flex flex-col md:flex-row space-y-2 md:space-y-0" data-v-38418c6f><input${serverRenderer.exports.ssrRenderAttr("value", vue_cjs_prod.unref(password))} type="password" autocomplete="off" class="p-2 w-full md:w-auto text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray mr-4" data-v-38418c6f><button class="bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg" data-v-38418c6f>Enter</button></div></div>`);
-      } else {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-38418c6f><div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded" data-v-38418c6f><h1 class="text-3xl text-white text-shadow-sm" data-v-38418c6f> No paste here </h1></div></div>`);
-      }
-    };
-  }
-});
-const _sfc_setup$e = _sfc_main$e.setup;
-_sfc_main$e.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/[pasteId].vue");
-  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
-};
 const meta$3 = void 0;
 const __default__$4 = {
   data() {
@@ -20228,39 +17826,39 @@ const _sfc_main$d = /* @__PURE__ */ Object.assign(__default__$4, {
     const userStore = useUserStore();
     const loggedIn = userStore.user() != void 0;
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_PasteEditor = _sfc_main$f;
-      const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-      const _component_NuxtLink = __nuxt_component_0$5;
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-817873d0>`);
+      const _component_PasteEditor = __nuxt_component_0$3;
+      const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
+      const _component_NuxtLink = __nuxt_component_0$6;
+      _push(`<div${ssrRenderAttrs(_attrs)} data-v-8ed73d0a>`);
       if (!_ctx.postingPaste) {
-        _push(`<div class="container" data-v-817873d0>`);
-        _push(serverRenderer.exports.ssrRenderComponent(_component_PasteEditor, {
+        _push(`<div class="container" data-v-8ed73d0a>`);
+        _push(ssrRenderComponent(_component_PasteEditor, {
           onSubmit: _ctx.createPaste,
           loggedIn
         }, null, _parent));
         _push(`</div>`);
       } else {
-        _push(`<div data-v-817873d0>`);
+        _push(`<div data-v-8ed73d0a>`);
         if (!_ctx.createdPaste) {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-817873d0><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$resolveAssetUrl("animated/logo-paste-loading.svg"))} data-v-817873d0><img${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-817873d0></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-817873d0><h2 class="text-2xl font-bold" data-v-817873d0>Creating paste</h2></div></div>`);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-8ed73d0a><object width="300" height="300" type="image/svg+xml"${ssrRenderAttr("data", unref(_imports_0$1))} data-v-8ed73d0a><img${ssrRenderAttr("src", _imports_0$1)} data-v-8ed73d0a></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-8ed73d0a><h2 class="text-2xl font-bold" data-v-8ed73d0a>Creating paste</h2></div></div>`);
         } else {
-          _push(`<div data-v-817873d0>`);
+          _push(`<div data-v-8ed73d0a>`);
           if (_ctx.requestCode == 200) {
-            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-817873d0><object width="300" height="300" type="image/svg+xml"${serverRenderer.exports.ssrRenderAttr("data", _ctx.$resolveAssetUrl("animated/logo-paste-created.svg"))} data-v-817873d0><img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-817873d0></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-817873d0><h2 class="text-2xl font-bold" data-v-817873d0>Paste created!</h2><h3 data-v-817873d0> Check it at: <a class="font-bold"${serverRenderer.exports.ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-817873d0>${serverRenderer.exports.ssrInterpolate(_ctx.createdPaste.pasteId)} `);
-            _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
+            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-8ed73d0a><object width="300" height="300" type="image/svg+xml"${ssrRenderAttr("data", unref(_imports_1))} data-v-8ed73d0a><img${ssrRenderAttr("src", _imports_1)} data-v-8ed73d0a></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-8ed73d0a><h2 class="text-2xl font-bold" data-v-8ed73d0a>Paste created!</h2><h3 data-v-8ed73d0a> Check it at: <a class="font-bold"${ssrRenderAttr("href", `/${_ctx.createdPaste.pasteId}`)} data-v-8ed73d0a>${ssrInterpolate(_ctx.createdPaste.pasteId)} `);
+            _push(ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
             _push(`</a></h3></div></div>`);
           } else {
             _push(`<!---->`);
           }
           if (_ctx.requestCode == 429) {
-            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-817873d0><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-817873d0><h2 class="text-2xl font-bold" data-v-817873d0>Daily paste limit reached</h2><h3 data-v-817873d0> You have surpassed your daily paste limit. For more information see `);
-            _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, { href: "/" }, {
-              default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+            _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-8ed73d0a><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-8ed73d0a><h2 class="text-2xl font-bold" data-v-8ed73d0a>Daily paste limit reached</h2><h3 data-v-8ed73d0a> You have surpassed your daily paste limit. For more information see `);
+            _push(ssrRenderComponent(_component_NuxtLink, { href: "/" }, {
+              default: withCtx((_, _push2, _parent2, _scopeId) => {
                 if (_push2) {
                   _push2(`here`);
                 } else {
                   return [
-                    vue_cjs_prod.createTextVNode("here")
+                    createTextVNode("here")
                   ];
                 }
               }),
@@ -20280,7 +17878,7 @@ const _sfc_main$d = /* @__PURE__ */ Object.assign(__default__$4, {
 });
 const _sfc_setup$d = _sfc_main$d.setup;
 _sfc_main$d.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/index.vue");
   return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
 };
@@ -20309,11 +17907,11 @@ const _sfc_main$c = /* @__PURE__ */ Object.assign(__default__$3, {
   __ssrInlineRender: true,
   setup(__props) {
     useNotificationStore();
-    vue_cjs_prod.ref(null);
+    ref(null);
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col" }, _attrs))}><p class="ml-2 mb-4 text-gray-200">After clicking the button a new API key will be generated and all previous ones will be deemd invalid.</p><div class="flex flex-row bg-darkgray rounded p-4 text-gray-200 shadow-black shadow-sm my-2 max-w-sm mx-auto"><div class="flex justify-center items-center mr-2">`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
+      const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex flex-col" }, _attrs))}><p class="ml-2 mb-4 text-gray-200">After clicking the button a new API key will be generated and all previous ones will be deemd invalid.</p><div class="flex flex-row bg-darkgray rounded p-4 text-gray-200 shadow-black shadow-sm my-2 max-w-sm mx-auto"><div class="flex justify-center items-center mr-2">`);
+      _push(ssrRenderComponent(_component_font_awesome_icon, {
         icon: ["fas", "fa-circle-exclamation"],
         size: "xl",
         "fixed-width": "",
@@ -20321,8 +17919,8 @@ const _sfc_main$c = /* @__PURE__ */ Object.assign(__default__$3, {
       }, null, _parent));
       _push(`</div><div class="flex flex-col"><p class="text-md">Please save the key after it is shown as you will not be able to retrieve it.</p></div></div><div class="mt-4 flex">`);
       if (_ctx.key) {
-        _push(`<div class="bg-darkgray rounded flex w-3/4 m-auto"><input class="flex-1 text-monospace text-gray-200 bg-darkgray rounded border-none text-center p-2 max-w-2xl break-word overflow-x-scroll"${serverRenderer.exports.ssrRenderAttr("value", _ctx.key)} readonly><div class="text-gray-200 p-2 text-xl flex justify-center items-center hover:text-orange transition cursor-pointer">`);
-        _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fa-solid", "fa-copy"] }, null, _parent));
+        _push(`<div class="bg-darkgray rounded flex w-3/4 m-auto"><input class="flex-1 text-monospace text-gray-200 bg-darkgray rounded border-none text-center p-2 max-w-2xl break-word overflow-x-scroll"${ssrRenderAttr("value", _ctx.key)} readonly><div class="text-gray-200 p-2 text-xl flex justify-center items-center hover:text-orange transition cursor-pointer">`);
+        _push(ssrRenderComponent(_component_font_awesome_icon, { icon: ["fa-solid", "fa-copy"] }, null, _parent));
         _push(`</div></div>`);
       } else {
         _push(`<button class="m-auto bg-gradient-to-tr from-green to-orange rounded p-4 text-center text-lg hover:shadow-lg my-4">Generate key</button>`);
@@ -20333,7 +17931,7 @@ const _sfc_main$c = /* @__PURE__ */ Object.assign(__default__$3, {
 });
 const _sfc_setup$c = _sfc_main$c.setup;
 _sfc_main$c.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/GenerateApiKey.vue");
   return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
 };
@@ -20369,9 +17967,9 @@ const _sfc_main$b = /* @__PURE__ */ Object.assign(__default__$2, {
   setup(__props) {
     useNotificationStore();
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col" }, _attrs))}><p class="ml-2 mb-4 text-gray-200">Click button below to delete your account.</p><div class="flex flex-row bg-darkgray rounded p-4 text-gray-200 shadow-black shadow-sm my-2 max-w-sm mx-auto"><div class="flex justify-center items-center mr-2">`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
+      const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex flex-col" }, _attrs))}><p class="ml-2 mb-4 text-gray-200">Click button below to delete your account.</p><div class="flex flex-row bg-darkgray rounded p-4 text-gray-200 shadow-black shadow-sm my-2 max-w-sm mx-auto"><div class="flex justify-center items-center mr-2">`);
+      _push(ssrRenderComponent(_component_font_awesome_icon, {
         icon: ["fas", "fa-circle-exclamation"],
         size: "xl",
         "fixed-width": "",
@@ -20383,7 +17981,7 @@ const _sfc_main$b = /* @__PURE__ */ Object.assign(__default__$2, {
 });
 const _sfc_setup$b = _sfc_main$b.setup;
 _sfc_main$b.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/DeleteAccount.vue");
   return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
 };
@@ -20396,45 +17994,33 @@ const _sfc_main$a = {
     if (loggedIn != "1") {
       router.replace("/");
     }
-    const userStore = useUserStore();
+    useUserStore();
     return (_ctx, _push, _parent, _attrs) => {
       const _component_ClientOnly = __nuxt_component_1$2;
-      const _component_NuxtLink = __nuxt_component_0$5;
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "bg-gradient-to-tr from-green to-orange rounded p-4 mr-12 w-full md:w-1/4 md:max-h-md md:min-h-sm mt-2" }, _attrs))} data-v-1b0b803f><div class="border-b border-black mb-4" data-v-1b0b803f>`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_ClientOnly, null, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<h2 class="text-4xl" data-v-1b0b803f${_scopeId}>${serverRenderer.exports.ssrInterpolate(vue_cjs_prod.unref(userStore).username())}</h2><p data-v-1b0b803f${_scopeId}>Joined: ${serverRenderer.exports.ssrInterpolate(vue_cjs_prod.unref(userStore).userData.joined)}</p>`);
-          } else {
-            return [
-              vue_cjs_prod.createVNode("h2", { class: "text-4xl" }, vue_cjs_prod.toDisplayString(vue_cjs_prod.unref(userStore).username()), 1),
-              vue_cjs_prod.createVNode("p", null, "Joined: " + vue_cjs_prod.toDisplayString(vue_cjs_prod.unref(userStore).userData.joined), 1)
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-      _push(`</div><ul class="flex flex-row gap-x-2 md:flex-col" data-v-1b0b803f><li class="hover:text-gray-200 py-1" data-v-1b0b803f>`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, { to: "/user" }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+      const _component_NuxtLink = __nuxt_component_0$6;
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-gradient-to-tr from-green to-orange rounded p-4 mr-12 w-full md:w-1/4 md:max-h-md md:min-h-sm mt-2" }, _attrs))} data-v-8e778f66><div class="border-b border-black mb-4" data-v-8e778f66>`);
+      _push(ssrRenderComponent(_component_ClientOnly, null, null, _parent));
+      _push(`</div><ul class="flex flex-row gap-x-2 md:flex-col" data-v-8e778f66><li class="hover:text-gray-200 py-1" data-v-8e778f66>`);
+      _push(ssrRenderComponent(_component_NuxtLink, { to: "/user" }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`Pastes`);
           } else {
             return [
-              vue_cjs_prod.createTextVNode("Pastes")
+              createTextVNode("Pastes")
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(`</li><li class="hover:text-gray-200 py-1" data-v-1b0b803f>`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, { to: "/user/settings" }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+      _push(`</li><li class="hover:text-gray-200 py-1" data-v-8e778f66>`);
+      _push(ssrRenderComponent(_component_NuxtLink, { to: "/user/settings" }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`Settings`);
           } else {
             return [
-              vue_cjs_prod.createTextVNode("Settings")
+              createTextVNode("Settings")
             ];
           }
         }),
@@ -20446,11 +18032,11 @@ const _sfc_main$a = {
 };
 const _sfc_setup$a = _sfc_main$a.setup;
 _sfc_main$a.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/UserPanel.vue");
   return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
 };
-const __nuxt_component_0$2 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["__scopeId", "data-v-1b0b803f"]]);
+const __nuxt_component_0$2 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["__scopeId", "data-v-8e778f66"]]);
 const _sfc_main$9 = {
   emits: ["picked"],
   props: {
@@ -20468,14 +18054,14 @@ const _sfc_main$9 = {
 };
 function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   _push(`<!--[--><h2 class="text-3xl border-b-1 border-black pb-2 mb-4">Settings</h2><ul><!--[-->`);
-  serverRenderer.exports.ssrRenderList($props.options, (option, index) => {
-    _push(`<li class="text-lg hover:text-gray-200 transition cursor-pointer">${serverRenderer.exports.ssrInterpolate(option.name)}</li>`);
+  ssrRenderList($props.options, (option, index) => {
+    _push(`<li class="text-lg hover:text-gray-200 transition cursor-pointer">${ssrInterpolate(option.name)}</li>`);
   });
   _push(`<!--]--></ul><!--]-->`);
 }
 const _sfc_setup$9 = _sfc_main$9.setup;
 _sfc_main$9.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/SettingsList.vue");
   return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
@@ -20510,23 +18096,23 @@ const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$1, {
     ];
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UserPanel = __nuxt_component_0$2;
-      const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
+      const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
       const _component_SettingsList = __nuxt_component_3$1;
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col md:flex-row w-full justify-between" }, _attrs))}>`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_UserPanel, null, null, _parent));
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex flex-col md:flex-row w-full justify-between" }, _attrs))}>`);
+      _push(ssrRenderComponent(_component_UserPanel, null, null, _parent));
       _push(`<div class="md:w-4/5">`);
       if (_ctx.option) {
         _push(`<div><div class="w-full flex justify-center items-center pt-2 text-xl border-b-1 border-black mb-2 text-gray-200">`);
-        _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
+        _push(ssrRenderComponent(_component_font_awesome_icon, {
           icon: ["fas", "fa-arrow-left"],
           onClick: ($event) => _ctx.changeOption(void 0),
           class: "mr-4 p-2 cursor-pointer text-black hover:text-orange transition"
         }, null, _parent));
-        _push(`<span>${serverRenderer.exports.ssrInterpolate(_ctx.option.name)}</span></div>`);
-        serverRenderer.exports.ssrRenderVNode(_push, vue_cjs_prod.createVNode(vue_cjs_prod.resolveDynamicComponent(_ctx.option.component), null, null), _parent);
+        _push(`<span>${ssrInterpolate(_ctx.option.name)}</span></div>`);
+        ssrRenderVNode(_push, createVNode(resolveDynamicComponent(_ctx.option.component), null, null), _parent);
         _push(`</div>`);
       } else {
-        _push(serverRenderer.exports.ssrRenderComponent(_component_SettingsList, {
+        _push(ssrRenderComponent(_component_SettingsList, {
           onPicked: _ctx.changeOption,
           options
         }, null, _parent));
@@ -20537,13 +18123,13 @@ const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$1, {
 });
 const _sfc_setup$8 = _sfc_main$8.setup;
 _sfc_main$8.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/user/Settings.vue");
   return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
 const meta$1 = void 0;
 const meta = void 0;
-const routes = [
+const _routes = [
   {
     name: "Api-Docs",
     path: "/Api-Docs",
@@ -20551,7 +18137,7 @@ const routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.83913fa2.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.53d0b55d.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -20560,7 +18146,7 @@ const routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.f2696b7e.mjs').then((m) => m.default || m)
+    component: () => import('./Login.b070ea40.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -20569,7 +18155,7 @@ const routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.fa4d517b.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.8f2a9cb8.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -20578,7 +18164,7 @@ const routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.56e2f9c4.mjs').then((m) => m.default || m)
+    component: () => import('./index.9e835d63.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -20587,7 +18173,7 @@ const routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.ca4a6b59.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.bc9d5cd4.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -20596,7 +18182,7 @@ const routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.3fc5db11.mjs').then((m) => m.default || m)
+    component: () => import('./index.caf9fbaa.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -20605,43 +18191,48 @@ const routerOptions = {
 };
 const globalMiddleware = [];
 const namedMiddleware = {};
-const ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt_dist_pages_runtime_router_mjs_okSzMtzEt6 = defineNuxtPlugin(async (nuxtApp) => {
+const ______node_modules__pnpm_nuxt_643_0_0_rc_11_eslint_647_32_0_43sass_641_54_6_node_modules_nuxt_dist_pages_runtime_router_mjs_JNJe2SR4mh = defineNuxtPlugin(async (nuxtApp) => {
+  var _a, _b, _c, _d;
   let __temp, __restore;
   nuxtApp.vueApp.component("NuxtPage", NuxtPage);
   nuxtApp.vueApp.component("NuxtNestedPage", NuxtPage);
   nuxtApp.vueApp.component("NuxtChild", NuxtPage);
-  const baseURL2 = useRuntimeConfig().app.baseURL;
-  const routerHistory = vueRouter_cjs_prod.exports.createMemoryHistory(baseURL2);
+  let routerBase = useRuntimeConfig().app.baseURL;
+  if (routerOptions.hashMode && !routerBase.includes("#")) {
+    routerBase += "#";
+  }
+  const history = (_b = (_a = routerOptions.history) == null ? void 0 : _a.call(routerOptions, routerBase)) != null ? _b : createMemoryHistory(routerBase);
+  const routes = (_d = (_c = routerOptions.routes) == null ? void 0 : _c.call(routerOptions, _routes)) != null ? _d : _routes;
   const initialURL = nuxtApp.ssrContext.url;
-  const router = vueRouter_cjs_prod.exports.createRouter({
+  const router = createRouter({
     ...routerOptions,
-    history: routerHistory,
+    history,
     routes
   });
   nuxtApp.vueApp.use(router);
-  const previousRoute = vue_cjs_prod.shallowRef(router.currentRoute.value);
+  const previousRoute = shallowRef(router.currentRoute.value);
   router.afterEach((_to, from) => {
     previousRoute.value = from;
   });
   Object.defineProperty(nuxtApp.vueApp.config.globalProperties, "previousRoute", {
     get: () => previousRoute.value
   });
-  const _route = vue_cjs_prod.shallowRef(router.resolve(initialURL));
+  const _route = shallowRef(router.resolve(initialURL));
   const syncCurrentRoute = () => {
     _route.value = router.currentRoute.value;
   };
   nuxtApp.hook("page:finish", syncCurrentRoute);
   router.afterEach((to, from) => {
-    var _a, _b, _c, _d;
-    if (((_b = (_a = to.matched[0]) == null ? void 0 : _a.components) == null ? void 0 : _b.default) === ((_d = (_c = from.matched[0]) == null ? void 0 : _c.components) == null ? void 0 : _d.default)) {
+    var _a2, _b2, _c2, _d2;
+    if (((_b2 = (_a2 = to.matched[0]) == null ? void 0 : _a2.components) == null ? void 0 : _b2.default) === ((_d2 = (_c2 = from.matched[0]) == null ? void 0 : _c2.components) == null ? void 0 : _d2.default)) {
       syncCurrentRoute();
     }
   });
   const route = {};
   for (const key in _route.value) {
-    route[key] = vue_cjs_prod.computed(() => _route.value[key]);
+    route[key] = computed(() => _route.value[key]);
   }
-  nuxtApp._route = vue_cjs_prod.reactive(route);
+  nuxtApp._route = reactive(route);
   nuxtApp._middleware = nuxtApp._middleware || {
     global: [],
     named: {}
@@ -20659,9 +18250,13 @@ const ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt
   } catch (error2) {
     callWithNuxt(nuxtApp, showError, [error2]);
   }
+  const initialLayout = useState("_layout");
   router.beforeEach(async (to, from) => {
-    var _a;
-    to.meta = vue_cjs_prod.reactive(to.meta);
+    var _a2, _b2;
+    to.meta = reactive(to.meta);
+    if (nuxtApp.isHydrating) {
+      to.meta.layout = (_a2 = initialLayout.value) != null ? _a2 : to.meta.layout;
+    }
     nuxtApp._processingMiddleware = true;
     const middlewareEntries = /* @__PURE__ */ new Set([...globalMiddleware, ...nuxtApp._middleware.global]);
     for (const component of to.matched) {
@@ -20678,7 +18273,7 @@ const ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt
       }
     }
     for (const entry2 of middlewareEntries) {
-      const middleware = typeof entry2 === "string" ? nuxtApp._middleware.named[entry2] || await ((_a = namedMiddleware[entry2]) == null ? void 0 : _a.call(namedMiddleware).then((r) => r.default || r)) : entry2;
+      const middleware = typeof entry2 === "string" ? nuxtApp._middleware.named[entry2] || await ((_b2 = namedMiddleware[entry2]) == null ? void 0 : _b2.call(namedMiddleware).then((r) => r.default || r)) : entry2;
       if (!middleware) {
         throw new Error(`Unknown route middleware: '${entry2}'.`);
       }
@@ -20705,7 +18300,7 @@ const ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt
         statusMessage: `Page not found: ${to.fullPath}`
       })]);
     } else if (to.matched[0].name === "404" && nuxtApp.ssrContext) {
-      nuxtApp.ssrContext.res.statusCode = 404;
+      nuxtApp.ssrContext.event.res.statusCode = 404;
     } else {
       const currentURL = to.fullPath || "/";
       if (!isEqual(currentURL, initialURL)) {
@@ -20756,11 +18351,10 @@ const src_plugins_fontawesome_js_KQNRGomcw2 = defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("FontAwesomeIcon", FontAwesomeIcon);
 });
 const _plugins = [
-  preload,
   _nuxt_components_plugin_mjs_KR1HBZs4kY,
-  ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs_xXcBANRZ08,
-  ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt_dist_head_runtime_plugin_mjs_6jVJ9ZlHxj,
-  ______node_modules__pnpm_nuxt_643_0_0_rc_8_sass_641_54_6_node_modules_nuxt_dist_pages_runtime_router_mjs_okSzMtzEt6,
+  ______node_modules__pnpm_nuxt_643_0_0_rc_11_eslint_647_32_0_43sass_641_54_6_node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs_REfm4eTJ85,
+  ______node_modules__pnpm_nuxt_643_0_0_rc_11_eslint_647_32_0_43sass_641_54_6_node_modules_nuxt_dist_head_runtime_plugin_mjs_gJP84J1FIS,
+  ______node_modules__pnpm_nuxt_643_0_0_rc_11_eslint_647_32_0_43sass_641_54_6_node_modules_nuxt_dist_pages_runtime_router_mjs_JNJe2SR4mh,
   ______node_modules__pnpm__64pinia_43nuxt_640_4_2_node_modules__64pinia_nuxt_dist_runtime_plugin_vue3_mjs_DEwWvgoLSX,
   src_plugins_AsserUrlResolver_js_lCycnAcfcI,
   src_plugins_fontawesome_js_KQNRGomcw2
@@ -20769,25 +18363,25 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = vue_cjs_prod.defineAsyncComponent(() => import('./error-component.3923ec16.mjs'));
+    const ErrorComponent = defineAsyncComponent(() => import('./error-component.9d55485a.mjs').then((r) => r.default || r));
     const nuxtApp = useNuxtApp();
-    vue_cjs_prod.provide("_route", useRoute());
+    provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
     const error = useError();
-    vue_cjs_prod.onErrorCaptured((err, target, info) => {
+    onErrorCaptured((err, target, info) => {
       nuxtApp.hooks.callHook("vue:error", err, target, info).catch((hookError) => console.error("[nuxt] Error in `vue:error` hook", hookError));
       {
         callWithNuxt(nuxtApp, showError, [err]);
       }
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_App = vue_cjs_prod.resolveComponent("App");
-      serverRenderer.exports.ssrRenderSuspense(_push, {
+      const _component_App = resolveComponent("App");
+      ssrRenderSuspense(_push, {
         default: () => {
-          if (vue_cjs_prod.unref(error)) {
-            _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(ErrorComponent), { error: vue_cjs_prod.unref(error) }, null, _parent));
+          if (unref(error)) {
+            _push(ssrRenderComponent(unref(ErrorComponent), { error: unref(error) }, null, _parent));
           } else {
-            _push(serverRenderer.exports.ssrRenderComponent(_component_App, null, null, _parent));
+            _push(ssrRenderComponent(_component_App, null, null, _parent));
           }
         },
         _: 1
@@ -20797,8 +18391,8 @@ const _sfc_main$7 = {
 };
 const _sfc_setup$7 = _sfc_main$7.setup;
 _sfc_main$7.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../node_modules/.pnpm/nuxt@3.0.0-rc.8_sass@1.54.6/node_modules/nuxt/dist/app/components/nuxt-root.vue");
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../node_modules/.pnpm/nuxt@3.0.0-rc.11_eslint@7.32.0+sass@1.54.6/node_modules/nuxt/dist/app/components/nuxt-root.vue");
   return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
 const __default__ = {
@@ -20815,22 +18409,22 @@ const _sfc_main$6 = /* @__PURE__ */ Object.assign(__default__, {
   __ssrInlineRender: true,
   async setup(__props) {
     const loggedIn = useCookie("logged_in").value;
-    const userStore = useUserStore();
+    useUserStore();
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NuxtLink = __nuxt_component_0$5;
+      const _component_NuxtLink = __nuxt_component_0$6;
       const _component_ClientOnly = __nuxt_component_1$2;
-      if (!vue_cjs_prod.unref(loggedIn)) {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)}>`);
-        _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
+      if (!unref(loggedIn)) {
+        _push(`<div${ssrRenderAttrs(_attrs)}>`);
+        _push(ssrRenderComponent(_component_NuxtLink, {
           class: "rounded bg-green p-6 py-2",
           href: "/login"
         }, {
-          default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+          default: withCtx((_, _push2, _parent2, _scopeId) => {
             if (_push2) {
               _push2(`Login`);
             } else {
               return [
-                vue_cjs_prod.createTextVNode("Login")
+                createTextVNode("Login")
               ];
             }
           }),
@@ -20838,48 +18432,8 @@ const _sfc_main$6 = /* @__PURE__ */ Object.assign(__default__, {
         }, _parent));
         _push(`</div>`);
       } else {
-        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)}>`);
-        _push(serverRenderer.exports.ssrRenderComponent(_component_ClientOnly, null, {
-          default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-            if (_push2) {
-              _push2(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
-                href: "/user",
-                onClick: ($event) => _ctx.reloadPageOnSecondClick("/user"),
-                class: "text-md mr-4 hover:text-white"
-              }, {
-                default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
-                  if (_push3) {
-                    _push3(`${serverRenderer.exports.ssrInterpolate(vue_cjs_prod.unref(userStore).username())}`);
-                  } else {
-                    return [
-                      vue_cjs_prod.createTextVNode(vue_cjs_prod.toDisplayString(vue_cjs_prod.unref(userStore).username()), 1)
-                    ];
-                  }
-                }),
-                _: 1
-              }, _parent2, _scopeId));
-              _push2(`<a href="/user/logout" class="rounded bg-red-500 p-4 py-2"${_scopeId}>Logout</a>`);
-            } else {
-              return [
-                vue_cjs_prod.createVNode(_component_NuxtLink, {
-                  href: "/user",
-                  onClick: ($event) => _ctx.reloadPageOnSecondClick("/user"),
-                  class: "text-md mr-4 hover:text-white"
-                }, {
-                  default: vue_cjs_prod.withCtx(() => [
-                    vue_cjs_prod.createTextVNode(vue_cjs_prod.toDisplayString(vue_cjs_prod.unref(userStore).username()), 1)
-                  ]),
-                  _: 1
-                }, 8, ["onClick"]),
-                vue_cjs_prod.createVNode("a", {
-                  href: "/user/logout",
-                  class: "rounded bg-red-500 p-4 py-2"
-                }, "Logout")
-              ];
-            }
-          }),
-          _: 1
-        }, _parent));
+        _push(`<div${ssrRenderAttrs(_attrs)}>`);
+        _push(ssrRenderComponent(_component_ClientOnly, null, null, _parent));
         _push(`</div>`);
       }
     };
@@ -20887,7 +18441,7 @@ const _sfc_main$6 = /* @__PURE__ */ Object.assign(__default__, {
 });
 const _sfc_setup$6 = _sfc_main$6.setup;
 _sfc_main$6.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Login.vue");
   return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
@@ -20912,27 +18466,27 @@ const _sfc_main$5 = {
   }
 };
 function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _component_NuxtLink = __nuxt_component_0$5;
+  const _component_NuxtLink = __nuxt_component_0$6;
   const _component_Login = _sfc_main$6;
-  _push(`<nav${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "bg-blue py-3" }, _attrs))}><div class="mx-auto flex justify-center"><div class="container flex flex-col flex-wrap items-center w-screen-lg justify-around md:justify-start md:flex-row"><div class="flex felx-row justify-between flex-1 md:flex-none">`);
-  _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
+  _push(`<nav${ssrRenderAttrs(mergeProps({ class: "bg-blue py-3" }, _attrs))}><div class="mx-auto flex justify-center"><div class="container flex flex-col flex-wrap items-center w-screen-lg justify-around md:justify-start md:flex-row"><div class="flex felx-row justify-between flex-1 md:flex-none">`);
+  _push(ssrRenderComponent(_component_NuxtLink, {
     to: "/",
     onClick: ($event) => $options.reloadPageOnSecondClick("/"),
     class: "flex items-center md:mr-10"
   }, {
-    default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+    default: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_0)} class="h-12 mr-3" alt="Quickpaste Logo"${_scopeId}><span class="self-center text-2xl"${_scopeId}><span class="text-orange font-bold"${_scopeId}>Quick</span>paste</span>`);
+        _push2(`<img${ssrRenderAttr("src", _imports_0)} class="h-12 mr-3" alt="Quickpaste Logo"${_scopeId}><span class="self-center text-2xl"${_scopeId}><span class="text-orange font-bold"${_scopeId}>Quick</span>paste</span>`);
       } else {
         return [
-          vue_cjs_prod.createVNode("img", {
+          createVNode("img", {
             src: _imports_0,
             class: "h-12 mr-3",
             alt: "Quickpaste Logo"
           }),
-          vue_cjs_prod.createVNode("span", { class: "self-center text-2xl" }, [
-            vue_cjs_prod.createVNode("span", { class: "text-orange font-bold" }, "Quick"),
-            vue_cjs_prod.createTextVNode("paste")
+          createVNode("span", { class: "self-center text-2xl" }, [
+            createVNode("span", { class: "text-orange font-bold" }, "Quick"),
+            createTextVNode("paste")
           ])
         ];
       }
@@ -20940,47 +18494,47 @@ function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   }, _parent));
   _push(`<button type="button" class="inline-flex items-center p-2 ml-3 text-sm text-black rounded-lg md:hidden hover:bg-green focus:outline-none" aria-controls="mobile-menu" aria-expanded="false"><span class="sr-only">Open main menu</span><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg><svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button></div><div class="hidden flex-1 md:flex md:flex-row justify-between items-center" id="mobile-menu"><ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium justify-center text-center"><li>`);
-  _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
+  _push(ssrRenderComponent(_component_NuxtLink, {
     href: "/",
     onClick: ($event) => $options.reloadPageOnSecondClick("/"),
     class: "block py-2 pr-4 pl-3 text-black hover:bg-green md:hover:bg-transparent md:hover:text-white rounded",
     "aria-current": "page"
   }, {
-    default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+    default: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
         _push2(` Home `);
       } else {
         return [
-          vue_cjs_prod.createTextVNode(" Home ")
+          createTextVNode(" Home ")
         ];
       }
     }),
     _: 1
   }, _parent));
   _push(`</li><li>`);
-  _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
+  _push(ssrRenderComponent(_component_NuxtLink, {
     external: "",
     href: "/api-docs",
     class: "block py-2 pr-4 pl-3 text-black hover:bg-green md:hover:bg-transparent md:hover:text-white rounded"
   }, {
-    default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+    default: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
         _push2(` Api `);
       } else {
         return [
-          vue_cjs_prod.createTextVNode(" Api ")
+          createTextVNode(" Api ")
         ];
       }
     }),
     _: 1
   }, _parent));
   _push(`</li></ul>`);
-  _push(serverRenderer.exports.ssrRenderComponent(_component_Login, { class: "justify-self-end" }, null, _parent));
+  _push(ssrRenderComponent(_component_Login, { class: "justify-self-end" }, null, _parent));
   _push(`</div></div></div></nav>`);
 }
 const _sfc_setup$5 = _sfc_main$5.setup;
 _sfc_main$5.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/MyNavigation.vue");
   return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
@@ -21018,11 +18572,11 @@ const _sfc_main$4 = {
   }
 };
 function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "bg-gradient-to-tr from-green to-orange rounded p-4 flex flex-col justify-center items-center mb-px-60" }, _attrs))}><h2 class="text-xl font-bold">${serverRenderer.exports.ssrInterpolate($props.title)}</h2><p>${serverRenderer.exports.ssrInterpolate($props.description)}</p><div class="mt-4"><button class="rounded bg-red-600 mr-4 p-2 w-16 shadow-lg hover:shadow-none">${serverRenderer.exports.ssrInterpolate($props.denytext)}</button><button class="rounded bg-green p-2 w-16 shadow-lg hover:shadow-none">${serverRenderer.exports.ssrInterpolate($props.accepttext)}</button></div></div>`);
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-gradient-to-tr from-green to-orange rounded p-4 flex flex-col justify-center items-center mb-px-60" }, _attrs))}><h2 class="text-xl font-bold">${ssrInterpolate($props.title)}</h2><p>${ssrInterpolate($props.description)}</p><div class="mt-4"><button class="rounded bg-red-600 mr-4 p-2 w-16 shadow-lg hover:shadow-none">${ssrInterpolate($props.denytext)}</button><button class="rounded bg-green p-2 w-16 shadow-lg hover:shadow-none">${ssrInterpolate($props.accepttext)}</button></div></div>`);
 }
 const _sfc_setup$4 = _sfc_main$4.setup;
 _sfc_main$4.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/notifications/Confirm.vue");
   return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
 };
@@ -21043,17 +18597,17 @@ const _sfc_main$3 = {
   }
 };
 function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-  _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-row bg-darkgray rounded p-4 text-gray-200 shadow-black shadow-md mx-4 my-2 max-w-sm" }, _attrs))}><div class="flex justify-center items-center mr-2">`);
+  const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex flex-row bg-darkgray rounded p-4 text-gray-200 shadow-black shadow-md mx-4 my-2 max-w-sm" }, _attrs))}><div class="flex justify-center items-center mr-2">`);
   if ($props.level == 0) {
-    _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
+    _push(ssrRenderComponent(_component_font_awesome_icon, {
       icon: ["fas", "fa-circle-info"],
       size: "xl",
       "fixed-width": "",
       class: "text-blue"
     }, null, _parent));
   } else if ($props.level == 1) {
-    _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, {
+    _push(ssrRenderComponent(_component_font_awesome_icon, {
       icon: ["fas", "fa-circle-exclamation"],
       size: "xl",
       "fixed-width": "",
@@ -21062,11 +18616,11 @@ function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   } else {
     _push(`<!---->`);
   }
-  _push(`</div><div class="flex flex-col"><p class="text-lg">${serverRenderer.exports.ssrInterpolate($props.title)}</p><p class="text-sm">${serverRenderer.exports.ssrInterpolate($props.desc)}</p></div></div>`);
+  _push(`</div><div class="flex flex-col"><p class="text-lg">${ssrInterpolate($props.title)}</p><p class="text-sm">${ssrInterpolate($props.desc)}</p></div></div>`);
 }
 const _sfc_setup$3 = _sfc_main$3.setup;
 _sfc_main$3.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/notifications/Toast.vue");
   return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
 };
@@ -21076,15 +18630,15 @@ const _sfc_main$2 = {
   __ssrInlineRender: true,
   setup(__props) {
     const notificationStore = useNotificationStore();
-    const confirm = vue_cjs_prod.reactive({
+    const confirm = reactive({
       show: false,
       notification: void 0
     });
-    const alert = vue_cjs_prod.reactive({
+    const alert = reactive({
       show: false,
       notification: void 0
     });
-    let notifications = vue_cjs_prod.ref([]);
+    let notifications = ref([]);
     function alertDone(val) {
       notificationStore.alerts[0].done(val);
       notificationStore.shiftAlert();
@@ -21102,11 +18656,11 @@ const _sfc_main$2 = {
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NotificationsConfirm = __nuxt_component_0;
       const _component_NotificationsToast = __nuxt_component_1$1;
-      serverRenderer.exports.ssrRenderTeleport(_push, (_push2) => {
+      ssrRenderTeleport(_push, (_push2) => {
         if (confirm.show || alert.show) {
           _push2(`<div class="absolute z-10 top-0 w-screen h-screen flex justify-center items-center backdrop-filter backdrop-blur-sm shadow-lg bg-zinc-900/50" data-v-02dda902>`);
           if (confirm.show) {
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_NotificationsConfirm, {
+            _push2(ssrRenderComponent(_component_NotificationsConfirm, {
               class: "notification",
               onDecision: alertDone,
               title: confirm.notification.title,
@@ -21120,8 +18674,8 @@ const _sfc_main$2 = {
           _push2(`<!---->`);
         }
         _push2(`<div class="absolute flex flex-col w-xs sm:w-sm h-3/4 z-60 right-0 justify-end pointer-events-none overflow-hidden" data-v-02dda902><!--[-->`);
-        serverRenderer.exports.ssrRenderList(vue_cjs_prod.unref(notifications).slice().reverse(), (noti) => {
-          _push2(serverRenderer.exports.ssrRenderComponent(_component_NotificationsToast, {
+        ssrRenderList(unref(notifications).slice().reverse(), (noti) => {
+          _push2(ssrRenderComponent(_component_NotificationsToast, {
             key: noti.id,
             title: noti.title,
             desc: noti.description,
@@ -21135,16 +18689,15 @@ const _sfc_main$2 = {
 };
 const _sfc_setup$2 = _sfc_main$2.setup;
 _sfc_main$2.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/notifications/Manager.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-02dda902"]]);
 const layouts = {
-  default: vue_cjs_prod.defineAsyncComponent(() => import('./Default.1f96c56b.mjs'))
+  default: defineAsyncComponent(() => import('./Default.5eaedaa1.mjs').then((m) => m.default || m))
 };
-const defaultLayoutTransition = { name: "layout", mode: "out-in" };
-const __nuxt_component_2 = vue_cjs_prod.defineComponent({
+const __nuxt_component_2 = defineComponent({
   props: {
     name: {
       type: [String, Boolean, Object],
@@ -21155,26 +18708,27 @@ const __nuxt_component_2 = vue_cjs_prod.defineComponent({
     const route = useRoute();
     return () => {
       var _a, _b, _c;
-      const layout = (_b = (_a = vue_cjs_prod.isRef(props.name) ? props.name.value : props.name) != null ? _a : route.meta.layout) != null ? _b : "default";
+      const layout = (_b = (_a = isRef(props.name) ? props.name.value : props.name) != null ? _a : route.meta.layout) != null ? _b : "default";
       const hasLayout = layout && layout in layouts;
-      return _wrapIf(
-        vue_cjs_prod.Transition,
-        hasLayout && ((_c = route.meta.layoutTransition) != null ? _c : defaultLayoutTransition),
-        _wrapIf(layouts[layout], hasLayout, context.slots)
-      ).default();
+      const transitionProps = (_c = route.meta.layoutTransition) != null ? _c : appLayoutTransition;
+      return _wrapIf(Transition, hasLayout && transitionProps, {
+        default: () => {
+          return _wrapIf(layouts[layout], hasLayout, context.slots).default();
+        }
+      }).default();
     };
   }
 });
 const _sfc_main$1 = {};
 function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
-  const _component_font_awesome_icon = vue_cjs_prod.resolveComponent("font-awesome-icon");
-  _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "w-full bg-zinc-600 text-gray-300 pt-4" }, _attrs))}><div class="flex flex-col space-y-2 items-center"><div><ul class="flex flex-row space-x-8"><li><a href="/">Home</a></li><li><a href="/api">Api</a></li><li><a href="/user">User page</a></li></ul></div></div><p class="text-center p-4 text-lg">Site by <a href="https://github.com/reKOmo">reKOmo (Bartosz Wo\u017Anica) `);
-  _push(serverRenderer.exports.ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
+  const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "w-full bg-zinc-600 text-gray-300 pt-4" }, _attrs))}><div class="flex flex-col space-y-2 items-center"><div><ul class="flex flex-row space-x-8"><li><a href="/">Home</a></li><li><a href="/api">Api</a></li><li><a href="/user">User page</a></li></ul></div></div><p class="text-center p-4 text-lg">Site by <a href="https://github.com/reKOmo">reKOmo (Bartosz Wo\u017Anica) `);
+  _push(ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "fa-arrow-up-right-from-square"] }, null, _parent));
   _push(`</a></p></div>`);
 }
 const _sfc_setup$1 = _sfc_main$1.setup;
 _sfc_main$1.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Footer.vue");
   return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
 };
@@ -21189,32 +18743,32 @@ const _sfc_main = {
         httpOnly: true
       });
       if (key.value === void 0) {
-        const res = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => fetch(useRuntimeConfig().authServiceAddress + "/keys/generate")), __temp = await __temp, __restore(), __temp);
+        const res = ([__temp, __restore] = withAsyncContext(() => fetch(useRuntimeConfig().authServiceAddress + "/keys/generate")), __temp = await __temp, __restore(), __temp);
         if (res.ok) {
-          const data = ([__temp, __restore] = vue_cjs_prod.withAsyncContext(() => res.json()), __temp = await __temp, __restore(), __temp);
+          const data = ([__temp, __restore] = withAsyncContext(() => res.json()), __temp = await __temp, __restore(), __temp);
           key.value = data.result;
         }
       }
     }
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_Head = vue_cjs_prod.resolveComponent("Head");
-      const _component_Title = vue_cjs_prod.resolveComponent("Title");
+      const _component_Head = resolveComponent("Head");
+      const _component_Title = resolveComponent("Title");
       const _component_MyNavigation = __nuxt_component_0$1;
       const _component_NotificationsManager = __nuxt_component_1;
       const _component_NuxtLayout = __nuxt_component_2;
-      const _component_NuxtPage = vue_cjs_prod.resolveComponent("NuxtPage");
+      const _component_NuxtPage = resolveComponent("NuxtPage");
       const _component_Footer = __nuxt_component_3;
       _push(`<!--[-->`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_Head, null, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+      _push(ssrRenderComponent(_component_Head, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_Title, null, {
-              default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
+            _push2(ssrRenderComponent(_component_Title, null, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
                   _push3(`Quickpaste`);
                 } else {
                   return [
-                    vue_cjs_prod.createTextVNode("Quickpaste")
+                    createTextVNode("Quickpaste")
                   ];
                 }
               }),
@@ -21222,9 +18776,9 @@ const _sfc_main = {
             }, _parent2, _scopeId));
           } else {
             return [
-              vue_cjs_prod.createVNode(_component_Title, null, {
-                default: vue_cjs_prod.withCtx(() => [
-                  vue_cjs_prod.createTextVNode("Quickpaste")
+              createVNode(_component_Title, null, {
+                default: withCtx(() => [
+                  createTextVNode("Quickpaste")
                 ]),
                 _: 1
               })
@@ -21234,28 +18788,28 @@ const _sfc_main = {
         _: 1
       }, _parent));
       _push(`<div class="bg-bg min-h-screen flex flex-col">`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_MyNavigation, null, null, _parent));
-      _push(serverRenderer.exports.ssrRenderComponent(_component_NotificationsManager, null, null, _parent));
-      _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLayout, { name: "default" }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+      _push(ssrRenderComponent(_component_MyNavigation, null, null, _parent));
+      _push(ssrRenderComponent(_component_NotificationsManager, null, null, _parent));
+      _push(ssrRenderComponent(_component_NuxtLayout, { name: "default" }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_NuxtPage, null, null, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_component_NuxtPage, null, null, _parent2, _scopeId));
           } else {
             return [
-              vue_cjs_prod.createVNode(_component_NuxtPage)
+              createVNode(_component_NuxtPage)
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(serverRenderer.exports.ssrRenderComponent(_component_Footer, { class: "mt-auto" }, null, _parent));
+      _push(ssrRenderComponent(_component_Footer, { class: "mt-auto" }, null, _parent));
       _push(`</div><!--]-->`);
     };
   }
 };
 const _sfc_setup = _sfc_main.setup;
 _sfc_main.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
+  const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("app.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
@@ -21268,7 +18822,7 @@ let entry;
 const plugins = normalizePlugins(_plugins);
 {
   entry = async function createNuxtAppServer(ssrContext) {
-    const vueApp = vue_cjs_prod.createApp(_sfc_main$7);
+    const vueApp = createApp(_sfc_main$7);
     vueApp.component("App", _sfc_main);
     const nuxt = createNuxtApp({ vueApp, ssrContext });
     try {
@@ -21283,5 +18837,5 @@ const plugins = normalizePlugins(_plugins);
 }
 const entry$1 = (ctx) => entry(ctx);
 
-export { NotificationTypes as N, _export_sfc as _, useRuntimeConfig as a, useNotificationStore as b, useUserStore as c, useAsyncData as d, entry$1 as default, useHead as e, useRoute as f, _imports_0$1 as g, _imports_1 as h, useRequestHeaders as i, _sfc_main$f as j, __nuxt_component_0$5 as k, __nuxt_component_0$2 as l, __nuxt_component_3$1 as m, _sfc_main$c as n, _sfc_main$b as o, __nuxt_component_1$2 as p, useNuxtApp as u, vue_cjs_prod as v };
+export { NotificationTypes as N, _export_sfc as _, useRuntimeConfig as a, useNotificationStore as b, useUserStore as c, useHead as d, entry$1 as default, useRoute as e, _imports_0$1 as f, _imports_1 as g, useRequestHeaders as h, __nuxt_component_0$3 as i, __nuxt_component_0$6 as j, __nuxt_component_0$2 as k, __nuxt_component_3$1 as l, _sfc_main$c as m, _sfc_main$b as n, __nuxt_component_1$2 as o, useNuxtApp as u };
 //# sourceMappingURL=server.mjs.map

@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <div v-if="!createdPaste" class="flex flex-row justify-center items-center mt-12">
-        <object width="300" height="300" type="image/svg+xml" :data="$resolveAssetUrl('animated/logo-paste-loading.svg')">
+        <object width="300" height="300" type="image/svg+xml" :data="svg1">
           <img ref="img0" src="@/assets/animated/logo-paste-loading.svg" />
         </object>
         <div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min">
@@ -14,7 +14,7 @@
       </div>
       <div v-else>
         <div v-if="requestCode == 200" class="flex flex-row justify-center items-center mt-12">
-          <object width="300" height="300" type="image/svg+xml" :data="$resolveAssetUrl('animated/logo-paste-created.svg')">
+          <object width="300" height="300" type="image/svg+xml" :data="svg2">
             <img ref="img1" src="@/assets/animated/logo-paste-created.svg" />
           </object>
           <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
@@ -39,6 +39,8 @@
 
 <script setup>
   import { useUserStore } from '@/store/user';
+  import svg1 from "@/assets/animated/logo-paste-loading.svg";
+  import svg2 from "@/assets/animated/logo-paste-created.svg";
 
   const userStore = useUserStore();
   const loggedIn = userStore.user() != undefined;
