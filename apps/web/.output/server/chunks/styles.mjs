@@ -4,7 +4,7 @@ const SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang = "button.accept[
 
 const Editor_vue_vue_type_style_index_0_scope_true_lang = ".editor-container{background-color:#363636;border-radius:5px;height:360px;padding:5px;width:600px}.hide-editor{opacity:0;-webkit-user-select:none;-moz-user-select:none;user-select:none}.editor{height:100%;position:relative;width:100%}.editor code[class*=language-]{display:block;height:100%;left:0;position:absolute;top:0;white-space:pre;width:100%}.editor .code-container{left:0;position:absolute;top:0}.editor .pre-code{margin:0;overflow:hidden;padding:0;position:relative;-webkit-user-select:none;-moz-user-select:none;user-select:none}.editor textarea{background-color:transparent;caret-color:#fff;color:#000;color:transparent;height:100%;overflow-wrap:normal;overflow-x:auto;resize:none;white-space:pre}.editor textarea:focus{outline:none}.editor .line-numbers,.editor code[class*=language-],.editor pre[class*=language-],.editor textarea{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-size:1em;-webkit-hyphens:none;hyphens:none;line-height:1.2;-moz-tab-size:4;-o-tab-size:4;tab-size:4}.editor .line-numbers{border-right:1px solid gray;color:gray;left:0;min-width:2em;overflow:hidden;padding:0 4px 0 1em;position:absolute;text-align:right;top:0;-webkit-user-select:none;-moz-user-select:none;user-select:none}";
 
-const SnippetEditor_vue_vue_type_style_index_0_scoped_62b58418_lang = ".main[data-v-62b58418],select[data-v-62b58418]{background:#363636}select[data-v-62b58418]{color:#ddd;width:10em}option[data-v-62b58418]{background-color:#fff;color:#000}option[data-v-62b58418]:checked{background-color:#aaa}input[data-v-62b58418]{background-color:#363636}";
+const SnippetEditor_vue_vue_type_style_index_0_scoped_29c82a4b_lang = ".main[data-v-29c82a4b],select[data-v-29c82a4b]{background:#363636}select[data-v-29c82a4b]{color:#ddd;width:10em}option[data-v-29c82a4b]{background-color:#fff;color:#000}option[data-v-29c82a4b]:checked{background-color:#aaa}input[data-v-29c82a4b]{background-color:#363636}";
 
 const UserPanel_vue_vue_type_style_index_0_scoped_8e778f66_lang = "li[data-v-8e778f66]{transition-duration:.15s;transition-timing-function:cubic-bezier(.4,0,.2,1)}";
 
@@ -12,18 +12,18 @@ const Manager_vue_vue_type_style_index_0_scoped_02dda902_lang = ".confirm-enter-
 
 const interopDefault = r => r.default || r || [];
 const styles = {
-  entry: () => [prismTheme, SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang, Editor_vue_vue_type_style_index_0_scope_true_lang, SnippetEditor_vue_vue_type_style_index_0_scoped_62b58418_lang, UserPanel_vue_vue_type_style_index_0_scoped_8e778f66_lang, Manager_vue_vue_type_style_index_0_scoped_02dda902_lang],
-  "pages/[pasteId].vue": () => import('./_pasteId_-styles.86963f15.mjs').then(interopDefault),
-  "pages/index.vue": () => import('./index-styles.c12a7b92.mjs').then(interopDefault),
+  entry: () => [prismTheme, SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang, Editor_vue_vue_type_style_index_0_scope_true_lang, SnippetEditor_vue_vue_type_style_index_0_scoped_29c82a4b_lang, UserPanel_vue_vue_type_style_index_0_scoped_8e778f66_lang, Manager_vue_vue_type_style_index_0_scoped_02dda902_lang],
+  "pages/[pasteId].vue": () => import('./_pasteId_-styles.0901ee56.mjs').then(interopDefault),
+  "pages/index.vue": () => import('./index-styles.38eb5da3.mjs').then(interopDefault),
   "components/notifications/Manager.vue": () => import('./Manager-styles.44aa9f84.mjs').then(interopDefault),
   "components/UserPanel.vue": () => import('./UserPanel-styles.f10b62a6.mjs').then(interopDefault),
-  "pages/Api-Docs.vue": () => import('./Api-Docs-styles.76ee3cd7.mjs').then(interopDefault),
   "../../../node_modules/.pnpm/@nuxt+ui-templates@0.4.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": () => import('./error-404-styles.f743576b.mjs').then(interopDefault),
+  "pages/Api-Docs.vue": () => import('./Api-Docs-styles.5ce636a2.mjs').then(interopDefault),
   "../../../node_modules/.pnpm/@nuxt+ui-templates@0.4.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": () => import('./error-500-styles.83aeb3b8.mjs').then(interopDefault),
   "components/SideMenu.vue": () => import('./SideMenu-styles.db48d18b.mjs').then(interopDefault),
-  "components/SnippetEditor.vue": () => import('./SnippetEditor-styles.5335fb46.mjs').then(interopDefault),
-  "plugins/prismjs.client.js": () => import('./prismjs.client-styles.5b52312e.mjs').then(interopDefault),
-  "components/Editor.vue": () => import('./Editor-styles.61a43400.mjs').then(interopDefault)
+  "components/SnippetEditor.vue": () => import('./SnippetEditor-styles.a5e96888.mjs').then(interopDefault),
+  "components/Editor.vue": () => import('./Editor-styles.61a43400.mjs').then(interopDefault),
+  "plugins/prismjs.client.js": () => import('./prismjs.client-styles.5b52312e.mjs').then(interopDefault)
 };
 
 const styles$1 = /*#__PURE__*/Object.freeze({
@@ -31,5 +31,5 @@ const styles$1 = /*#__PURE__*/Object.freeze({
   'default': styles
 });
 
-export { Editor_vue_vue_type_style_index_0_scope_true_lang as E, Manager_vue_vue_type_style_index_0_scoped_02dda902_lang as M, SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang as S, UserPanel_vue_vue_type_style_index_0_scoped_8e778f66_lang as U, SnippetEditor_vue_vue_type_style_index_0_scoped_62b58418_lang as a, prismTheme as p, styles$1 as s };
+export { Editor_vue_vue_type_style_index_0_scope_true_lang as E, Manager_vue_vue_type_style_index_0_scoped_02dda902_lang as M, SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang as S, UserPanel_vue_vue_type_style_index_0_scoped_8e778f66_lang as U, SnippetEditor_vue_vue_type_style_index_0_scoped_29c82a4b_lang as a, prismTheme as p, styles$1 as s };
 //# sourceMappingURL=styles.mjs.map

@@ -21,8 +21,8 @@
                 </div>
             </div>
             <div v-if="editable" class="w-full px-4 flex justify-center space-x-4">
-                <button v-if="(loggedIn && snippets.length < 500) || snippets.length < 5" v-on:click="addSnippet" class="bg-green sm:px-10 flex-1 md:max-w-xs rounded py-2 hover:shadow-lg">Add snippet</button>
-                <button v-if="snippets.length > 1" ref="remove" v-on:click="removeSnippet" class="bg-red-500 sm:px-10 flex-1 md:max-w-xs rounded py-2 hover:shadow-lg hide">Remove last snippet</button>
+                <button v-if="(loggedIn && snippetAmount() < 500) || snippetAmount() < 5" v-on:click="addSnippet" class="bg-green sm:px-10 flex-1 md:max-w-xs rounded py-2 hover:shadow-lg">Add snippet</button>
+                <button v-if="snippetAmount() > 1" ref="remove" v-on:click="removeSnippet" class="bg-red-500 sm:px-10 flex-1 md:max-w-xs rounded py-2 hover:shadow-lg hide">Remove last snippet</button>
             </div>
         </div>
     </div>
@@ -52,26 +52,24 @@
                 snippets: [0]
             }
         },
-        watch: {
-            snippets: {
-                handler() {
-                    setTimeout(() => {
-                        const cont = this.$refs["editor-conteiner"];
-                        cont.scrollTo({
-                            top: cont.scrollHeight,
-                            behavior: "smooth"
-                        });
-                    }, 10);
-                },
-                deep: true
-            }
-        },
         mounted() {
             if (this.paste) {
                 this.paste.created = (new Date(this.paste.created)).toLocaleDateString();
             }
         },
         methods: {
+            scrollSnippets() {
+                setTimeout(() => {
+                        const cont = this.$refs["editor-conteiner"];
+                        cont.scrollTo({
+                            top: cont.scrollHeight,
+                            behavior: "smooth"
+                        });
+                    }, 10);
+            },
+            snippetAmount() {
+                return this.paste ? this.paste.fragments.length : this.snippets.length;
+            },
             createPaste(options) {
                 let fragments = [];
                 this.$refs["snippet"].forEach(s => fragments.push(s.getValue()));
@@ -84,12 +82,17 @@
                 this.$emit("submit", paste);
             },
             addSnippet() {
-                if ((this.loggedIn && this.snippets.length < 500) || this.snippets.length < 5) {
-                    this.snippets.push(this.snippets[this.snippets.length - 1] + 1);
+                const target = this.paste ? this.paste.fragments : this.snippets;
+                const newSnippet = this.paste ? target.length[target.length - 1] + 1 : undefined;
+                if ((this.loggedIn && target.length < 500) || target.length < 5) {
+                    target.push(newSnippet);
                 }
+                this.scrollSnippets()
             },
             removeSnippet() {
-                this.snippets.pop();
+                const target = this.paste ? this.paste.fragments : this.snippets;
+                target.pop();
+                this.scrollSnippets()
             }
         }
     }

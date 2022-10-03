@@ -24,9 +24,6 @@
                 }
             },
             value: {
-                validator(value) {
-                    return value.hasOwnProperty("name") && value.hasOwnProperty("syntax") && value.hasOwnProperty("content") 
-                },
                 default() {
                     return {
                         name: "",
@@ -39,7 +36,7 @@
         data() {
             return {
                 languages: useRuntimeConfig().public.supportedSyntaxes,
-                selectedLang: this.value.syntax,
+                selectedLang: this.value.syntax || "text",
                 title: this.value.name
             }
         },

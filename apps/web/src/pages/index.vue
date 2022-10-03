@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!postingPaste" class="container">
-      <PasteEditor @submit="createPaste" :loggedIn="loggedIn"/>
+      <PasteEditor @submit="createPaste" :paste="clientSidePaste" :loggedIn="loggedIn"/>
     </div>
     <div v-else>
       <div v-if="!createdPaste" class="flex flex-row justify-center items-center mt-12">
@@ -28,7 +28,7 @@
           <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
             <h2 class="text-2xl font-bold">Daily paste limit reached</h2>
             <h3> 
-              You have surpassed your daily paste limit. For more information see <NuxtLink href="/">here</NuxtLink>
+              You have surpassed your daily paste limit. For more information see <NuxtLink href="/api-docs#limits">here</NuxtLink>
             </h3>
           </div>
         </div>
@@ -39,71 +39,77 @@
 
 <script setup>
   import { useUserStore } from '@/store/user';
+  import { useNotificationStore, NotificationTypes } from '../store/notification';
   import svg1 from "@/assets/animated/logo-paste-loading.svg";
   import svg2 from "@/assets/animated/logo-paste-created.svg";
 
   const userStore = useUserStore();
+  const notificationStore = useNotificationStore();
   const loggedIn = userStore.user() != undefined;
-</script>
+  let postingPaste = ref(false);
+  let createdPaste =  ref(undefined);
+  let requestCode = ref(200);
+  let clientSidePaste = ref(undefined);
 
-<script>
-  export default {
-    data() {
-      return {
-        snippets: [0],
-        offscreen: false,
-        postingPaste: false,
-        createdPaste: undefined,
-        requestCode: 200
-      }
-    },
-    mounted() {
-      document.title = "Quickpaste";
-    },
-    watch: {
-      snippets: {
-        handler() {
-          setTimeout(() => {
-            const cont = this.$refs["editor-conteiner"];
-            cont.scrollTo({
-              top: cont.scrollHeight,
-              behavior: "smooth"
-            });
-          }, 10);
-        },
-        deep: true
-      }
-    },
-    methods: {
-      async createPaste(paste) {
-        this.postingPaste = true;
 
-        const res = await fetch(`/api/paste`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          credentials: "include",
-          body: JSON.stringify(paste)
+
+  const createPaste = async (paste) => {
+    clientSidePaste.value = paste;
+    postingPaste.value = true;
+
+    const res = await fetch(`/api/paste`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify(paste)
+    });
+    
+    const data = await res.json();
+
+    if (data.ok) {
+      createdPaste.value = data.result;
+      requestCode.value = res.status;
+    } else {
+      postingPaste.value = false;
+      if (data.result.includes("title")) {
+        //paste title
+        notificationStore.addNotification({
+          title: "Paste title is missing",
+          type: NotificationTypes.NOTIFICATION,
+          level: 1
         });
-
-        const data = await res.json();
-        this.createdPaste = data.result;
-        this.requestCode = res.status;
-      },
-      removeLast() {
-        if (this.snippets.length > 1)
-          this.snippets.pop();
-        if (this.snippets.length == 1)
-          this.$refs["remove"].classList.add("hide");
-      },
-      addSnippet() {
-        this.snippets.push(this.snippets.length);
-        if (this.snippets.length > 1)
-          this.$refs["remove"].classList.remove("hide");
+      } else if (data.result.includes("name")) {
+        //fragement title
+        notificationStore.addNotification({
+          title: "One or more fragments are missing a title",
+          type: NotificationTypes.NOTIFICATION,
+          level: 1
+        });
+      } else if (data.result.includes("content")) {
+        //fragment content is empty
+        notificationStore.addNotification({
+          title: "Some fragments are missing a title",
+          description: "Please deleate them, or add missing content",
+          type: NotificationTypes.NOTIFICATION,
+          level: 1
+        });
+      } else {
+        // other
+        notificationStore.addNotification({
+          title: "Error accured when creating the paste",
+          description: "Please try again.",
+          type: NotificationTypes.NOTIFICATION,
+          level: 1
+        });
       }
     }
   }
+
+  onMounted(() => {
+    document.title = "Quickpaste";
+  })
 </script>
 
 <style scoped>

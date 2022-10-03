@@ -44,7 +44,7 @@
 <script setup>
     import { useHead } from "#app";
     import { useUserStore } from "../store/user";
-    import { useNotificationStore } from "../store/notification";
+    import { useNotificationStore, NotificationTypes } from "../store/notification";
     import svg1 from '@/assets/animated/logo-paste-loading.svg';
     import svg2 from '@/assets/animated/logo-paste-created.svg';
     const userStore = useUserStore();
@@ -156,7 +156,7 @@
 
     const rePaste = async (p) => {
         pastePostingState.value = 1;
-        // fixSvg([img0, img1]);
+        paste.value = p;
 
         const headers = {
             "Content-Type": "application/json"
@@ -174,11 +174,44 @@
             body: JSON.stringify(p)
         });
 
+        const data = await res.json();
+
         if (res.ok) {
             pastePostingState.value = 2;
-            createdPaste.value = (await res.json()).result;
+            createdPaste.value = data.result;
         } else {
-            //TODO
+            pastePostingState.value = 0;
+            if (data.result.includes("title")) {
+                //paste title
+                notificationStore.addNotification({
+                    title: "Paste title is missing",
+                    type: NotificationTypes.NOTIFICATION,
+                    level: 1
+                });
+            } else if (data.result.includes("name")) {
+                //fragement title
+                notificationStore.addNotification({
+                    title: "One or more fragments are missing a title",
+                    type: NotificationTypes.NOTIFICATION,
+                    level: 1
+                });
+            } else if (data.result.includes("content")) {
+                //fragment content is empty
+                notificationStore.addNotification({
+                    title: "One or more fragments are missing content",
+                    description: "Please deleate them, or add missing content",
+                    type: NotificationTypes.NOTIFICATION,
+                    level: 1
+                });
+            } else {
+                // other
+                notificationStore.addNotification({
+                    title: "Error accured when creating the paste",
+                    description: "Please try again.",
+                    type: NotificationTypes.NOTIFICATION,
+                    level: 1
+                });
+            }
         }
     }
 

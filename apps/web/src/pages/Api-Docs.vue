@@ -13,14 +13,10 @@
 
 <script setup lang="ts">
     import { marked } from "marked";
-    let parsedMarkdown = ""
-    if (process.server) {
-        
-        const { $loadFile } = useNuxtApp();
-        const markdown = await $loadFile("api.md");
+    import docs from "@/assets/api.md";
+    const res = await $fetch(useRuntimeConfig().public.webAddress + docs);
 
-        parsedMarkdown = marked.parse(markdown);
-    }
+    const parsedMarkdown = marked.parse(res);
 </script>
 
 <script lang="ts">
