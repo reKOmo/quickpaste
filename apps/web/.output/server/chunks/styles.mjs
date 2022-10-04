@@ -13,13 +13,13 @@ const Manager_vue_vue_type_style_index_0_scoped_02dda902_lang = ".confirm-enter-
 const interopDefault = r => r.default || r || [];
 const styles = {
   entry: () => [prismTheme, SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang, Editor_vue_vue_type_style_index_0_scope_true_lang, SnippetEditor_vue_vue_type_style_index_0_scoped_f549be97_lang, UserPanel_vue_vue_type_style_index_0_scoped_8e778f66_lang, Manager_vue_vue_type_style_index_0_scoped_02dda902_lang],
-  "pages/[pasteId].vue": () => import('./_pasteId_-styles.0901ee56.mjs').then(interopDefault),
-  "pages/index.vue": () => import('./index-styles.7451b2c4.mjs').then(interopDefault),
+  "pages/[pasteId].vue": () => import('./_pasteId_-styles.b05016dc.mjs').then(interopDefault),
+  "pages/index.vue": () => import('./index-styles.31082991.mjs').then(interopDefault),
   "components/notifications/Manager.vue": () => import('./Manager-styles.44aa9f84.mjs').then(interopDefault),
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.4.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": () => import('./error-404-styles.f743576b.mjs').then(interopDefault),
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.4.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": () => import('./error-500-styles.83aeb3b8.mjs').then(interopDefault),
   "components/UserPanel.vue": () => import('./UserPanel-styles.f10b62a6.mjs').then(interopDefault),
   "pages/Api-Docs.vue": () => import('./Api-Docs-styles.2f704c87.mjs').then(interopDefault),
+  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.4.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": () => import('./error-500-styles.83aeb3b8.mjs').then(interopDefault),
+  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.4.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": () => import('./error-404-styles.f743576b.mjs').then(interopDefault),
   "components/SideMenu.vue": () => import('./SideMenu-styles.db48d18b.mjs').then(interopDefault),
   "components/SnippetEditor.vue": () => import('./SnippetEditor-styles.05d329fb.mjs').then(interopDefault),
   "plugins/prismjs.client.js": () => import('./prismjs.client-styles.5b52312e.mjs').then(interopDefault),

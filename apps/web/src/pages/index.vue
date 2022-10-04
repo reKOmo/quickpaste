@@ -14,7 +14,7 @@
       </div>
       <div v-else>
         <div v-if="requestCode == 200" class="flex flex-row justify-center items-center mt-12">
-          <object class="w-100px sm:w-150px md:w-300px transition" type="image/svg+xml" :data="svg2">
+          <object class="w-100px sm:w-150px md:w-300px" type="image/svg+xml" :data="svg2">
             <img ref="img1" src="@/assets/animated/logo-paste-created.svg" />
           </object>
           <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 mt-6 h-min">    

@@ -6,12 +6,12 @@
                 <object width="300" height="300" type="image/svg+xml" :data="svg1">
                     <img ref="img0" src="@/assets/animated/logo-paste-loading.svg" />
                 </object>
-                <div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min">
+                <div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min hidden md:block">
                     <h2 class="text-2xl font-bold">Creating paste</h2>
                 </div>
             </div>
             <div v-else class="flex flex-row justify-center items-center mt-12">
-                <object width="300" height="300" type="image/svg+xml" :data="svg2">
+                <object class="w-100px sm:w-150px md:w-300px" type="image/svg+xml" :data="svg2">
                         <img ref="img1" src="@/assets/animated/logo-paste-created.svg" />
                 </object>
                 <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
@@ -140,19 +140,6 @@
 
     let pastePostingState = ref(0);
     let createdPaste = ref(undefined);
-
-    const img0 = ref(null);
-    const img1 = ref(null);
-    const fixSvg = (refs) => {
-        refs.forEach(r => {
-            console.log(r);
-            if (r != null) {
-                const child = r.firstElementChild;
-                const src = child.src;
-                r.setAttribute('data', src);
-            }
-        });
-    }
 
     const rePaste = async (p) => {
         pastePostingState.value = 1;
