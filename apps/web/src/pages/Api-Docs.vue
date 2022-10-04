@@ -14,9 +14,10 @@
 <script setup lang="ts">
     import { marked } from "marked";
     import docs from "@/assets/api.md";
-    const res = await $fetch(useRuntimeConfig().public.webAddress + docs);
+    const res = await fetch(docs);
+    const text = await res.text();
 
-    const parsedMarkdown = marked.parse(res);
+    const parsedMarkdown = marked.parse(text);
 </script>
 
 <script lang="ts">

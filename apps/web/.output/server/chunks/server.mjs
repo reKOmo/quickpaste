@@ -17553,9 +17553,9 @@ const _sfc_main$e = {
 };
 function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_Editor = __nuxt_component_0$4;
-  _push(`<div${ssrRenderAttrs(mergeProps({ class: "main shadow-black shadow-lg rounded" }, _attrs))} data-v-29c82a4b><div class="header bg-gradient-to-tr from-green to-orange p-2 flex justify-center rounded" data-v-29c82a4b><input${ssrIncludeBooleanAttr(!$props.editable) ? " disabled" : ""}${ssrRenderAttr("value", $data.title)} type="text" maxlength="50" tooltip="Click to edit" placeholder="Name this snippet +" class="flex-1 sm:mr-4 py-2 text-center text-white rounded placeholder-white-100 border-none focus:outline-none text-lg text-bold" data-v-29c82a4b><select class="bg-transparent rounded text-center border-none" data-v-29c82a4b><!--[-->`);
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "main shadow-black shadow-lg rounded" }, _attrs))} data-v-f549be97><div class="header bg-gradient-to-tr from-green to-orange p-2 flex justify-center rounded" data-v-f549be97><input${ssrIncludeBooleanAttr(!$props.editable) ? " disabled" : ""}${ssrRenderAttr("value", $data.title)} type="text" maxlength="50" tooltip="Click to edit" placeholder="Name this snippet +" class="flex-1 sm:mr-4 py-2 text-center text-white rounded placeholder-white-100 border-none focus:outline-none text-lg text-bold" data-v-f549be97><select class="bg-transparent rounded w-6em md:w-10em text-center border-none" data-v-f549be97><!--[-->`);
   ssrRenderList($data.languages, (lang, index) => {
-    _push(`<option${ssrRenderAttr("value", lang)} data-v-29c82a4b>${ssrInterpolate(lang)}</option>`);
+    _push(`<option${ssrRenderAttr("value", lang)} data-v-f549be97>${ssrInterpolate(lang)}</option>`);
   });
   _push(`<!--]--></select></div>`);
   _push(ssrRenderComponent(_component_Editor, {
@@ -17573,7 +17573,7 @@ _sfc_main$e.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/SnippetEditor.vue");
   return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
 };
-const __nuxt_component_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["ssrRender", _sfc_ssrRender$6], ["__scopeId", "data-v-29c82a4b"]]);
+const __nuxt_component_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["ssrRender", _sfc_ssrRender$6], ["__scopeId", "data-v-f549be97"]]);
 const _sfc_main$d = {
   emits: ["submit"],
   props: {
@@ -18017,7 +18017,7 @@ const _routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./Api-Docs.52de5c62.mjs').then((m) => m.default || m)
+    component: () => import('./Api-Docs.4d382962.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -18026,7 +18026,7 @@ const _routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./Login.bde3ce6b.mjs').then((m) => m.default || m)
+    component: () => import('./Login.b33fa1b8.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -18035,7 +18035,7 @@ const _routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_pasteId_.8e9c2620.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_.2f3fabad.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -18044,7 +18044,7 @@ const _routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./index.b0f6901f.mjs').then((m) => m.default || m)
+    component: () => import('./index.4e2a3b0e.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -18053,7 +18053,7 @@ const _routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./Settings.ca8d500a.mjs').then((m) => m.default || m)
+    component: () => import('./Settings.9f1fe5d9.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -18062,7 +18062,7 @@ const _routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./index.bcc0baeb.mjs').then((m) => m.default || m)
+    component: () => import('./index.dbae9bd4.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -18243,7 +18243,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = defineAsyncComponent(() => import('./error-component.adce4758.mjs').then((r) => r.default || r));
+    const ErrorComponent = defineAsyncComponent(() => import('./error-component.b930d5ad.mjs').then((r) => r.default || r));
     const nuxtApp = useNuxtApp();
     provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -18574,7 +18574,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-02dda902"]]);
 const layouts = {
-  default: defineAsyncComponent(() => import('./Default.ea3a35d5.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./Default.bb7f62d9.mjs').then((m) => m.default || m))
 };
 const __nuxt_component_2 = defineComponent({
   props: {

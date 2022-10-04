@@ -543,7 +543,7 @@ function createRouter() {
   return router;
 }
 
-const _runtimeConfig = {"app":{"baseURL":"/","buildAssetsDir":"/_nuxt/","cdnURL":""},"nitro":{"routes":{},"envPrefix":"NUXT_"},"public":{"githubClientId":"","webAddress":"","hCaptchaSitekey":"","supportedSyntaxes":["text","markup","html","xml","svg","mathml","ssml","atom","rss","css","like","javascript","js","abap","abnf","actionscript","ada","agda","al","antlr4","g4","apacheconf","apex","apl","applescript","aql","arduino","ino","arff","armasm","arm","arturo","art","asciidoc","adoc","aspnet","asm6502","asmatmel","autohotkey","autoit","avisynth","avs","avro","awk","gawk","bash","sh","shell","basic","batch","bbcode","shortcode","bbj","bicep","birb","bison","bnf","rbnf","bqn","brainfuck","brightscript","bro","bsl","oscript","c","csharp","cs","dotnet","cpp","cfscript","cfc","chaiscript","cil","cilkc","cilk","cilkcpp","cilk","clojure","cmake","cobol","coffeescript","coffee","concurnas","conc","Security","cooklang","coq","crystal","css","csv","cue","cypher","d","dart","dataweave","dax","dhall","diff","django","jinja2","dns","docker","dockerfile","dot","gv","ebnf","editorconfig","eiffel","ejs","eta","elixir","elm","etlua","erb","erlang","excel","fsharp","factor","false","firestore","flow","fortran","ftl","gml","gamemakerlanguage","gap","code","gdscript","gedcom","gettext","po","gherkin","git","glsl","gn","gni","linker","go","go","gradle","graphql","groovy","haml","handlebars","hbs","mustache","haskell","hs","haxe","hcl","hlsl","hoon","http","Key","Transport","ichigojam","icon","icu","idris","idr","ignore","gitignore","hgignore","npmignore","inform7","ini","io","j","java","javadoc","like","javastacktrace","jexl","jolie","jq","jsdoc","js","json","webmanifest","json5","jsonp","jsstacktrace","js","julia","keepalived","keyman","kotlin","kt","kts","kumir","kum","kusto","latex","tex","context","latte","less","lilypond","ly","liquid","lisp","emacs","elisp","emacs","livescript","llvm","log","lolcode","lua","magma","makefile","markdown","md","markup","mata","matlab","maxscript","mel","mermaid","metafont","mizar","mongodb","monkey","moonscript","moon","n1ql","n4js","n4jsd","nand2tetris","naniscript","nani","nasm","neon","nevod","nginx","nim","nix","nsis","C","ocaml","odin","opencl","openqasm","qasm","oz","parigp","parser","pascal","objectpascal","pascaligo","psl","Axis","peoplecode","pcode","perl","php","phpdoc","php","plant","plsql","powerquery","pq","mscript","powershell","processing","prolog","promql","properties","protobuf","pug","puppet","pure","purebasic","pbfasm","purescript","purs","python","py","qsharp","qs","q","qml","qore","r","racket","rkt","cshtml","razor","jsx","tsx","reason","regex","rego","renpy","rpy","rescript","res","rest","rip","roboconf","robotframework","robot","ruby","rb","rust","sas","sass","scss","scala","scheme","shell","smali","smalltalk","smarty","sml","smlnj","solidity","sol","solution","soy","sparql","rq","splunk","sqf","sql","squirrel","stan","stata","3)","stylus","supercollider","sclang","swift","systemd","t4","t4","t4","tap","tcl","tt2","textile","toml","tremor","trickle","troy","turtle","trig","twig","typescript","ts","typoscript","tsconfig","unrealscript","uscript","uc","uorazor","uri","url","v","vala","vbnet","velocity","verilog","vhdl","vim","visual","warpscript","wasm","web","wgsl","wiki","wolfram","mathematica","nb","wl","wren","xeora","xeoracube","xml","xojo","xquery","yaml","yml","yang","zig"]},"githubClientSecret":"","githubClientId":"","internalGatewayAddress":"","internalApiAddress":"","authServiceAddress":"","webAddress":""};
+const _runtimeConfig = {"app":{"baseURL":"/","buildAssetsDir":"/_nuxt/","cdnURL":""},"nitro":{"routes":{},"envPrefix":"NUXT_"},"public":{"githubClientId":"","webAddress":"","hCaptchaSitekey":"","supportedSyntaxes":["text","markup","html","xml","svg","mathml","ssml","atom","rss","css","like","javascript","js","abap","abnf","actionscript","ada","agda","al","antlr4","g4","apacheconf","apex","apl","applescript","aql","arduino","ino","arff","armasm","arm","arturo","art","asciidoc","adoc","aspnet","asm6502","asmatmel","autohotkey","autoit","avisynth","avs","avro","awk","gawk","bash","sh","shell","basic","batch","bbcode","shortcode","bbj","bicep","birb","bison","bnf","rbnf","bqn","brainfuck","brightscript","bro","bsl","oscript","c","csharp","cs","dotnet","cpp","cfscript","cfc","chaiscript","cil","cilkc","cilk","cilkcpp","cilk","clojure","cmake","cobol","coffeescript","coffee","concurnas","conc","Security","cooklang","coq","crystal","css","csv","cue","cypher","d","dart","dataweave","dax","dhall","diff","django","jinja2","dns","docker","dockerfile","dot","gv","ebnf","editorconfig","eiffel","ejs","eta","elixir","elm","etlua","erb","erlang","excel","fsharp","factor","false","firestore","flow","fortran","ftl","gml","gamemakerlanguage","gap","code","gdscript","gedcom","gettext","po","gherkin","git","glsl","gn","gni","linker","go","go","gradle","graphql","groovy","haml","handlebars","hbs","mustache","haskell","hs","haxe","hcl","hlsl","hoon","http","Key","Transport","ichigojam","icon","icu","idris","idr","ignore","gitignore","hgignore","npmignore","inform7","ini","io","j","java","javadoc","like","javastacktrace","jexl","jolie","jq","jsdoc","json","webmanifest","json5","jsonp","jsstacktrace","julia","keepalived","keyman","kotlin","kt","kts","kumir","kum","kusto","latex","tex","context","latte","less","lilypond","ly","liquid","lisp","emacs","elisp","emacs","livescript","llvm","log","lolcode","lua","magma","makefile","markdown","md","markup","mata","matlab","maxscript","mel","mermaid","metafont","mizar","mongodb","monkey","moonscript","moon","n1ql","n4js","n4jsd","nand2tetris","naniscript","nani","nasm","neon","nevod","nginx","nim","nix","nsis","C","ocaml","odin","opencl","openqasm","qasm","oz","parigp","parser","pascal","objectpascal","pascaligo","psl","Axis","peoplecode","pcode","perl","php","phpdoc","php","plant","plsql","powerquery","pq","mscript","powershell","processing","prolog","promql","properties","protobuf","pug","puppet","pure","purebasic","pbfasm","purescript","purs","python","py","qsharp","qs","q","qml","qore","r","racket","rkt","cshtml","razor","jsx","tsx","reason","regex","rego","renpy","rpy","rescript","res","rest","rip","roboconf","robotframework","robot","ruby","rb","rust","sas","sass","scss","scala","scheme","shell","smali","smalltalk","smarty","sml","smlnj","solidity","sol","solution","soy","sparql","rq","splunk","sqf","sql","squirrel","stan","stata","3)","stylus","supercollider","sclang","swift","systemd","t4","t4","t4","tap","tcl","tt2","textile","toml","tremor","trickle","troy","turtle","trig","twig","typescript","ts","typoscript","tsconfig","unrealscript","uscript","uc","uorazor","uri","url","v","vala","vbnet","velocity","verilog","vhdl","vim","visual","warpscript","wasm","web","wgsl","wiki","wolfram","mathematica","nb","wl","wren","xeora","xeoracube","xml","xojo","xquery","yaml","yml","yang","zig"]},"githubClientSecret":"","githubClientId":"","internalGatewayAddress":"","internalApiAddress":"","authServiceAddress":"","webAddress":""};
 const ENV_PREFIX = "NITRO_";
 const ENV_PREFIX_ALT = _runtimeConfig.nitro.envPrefix ?? process.env.NITRO_ENV_PREFIX ?? "_";
 const getEnv = (key) => {
@@ -873,164 +873,164 @@ const assets = {
     "size": 201758,
     "path": "../public/favicon.ico"
   },
-  "/_nuxt/Api-Docs.5016fe1c.css": {
-    "type": "text/css; charset=utf-8",
-    "etag": "\"61-ccaLf6t8JOB9j0VpKmxJ5S3k/qo\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
-    "size": 97,
-    "path": "../public/_nuxt/Api-Docs.5016fe1c.css"
-  },
-  "/_nuxt/Api-Docs.d7a882e5.js": {
+  "/_nuxt/Api-Docs.047e1dde.js": {
     "type": "application/javascript",
-    "etag": "\"525-K1pR+GHbLwt0z1xqXYwrVe4V9eg\"",
-    "mtime": "2022-10-03T22:57:13.407Z",
-    "size": 1317,
-    "path": "../public/_nuxt/Api-Docs.d7a882e5.js"
+    "etag": "\"52c-yJ1roosQfs04HesaaWJpSHTope0\"",
+    "mtime": "2022-10-04T10:18:00.311Z",
+    "size": 1324,
+    "path": "../public/_nuxt/Api-Docs.047e1dde.js"
+  },
+  "/_nuxt/Api-Docs.c1092463.css": {
+    "type": "text/css; charset=utf-8",
+    "etag": "\"61-TF0jw37alv09EhUnr1bCFdWBmME\"",
+    "mtime": "2022-10-04T10:18:00.319Z",
+    "size": 97,
+    "path": "../public/_nuxt/Api-Docs.c1092463.css"
   },
   "/_nuxt/api.8d25c4b5.md": {
     "type": "text/markdown; charset=utf-8",
     "etag": "\"1775-BHcgfPLwwAFZif0aoYomPlPZwuo\"",
-    "mtime": "2022-10-03T22:57:13.407Z",
+    "mtime": "2022-10-04T10:18:00.311Z",
     "size": 6005,
     "path": "../public/_nuxt/api.8d25c4b5.md"
   },
-  "/_nuxt/Default.74d89a69.js": {
+  "/_nuxt/Default.c98298cc.js": {
     "type": "application/javascript",
-    "etag": "\"1b2-QlK6Xm7x14PjRF3JAeQpMm4NZak\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
+    "etag": "\"1b2-ycmIJj1TiAbfdKnP/NJHlm21AZQ\"",
+    "mtime": "2022-10-04T10:18:00.312Z",
     "size": 434,
-    "path": "../public/_nuxt/Default.74d89a69.js"
+    "path": "../public/_nuxt/Default.c98298cc.js"
   },
-  "/_nuxt/entry.b33416cd.css": {
-    "type": "text/css; charset=utf-8",
-    "etag": "\"4f57-1jmRN5H7T9hYcV3Dx3VjXAxYZ7k\"",
-    "mtime": "2022-10-03T22:57:13.410Z",
-    "size": 20311,
-    "path": "../public/_nuxt/entry.b33416cd.css"
-  },
-  "/_nuxt/entry.e9799e26.js": {
+  "/_nuxt/entry.314f2c63.js": {
     "type": "application/javascript",
-    "etag": "\"1d1bb8-igAMVbsg/QVXhLhQYAKVG/EgG98\"",
-    "mtime": "2022-10-03T22:57:13.410Z",
+    "etag": "\"1d1bb8-oWrKRVd8W/v/g02AyRyGk8VgC4M\"",
+    "mtime": "2022-10-04T10:18:00.315Z",
     "size": 1907640,
-    "path": "../public/_nuxt/entry.e9799e26.js"
+    "path": "../public/_nuxt/entry.314f2c63.js"
   },
-  "/_nuxt/error-404.4fb478fe.js": {
+  "/_nuxt/entry.f88d45d2.css": {
+    "type": "text/css; charset=utf-8",
+    "etag": "\"4fec-YtwIp791p+tThvoW66p8Vk/s1ZE\"",
+    "mtime": "2022-10-04T10:18:00.320Z",
+    "size": 20460,
+    "path": "../public/_nuxt/entry.f88d45d2.css"
+  },
+  "/_nuxt/error-404.2c4f6d08.js": {
     "type": "application/javascript",
-    "etag": "\"8a8-A2J+a1+rg3dOqiZmdN03IeKTVBg\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
+    "etag": "\"8a8-cgXaGFmYFcOkMAZzl6hbYmVIPKk\"",
+    "mtime": "2022-10-04T10:18:00.312Z",
     "size": 2216,
-    "path": "../public/_nuxt/error-404.4fb478fe.js"
+    "path": "../public/_nuxt/error-404.2c4f6d08.js"
   },
   "/_nuxt/error-404.b102b163.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"e2e-9EWpBdOyIg/g0wpzldLb/CoFUrM\"",
-    "mtime": "2022-10-03T22:57:13.410Z",
+    "mtime": "2022-10-04T10:18:00.320Z",
     "size": 3630,
     "path": "../public/_nuxt/error-404.b102b163.css"
-  },
-  "/_nuxt/error-500.034fe846.js": {
-    "type": "application/javascript",
-    "etag": "\"74c-xo0od3XyBNfOamHgXpVn1X6EJfg\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
-    "size": 1868,
-    "path": "../public/_nuxt/error-500.034fe846.js"
   },
   "/_nuxt/error-500.70cbed19.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"79e-9pS6aVjRcII0b4wg8QV5rl6je7w\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
+    "mtime": "2022-10-04T10:18:00.314Z",
     "size": 1950,
     "path": "../public/_nuxt/error-500.70cbed19.css"
   },
-  "/_nuxt/error-component.86fa28a8.js": {
+  "/_nuxt/error-500.b687efa0.js": {
     "type": "application/javascript",
-    "etag": "\"465-OmalPTCBjsnRttrpjcx8koBT6ew\"",
-    "mtime": "2022-10-03T22:57:13.407Z",
+    "etag": "\"751-i0jisHdMiMhGOo5Ya1VxKr023oE\"",
+    "mtime": "2022-10-04T10:18:00.313Z",
+    "size": 1873,
+    "path": "../public/_nuxt/error-500.b687efa0.js"
+  },
+  "/_nuxt/error-component.c4c94728.js": {
+    "type": "application/javascript",
+    "etag": "\"465-zMlgzNGgScdCM+TZBxna0zzU8QE\"",
+    "mtime": "2022-10-04T10:18:00.311Z",
     "size": 1125,
-    "path": "../public/_nuxt/error-component.86fa28a8.js"
+    "path": "../public/_nuxt/error-component.c4c94728.js"
   },
-  "/_nuxt/index.36e99003.js": {
-    "type": "application/javascript",
-    "etag": "\"b27-ijY/uoavzg42gHoD0K81/k6dxg4\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
-    "size": 2855,
-    "path": "../public/_nuxt/index.36e99003.js"
-  },
-  "/_nuxt/index.d6111a1d.css": {
+  "/_nuxt/index.25e00725.css": {
     "type": "text/css; charset=utf-8",
-    "etag": "\"139-EAn0bBqo3MBBpYhBmzmvl5to0IA\"",
-    "mtime": "2022-10-03T22:57:13.410Z",
+    "etag": "\"139-NRtcET570jzjH66iFlquCg+n0xw\"",
+    "mtime": "2022-10-04T10:18:00.313Z",
     "size": 313,
-    "path": "../public/_nuxt/index.d6111a1d.css"
+    "path": "../public/_nuxt/index.25e00725.css"
   },
-  "/_nuxt/index.f5d31233.js": {
+  "/_nuxt/index.26ce755b.js": {
     "type": "application/javascript",
-    "etag": "\"b52-nAmwvlI8unFjTUEA8doG8DSrmWA\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
-    "size": 2898,
-    "path": "../public/_nuxt/index.f5d31233.js"
+    "etag": "\"b9b-lnxKuHwBmTRfvYAe+/Ct5ywMjkQ\"",
+    "mtime": "2022-10-04T10:18:00.312Z",
+    "size": 2971,
+    "path": "../public/_nuxt/index.26ce755b.js"
   },
-  "/_nuxt/Login.14278cbf.js": {
+  "/_nuxt/index.50d649f8.js": {
     "type": "application/javascript",
-    "etag": "\"398-YGYXmXHtYZ3517fYGC77mB2GoFs\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
+    "etag": "\"b27-Rn9z7jLJCv0t4c8UTgwgyuUZtLk\"",
+    "mtime": "2022-10-04T10:18:00.312Z",
+    "size": 2855,
+    "path": "../public/_nuxt/index.50d649f8.js"
+  },
+  "/_nuxt/Login.e4fcd8a0.js": {
+    "type": "application/javascript",
+    "etag": "\"398-5ZitahidUpaY4nXCcSRSkFZdvG0\"",
+    "mtime": "2022-10-04T10:18:00.312Z",
     "size": 920,
-    "path": "../public/_nuxt/Login.14278cbf.js"
+    "path": "../public/_nuxt/Login.e4fcd8a0.js"
+  },
+  "/_nuxt/logo-paste-created.2790e662.js": {
+    "type": "application/javascript",
+    "etag": "\"29b3-FF85tm6R0TaPlGP6tVhQ7uP2JL4\"",
+    "mtime": "2022-10-04T10:18:00.312Z",
+    "size": 10675,
+    "path": "../public/_nuxt/logo-paste-created.2790e662.js"
   },
   "/_nuxt/logo-paste-created.50923283.svg": {
     "type": "image/svg+xml",
     "etag": "\"7c5b-h3C/3rEhyUIQslWbdhs+g1jBLbU\"",
-    "mtime": "2022-10-03T22:57:13.407Z",
+    "mtime": "2022-10-04T10:18:00.311Z",
     "size": 31835,
     "path": "../public/_nuxt/logo-paste-created.50923283.svg"
-  },
-  "/_nuxt/logo-paste-created.592dfb80.js": {
-    "type": "application/javascript",
-    "etag": "\"29a3-WXfjwE6dzf5AinwYFwFe0M906qM\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
-    "size": 10659,
-    "path": "../public/_nuxt/logo-paste-created.592dfb80.js"
   },
   "/_nuxt/logo-paste-loading.d9d6ef31.svg": {
     "type": "image/svg+xml",
     "etag": "\"7c47-Ah6t3A6JW1UViQ1l5XZdtTICiJw\"",
-    "mtime": "2022-10-03T22:57:13.407Z",
+    "mtime": "2022-10-04T10:18:00.308Z",
     "size": 31815,
     "path": "../public/_nuxt/logo-paste-loading.d9d6ef31.svg"
   },
   "/_nuxt/quickpase-icon.40f31740.svg": {
     "type": "image/svg+xml",
     "etag": "\"21e8-Tw5w6+khSsIW+jdybSTvndrTU/8\"",
-    "mtime": "2022-10-03T22:57:13.404Z",
+    "mtime": "2022-10-04T10:18:00.311Z",
     "size": 8680,
     "path": "../public/_nuxt/quickpase-icon.40f31740.svg"
   },
-  "/_nuxt/Settings.30ec184a.js": {
+  "/_nuxt/Settings.44680b9e.js": {
     "type": "application/javascript",
-    "etag": "\"124e-yvVaDgHybjQ7J9wOwDKe6Ovipxw\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
+    "etag": "\"124e-WOJUDONpmSDgyoD4Y9lvDRCFo/M\"",
+    "mtime": "2022-10-04T10:18:00.312Z",
     "size": 4686,
-    "path": "../public/_nuxt/Settings.30ec184a.js"
+    "path": "../public/_nuxt/Settings.44680b9e.js"
   },
-  "/_nuxt/UserPanel.23957e90.js": {
+  "/_nuxt/UserPanel.cbb9012f.js": {
     "type": "application/javascript",
-    "etag": "\"39a-XyumSPOrjjO2dCXtAcMiA1ZS5p0\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
+    "etag": "\"39a-9JvbxE7bh/9LvO04BmoaeE86Njk\"",
+    "mtime": "2022-10-04T10:18:00.312Z",
     "size": 922,
-    "path": "../public/_nuxt/UserPanel.23957e90.js"
+    "path": "../public/_nuxt/UserPanel.cbb9012f.js"
   },
-  "/_nuxt/_pasteId_.a7fcf00a.js": {
+  "/_nuxt/_pasteId_.18e596a7.js": {
     "type": "application/javascript",
-    "etag": "\"1bcb-gVi18PuGSgOgV7QHPvc1rXa9nhM\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
+    "etag": "\"1bcb-nzA+WD1YQNBKQcv23nK2YQS8j+A\"",
+    "mtime": "2022-10-04T10:18:00.312Z",
     "size": 7115,
-    "path": "../public/_nuxt/_pasteId_.a7fcf00a.js"
+    "path": "../public/_nuxt/_pasteId_.18e596a7.js"
   },
   "/_nuxt/_pasteId_.cb1323a2.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"74-qTYo4GZk57ZmN9G/sKobhSvRtHg\"",
-    "mtime": "2022-10-03T22:57:13.408Z",
+    "mtime": "2022-10-04T10:18:00.313Z",
     "size": 116,
     "path": "../public/_nuxt/_pasteId_.cb1323a2.css"
   }

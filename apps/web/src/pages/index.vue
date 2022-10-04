@@ -8,16 +8,16 @@
         <object width="300" height="300" type="image/svg+xml" :data="svg1">
           <img ref="img0" src="@/assets/animated/logo-paste-loading.svg" />
         </object>
-        <div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min">
-          <h2 class="text-2xl font-bold">Creating paste</h2>
+        <div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min hidden md:block">
+          <h2 class="text-2xl font-bold">Creating paste...</h2>
         </div>
       </div>
       <div v-else>
         <div v-if="requestCode == 200" class="flex flex-row justify-center items-center mt-12">
-          <object width="300" height="300" type="image/svg+xml" :data="svg2">
+          <object class="w-100px sm:w-150px md:w-300px transition" type="image/svg+xml" :data="svg2">
             <img ref="img1" src="@/assets/animated/logo-paste-created.svg" />
           </object>
-          <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
+          <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 mt-6 h-min">    
             <h2 class="text-2xl font-bold">Paste created!</h2>
             <h3> 
               Check it at: <a class="font-bold" :href="`/${createdPaste.pasteId}`">{{createdPaste.pasteId}} <font-awesome-icon :icon="['fas', 'fa-arrow-up-right-from-square']" /></a>
@@ -68,10 +68,10 @@
     
     const data = await res.json();
 
-    if (data.ok) {
-      createdPaste.value = data.result;
-      requestCode.value = res.status;
-    } else {
+    requestCode.value = res.status;
+    createdPaste.value = data.result;
+    if (!data.ok) {
+      if (requestCode.value == 429) return;
       postingPaste.value = false;
       if (data.result.includes("title")) {
         //paste title
