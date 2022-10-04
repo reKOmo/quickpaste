@@ -1,4 +1,4 @@
-import { S as SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang } from './styles.mjs';
+import { a as SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang } from './styles.mjs';
 
 const SideMenuStyles_db48d18b = [SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang];
 

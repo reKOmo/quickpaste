@@ -13,15 +13,15 @@ const Manager_vue_vue_type_style_index_0_scoped_02dda902_lang = ".confirm-enter-
 const interopDefault = r => r.default || r || [];
 const styles = {
   entry: () => [prismTheme, SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang, Editor_vue_vue_type_style_index_0_scope_true_lang, SnippetEditor_vue_vue_type_style_index_0_scoped_f549be97_lang, UserPanel_vue_vue_type_style_index_0_scoped_8e778f66_lang, Manager_vue_vue_type_style_index_0_scoped_02dda902_lang],
-  "pages/[pasteId].vue": () => import('./_pasteId_-styles.b05016dc.mjs').then(interopDefault),
   "pages/index.vue": () => import('./index-styles.31082991.mjs').then(interopDefault),
+  "pages/[pasteId].vue": () => import('./_pasteId_-styles.b05016dc.mjs').then(interopDefault),
   "components/notifications/Manager.vue": () => import('./Manager-styles.44aa9f84.mjs').then(interopDefault),
   "components/UserPanel.vue": () => import('./UserPanel-styles.f10b62a6.mjs').then(interopDefault),
-  "pages/Api-Docs.vue": () => import('./Api-Docs-styles.2f704c87.mjs').then(interopDefault),
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.4.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": () => import('./error-500-styles.83aeb3b8.mjs').then(interopDefault),
+  "pages/Api-Docs.vue": () => import('./Api-Docs-styles.53e8716f.mjs').then(interopDefault),
   "../../../node_modules/.pnpm/@nuxt+ui-templates@0.4.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": () => import('./error-404-styles.f743576b.mjs').then(interopDefault),
-  "components/SideMenu.vue": () => import('./SideMenu-styles.db48d18b.mjs').then(interopDefault),
+  "../../../node_modules/.pnpm/@nuxt+ui-templates@0.4.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": () => import('./error-500-styles.83aeb3b8.mjs').then(interopDefault),
   "components/SnippetEditor.vue": () => import('./SnippetEditor-styles.05d329fb.mjs').then(interopDefault),
+  "components/SideMenu.vue": () => import('./SideMenu-styles.db48d18b.mjs').then(interopDefault),
   "plugins/prismjs.client.js": () => import('./prismjs.client-styles.5b52312e.mjs').then(interopDefault),
   "components/Editor.vue": () => import('./Editor-styles.61a43400.mjs').then(interopDefault)
 };
@@ -31,5 +31,5 @@ const styles$1 = /*#__PURE__*/Object.freeze({
   'default': styles
 });
 
-export { Editor_vue_vue_type_style_index_0_scope_true_lang as E, Manager_vue_vue_type_style_index_0_scoped_02dda902_lang as M, SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang as S, UserPanel_vue_vue_type_style_index_0_scoped_8e778f66_lang as U, SnippetEditor_vue_vue_type_style_index_0_scoped_f549be97_lang as a, prismTheme as p, styles$1 as s };
+export { Editor_vue_vue_type_style_index_0_scope_true_lang as E, Manager_vue_vue_type_style_index_0_scoped_02dda902_lang as M, SnippetEditor_vue_vue_type_style_index_0_scoped_f549be97_lang as S, UserPanel_vue_vue_type_style_index_0_scoped_8e778f66_lang as U, SideMenu_vue_vue_type_style_index_0_scoped_f57cfd42_lang as a, prismTheme as p, styles$1 as s };
 //# sourceMappingURL=styles.mjs.map
