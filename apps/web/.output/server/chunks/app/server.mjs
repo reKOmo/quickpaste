@@ -18017,7 +18017,7 @@ const _routes = [
     children: [],
     meta: meta$5,
     alias: [],
-    component: () => import('./_nuxt/Api-Docs.336792b0.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/Api-Docs.2274411f.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -18026,7 +18026,7 @@ const _routes = [
     children: [],
     meta: meta$4,
     alias: [],
-    component: () => import('./_nuxt/Login.adfdc20e.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/Login.c220b7cc.mjs').then((m) => m.default || m)
   },
   {
     name: "pasteId",
@@ -18035,7 +18035,7 @@ const _routes = [
     children: [],
     meta: meta$3,
     alias: [],
-    component: () => import('./_nuxt/_pasteId_.0a5ce222.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/_pasteId_.953b7b6e.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -18044,7 +18044,7 @@ const _routes = [
     children: [],
     meta: meta$2,
     alias: [],
-    component: () => import('./_nuxt/index.c6baecae.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/index.fefc0d0e.mjs').then((m) => m.default || m)
   },
   {
     name: "user-Settings",
@@ -18053,7 +18053,7 @@ const _routes = [
     children: [],
     meta: meta$1,
     alias: [],
-    component: () => import('./_nuxt/Settings.ef7f1ddc.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/Settings.2803927f.mjs').then((m) => m.default || m)
   },
   {
     name: "user",
@@ -18062,7 +18062,7 @@ const _routes = [
     children: [],
     meta,
     alias: [],
-    component: () => import('./_nuxt/index.bbf0ef87.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/index.6e8da222.mjs').then((m) => m.default || m)
   }
 ];
 const configRouterOptions = {};
@@ -18243,7 +18243,7 @@ const _sfc_main$7 = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const ErrorComponent = defineAsyncComponent(() => import('./_nuxt/error-component.0484c01e.mjs').then((r) => r.default || r));
+    const ErrorComponent = defineAsyncComponent(() => import('./_nuxt/error-component.d7227484.mjs').then((r) => r.default || r));
     const nuxtApp = useNuxtApp();
     provide("_route", useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -18574,7 +18574,7 @@ _sfc_main$2.setup = (props, ctx) => {
 };
 const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-379c6301"]]);
 const layouts = {
-  default: defineAsyncComponent(() => import('./_nuxt/Default.cba7c795.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./_nuxt/Default.96232b82.mjs').then((m) => m.default || m))
 };
 const __nuxt_component_2 = defineComponent({
   props: {
