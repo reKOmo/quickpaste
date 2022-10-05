@@ -309,7 +309,7 @@ Format for paste fragments.
                     "username": "reKOmo",
                     "id": 2
                 },
-                "uuid": "faQSOcNP"\
+                "uuid": "faQSOcNP"
             },
             {
                 "title": "e",
