@@ -1,4 +1,4 @@
-import { d as defineEventHandler, a as deleteCookie, s as sendRedirect, u as useRuntimeConfig } from './node-server.mjs';
+import { d as defineEventHandler, a as deleteCookie, s as sendRedirect, u as useRuntimeConfig } from './nitro/node-server.mjs';
 import 'node-fetch-native/polyfill';
 import 'http';
 import 'https';
