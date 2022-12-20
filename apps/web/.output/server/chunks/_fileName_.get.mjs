@@ -1,4 +1,4 @@
-import { d as defineEventHandler } from './node-server.mjs';
+import { d as defineEventHandler } from './nitro/node-server.mjs';
 import 'node-fetch-native/polyfill';
 import 'http';
 import 'https';
