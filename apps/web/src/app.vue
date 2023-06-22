@@ -5,7 +5,7 @@
     <div class="bg-bg min-h-screen flex flex-col">
         <MyNavigation />
         <NotificationsManager />
-        <NuxtLayout name="default">
+        <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
         <Footer class="mt-auto" />
