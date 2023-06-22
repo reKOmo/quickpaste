@@ -1,6 +1,6 @@
 export default defineEventHandler(async (e) => {
 
-    const authCookie = useCookies(e)["quickpaste_auth"];
+    const authCookie = parseCookies(e)["quickpaste_auth"];
 
     const config = useRuntimeConfig();
 
@@ -16,6 +16,7 @@ export default defineEventHandler(async (e) => {
 
         await fetch(config.internalApiAddress + "/internalapi/user", {
             method: "DELETE",
+            //@ts-ignore
             headers: {
                 "X-User": userId
             }
