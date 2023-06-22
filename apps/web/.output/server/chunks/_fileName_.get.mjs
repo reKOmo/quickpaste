@@ -1,20 +1,4 @@
-import { d as defineEventHandler } from './nitro/node-server.mjs';
-import 'node-fetch-native/polyfill';
-import 'http';
-import 'https';
-import 'destr';
-import 'ufo';
-import 'cookie-es';
-import 'radix3';
-import 'ohmyfetch';
-import 'unenv/runtime/fetch/index';
-import 'hookable';
-import 'scule';
-import 'ohash';
-import 'unstorage';
-import 'fs';
-import 'pathe';
-import 'url';
+import { defineEventHandler } from 'h3';
 
 const _fileName__get = defineEventHandler(async (e) => {
   const fileName = e.context.params.fileName;

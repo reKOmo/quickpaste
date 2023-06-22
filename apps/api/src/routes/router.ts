@@ -11,8 +11,8 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get("/api", (_, res) => {
-    res.send("Test");
+router.get("/api/status", (_, res) => {
+    res.send({ stauts: "up", timestamp: +Date.now() });
 });
 
 router.use("/api/paste", paste.router);

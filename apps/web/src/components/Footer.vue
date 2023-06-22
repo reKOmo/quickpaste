@@ -4,7 +4,7 @@
             <div>
                 <ul class="flex flex-row space-x-8">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/api">Api</a></li>
+                    <li><a href="/api-docs">Api</a></li>
                     <li><a href="/user">User page</a></li>
                 </ul>
             </div>
@@ -16,6 +16,7 @@
                 </ul>
             </div> -->
         </div>
-        <p class="text-center p-4 text-lg">Site by <a href="https://github.com/reKOmo">reKOmo (Bartosz Woźnica) <font-awesome-icon :icon="['fas', 'fa-arrow-up-right-from-square']" /></a></p>
+        <p class="text-center p-4 text-lg">Site by <a href="https://github.com/reKOmo">reKOmo (Bartosz Woźnica)
+                <font-awesome-icon :icon="['fas', 'fa-arrow-up-right-from-square']" /></a></p>
     </div>
 </template>
