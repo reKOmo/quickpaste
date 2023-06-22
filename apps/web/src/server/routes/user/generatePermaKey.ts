@@ -1,6 +1,6 @@
 export default defineEventHandler(async (e) => {
 
-    const authCookie = useCookies(e)["quickpaste_auth"];
+    const authCookie = parseCookies(e)["quickpaste_auth"];
 
     const res = await fetch(useRuntimeConfig().authServiceAddress + "/keys/generate", {
         method: "GET",
@@ -10,10 +10,10 @@ export default defineEventHandler(async (e) => {
     });
 
     //prepare response
-    e.res.statusCode = res.status;
+    e.node.res.statusCode = res.status;
 
     res.headers.forEach((key, value) => {
-        e.res.setHeader(value, key);
+        e.node.res.setHeader(value, key);
     });
 
     return await res.text();

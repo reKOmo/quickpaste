@@ -1,20 +1,4 @@
-import { d as defineEventHandler, s as sendRedirect, b as setCookie } from './nitro/node-server.mjs';
-import 'node-fetch-native/polyfill';
-import 'http';
-import 'https';
-import 'destr';
-import 'ufo';
-import 'cookie-es';
-import 'radix3';
-import 'ohmyfetch';
-import 'unenv/runtime/fetch/index';
-import 'hookable';
-import 'scule';
-import 'ohash';
-import 'unstorage';
-import 'fs';
-import 'pathe';
-import 'url';
+import { defineEventHandler, sendRedirect, setCookie } from 'h3';
 
 function parseQuery(q) {
   if (!q)
@@ -28,7 +12,7 @@ function parseQuery(q) {
   return ob;
 }
 const finalize = defineEventHandler(async (e) => {
-  const query = parseQuery(e.req.url.split("?")[1]);
+  const query = parseQuery(e.node.req.url.split("?")[1]);
   const failedLogin = query["fail"];
   if (failedLogin) {
     await sendRedirect(e, "/login?failedLogin=1");

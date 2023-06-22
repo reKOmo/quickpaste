@@ -10,21 +10,21 @@
     "install-yalcked-packages": "pnpm -s dlx workspace-to-yalc --lockfile-only --file && yalc update --store-folder ../../.yalc-store"
   },
   "devDependencies": {
-    "nuxt": "3.0.0-rc.11",
-    "nuxt-windicss": "^2.5.1"
+    "nuxt": "3.5.3",
+    "nuxt-windicss": "^2.6.1"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-brands-svg-icons": "^6.1.1",
-    "@fortawesome/free-regular-svg-icons": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/vue-fontawesome": "^3.0.1",
-    "@pinia/nuxt": "^0.4.2",
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-brands-svg-icons": "^6.2.1",
+    "@fortawesome/free-regular-svg-icons": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@fortawesome/vue-fontawesome": "^3.0.2",
+    "@pinia/nuxt": "^0.4.11",
     "@types/marked": "^4.0.3",
     "dotenv": "^16.0.2",
     "interfaces": "workspace:*",
     "marked": "^4.0.18",
-    "pinia": "^2.0.22",
+    "pinia": "^2.1.4",
     "prismjs": "^1.28.0",
     "quickpaste-constants": "workspace:*",
     "sass": "^1.53.0"

@@ -1,20 +1,22 @@
-import { d as defineEventHandler, a as deleteCookie, s as sendRedirect, u as useRuntimeConfig } from './nitro/node-server.mjs';
+import { defineEventHandler, deleteCookie, sendRedirect } from 'h3';
+import { u as useRuntimeConfig } from './nitro/node-server.mjs';
 import 'node-fetch-native/polyfill';
-import 'http';
-import 'https';
+import 'node:http';
+import 'node:https';
 import 'destr';
-import 'ufo';
-import 'cookie-es';
-import 'radix3';
-import 'ohmyfetch';
+import 'ofetch';
 import 'unenv/runtime/fetch/index';
 import 'hookable';
 import 'scule';
+import 'klona';
+import 'defu';
 import 'ohash';
+import 'ufo';
 import 'unstorage';
-import 'fs';
+import 'radix3';
+import 'node:fs';
+import 'node:url';
 import 'pathe';
-import 'url';
 
 const logout = defineEventHandler(async (e) => {
   deleteCookie(e, "quickpaste_auth");

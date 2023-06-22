@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from 'nuxt';
+import { defineNuxtConfig } from 'nuxt/config'
 import * as dotenv from "dotenv";
 import qConfig from "quickpaste-constants";
 
@@ -10,6 +10,11 @@ if (process.env.NODE_ENV == "development") {
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+    routeRules: {
+        "/api-docs": {
+            isr: true,
+        }
+    },
     runtimeConfig: {
         githubClientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
         githubClientId: process.env.GITHUB_CLIENT_ID ?? "",
@@ -34,22 +39,15 @@ export default defineNuxtConfig({
         // '@nuxtjs/composition-api/module',
         '@pinia/nuxt'
     ],
-    buildModules: [
-        '@pinia/nuxt'
+    css: [
+        "@/assets/main.scss",
+        '@fortawesome/fontawesome-svg-core/styles.css'
     ],
-    css: ["@/assets/main.scss"],
     components: true,
-    transpile: [
-        '@fortawesome/vue-fontawesome',
-        '@fortawesome/fontawesome-svg-core',
-        '@fortawesome/free-solid-svg-icons',
-        '@fortawesome/free-regular-svg-icons',
-        '@fortawesome/free-brands-svg-icons'
-    ],
     vite: {
         assetsInclude: ['**/*.md']
     },
-    server: {
-        port: 3000
+    experimental: {
+        componentIslands: true
     }
 });

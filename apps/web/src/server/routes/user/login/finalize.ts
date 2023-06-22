@@ -1,7 +1,7 @@
 function parseQuery(q: string): unknown {
     if (!q) return {};
     const data = q.split("&");
-    const ob = {};
+    const ob: { [key: string]: string } = {};
     data.forEach(s => {
         const param = s.split("=");
         ob[param[0]] = param[1];
@@ -11,7 +11,7 @@ function parseQuery(q: string): unknown {
 }
 
 export default defineEventHandler(async (e) => {
-    const query = parseQuery(e.req.url.split('?')[1]);
+    const query = parseQuery(e.node.req.url!.split('?')[1]) as any;
 
     const failedLogin = query["fail"];
 

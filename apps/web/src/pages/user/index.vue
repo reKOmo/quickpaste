@@ -8,10 +8,12 @@
                     class="flex flex-col md:flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue">
                     <a :href="`/${paste.uuid}`">
                         <h3 class="text-2xl font-bold">
-                            {{ paste.title }} 
+                            {{ paste.title }}
                             <span class="text-sm font-normal italic text-gray-500">#{{ paste.uuid }}</span>
-                            <font-awesome-icon v-if="paste.isPrivate" :icon="['fas', 'fa-eye-slash']" class="text-sm ml-2 mb-px" />
-                            <font-awesome-icon v-if="paste.password" :icon="['fas', 'fa-lock']" class="text-sm ml-2 mb-px" />
+                            <font-awesome-icon v-if="paste.isPrivate" :icon="['fas', 'fa-eye-slash']"
+                                class="text-sm ml-2 mb-px" />
+                            <font-awesome-icon v-if="paste.password" :icon="['fas', 'fa-lock']"
+                                class="text-sm ml-2 mb-px" />
                         </h3>
                         <ClientOnly>
                             <p>Created: {{ paste.created }}</p>
@@ -32,89 +34,93 @@
 </template>
 
 <script setup>
-    import { NotificationTypes, useNotificationStore } from "@/store/notification";
-    import { useUserStore } from "@/store/user";
+import { NotificationTypes, useNotificationStore } from "@/store/notification";
+import { useUserStore } from "@/store/user";
 
-    const userStore = useUserStore()
-    const notificationStore = useNotificationStore();
-    let pastes = ref([]);
-    let nextPageId = ref(undefined);
-    let loadingMore = ref(false);
-    let pasteContainer = ref(null);
-    let update = ref(0);
+const userStore = useUserStore()
+const notificationStore = useNotificationStore();
+let pastes = ref([]);
+let nextPageId = ref(undefined);
+let loadingMore = ref(false);
+let pasteContainer = ref(null);
+let update = ref(0);
 
-    const deletePaste = async (uuid) => {
-        const res = await notificationStore.addNotification({
-            type: NotificationTypes.CONFIRM,
-            title: "Delete paste?",
-            description: "This action can not be reversed!"
+definePageMeta({
+    middleware: ['auth']
+});
+
+const deletePaste = async (uuid) => {
+    const res = await notificationStore.addNotification({
+        type: NotificationTypes.CONFIRM,
+        title: "Delete paste?",
+        description: "This action can not be reversed!"
+    });
+    if (res) {
+        const r = await $fetch(`/api/paste/${uuid}`, {
+            method: "DELETE",
+            credentials: "include"
         });
-        if (res) {
-            const r = await $fetch(`/api/paste/${uuid}`, {
-                method: "DELETE",
-                credentials: "include"
-            });
 
-            await refreshPastes();
-        }
+        await refreshPastes();
     }
+}
 
-    const refreshPastes = async () => {
-        const res = await $fetch(`/api/user/pastes`, {
+const refreshPastes = async () => {
+    const res = await $fetch(`/api/user/pastes`, {
+        credentials: "include",
+        parseResponse: JSON.parse
+    });
+
+
+    pastes.value = res.result.pastes;
+
+    nextPageId.value = res.result.nextPage;
+
+    for (let i = 0; i < pastes.value.length; i++) {
+        pastes.value[i].created = (new Date(pastes.value[i].created)).toLocaleDateString();
+    }
+}
+
+const loadMorePastes = async () => {
+    const scrollAm = pasteContainer.value.scrollTop + pasteContainer.value.clientHeight;
+    if (nextPageId && scrollAm > pasteContainer.value.scrollHeight - 20 && !loadingMore) {
+        loadingMore = true;
+        const res = await $fetch(`/api/user/pastes?pageId=${this.nextPageId}`, {
             credentials: "include",
             parseResponse: JSON.parse
         });
 
-        
-        pastes.value = res.result.pastes;
 
-        nextPageId.value = res.result.nextPage;
-        
-        for (let i = 0; i < pastes.value.length; i++) {
-            pastes.value[i].created = (new Date(pastes.value[i].created)).toLocaleDateString();
+        nextPageId = res.result.nextPage;
+
+        for (let i = 0; i < res.result.pastes.length; i++) {
+            res.result.pastes[i].created = (new Date(res.result.pastes[i].created)).toLocaleDateString();
         }
+
+        pastes = pastes.concat(res.result.pastes);
+
+        loadingMore = false;
     }
+}
 
-    const loadMorePastes = async () => {
-        const scrollAm = pasteContainer.value.scrollTop + pasteContainer.value.clientHeight;
-        if (nextPageId && scrollAm > pasteContainer.value.scrollHeight - 20 && !loadingMore) {
-            loadingMore = true;
-            const res = await $fetch(`/api/user/pastes?pageId=${this.nextPageId}`, {
-                credentials: "include",
-                parseResponse: JSON.parse
-            });
+const updateTitle = (username) => {
+    document.title = `Quickpaste | ${username}`;
+}
 
-                
-            nextPageId = res.result.nextPage;
-
-            for (let i = 0; i < res.result.pastes.length; i++) {
-                res.result.pastes[i].created = (new Date(res.result.pastes[i].created)).toLocaleDateString();
-            }
-
-            pastes = pastes.concat(res.result.pastes);
-
-            loadingMore = false;
-        }
-    }
-
-    const updateTitle = (username) => {
-        document.title = `Quickpaste | ${username}`;
-    } 
-
-    if (process.client) {
-        let username = userStore.username();
-        if (username == "") {
-            setTimeout(() => {
-                let username = userStore.username();
-                updateTitle(username);
-            }, 200)
-        } else {
+if (process.client) {
+    let username = userStore.username();
+    if (username == "") {
+        setTimeout(() => {
+            let username = userStore.username();
             updateTitle(username);
-        }
-        
+        }, 200)
+    } else {
+        updateTitle(username);
     }
 
-    onMounted(() => {
-        if (pastes.value.length === 0) refreshPastes();
-    });
+}
+
+onMounted(() => {
+    if (pastes.value.length === 0) refreshPastes();
+});
 </script>

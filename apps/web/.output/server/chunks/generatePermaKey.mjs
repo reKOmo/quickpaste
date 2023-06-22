@@ -1,32 +1,34 @@
-import { d as defineEventHandler, c as useCookies, u as useRuntimeConfig } from './nitro/node-server.mjs';
+import { defineEventHandler, parseCookies } from 'h3';
+import { u as useRuntimeConfig } from './nitro/node-server.mjs';
 import 'node-fetch-native/polyfill';
-import 'http';
-import 'https';
+import 'node:http';
+import 'node:https';
 import 'destr';
-import 'ufo';
-import 'cookie-es';
-import 'radix3';
-import 'ohmyfetch';
+import 'ofetch';
 import 'unenv/runtime/fetch/index';
 import 'hookable';
 import 'scule';
+import 'klona';
+import 'defu';
 import 'ohash';
+import 'ufo';
 import 'unstorage';
-import 'fs';
+import 'radix3';
+import 'node:fs';
+import 'node:url';
 import 'pathe';
-import 'url';
 
 const generatePermaKey = defineEventHandler(async (e) => {
-  const authCookie = useCookies(e)["quickpaste_auth"];
+  const authCookie = parseCookies(e)["quickpaste_auth"];
   const res = await fetch(useRuntimeConfig().authServiceAddress + "/keys/generate", {
     method: "GET",
     headers: {
       "Authorization": "ApiKey " + authCookie
     }
   });
-  e.res.statusCode = res.status;
+  e.node.res.statusCode = res.status;
   res.headers.forEach((key, value) => {
-    e.res.setHeader(value, key);
+    e.node.res.setHeader(value, key);
   });
   return await res.text();
 });

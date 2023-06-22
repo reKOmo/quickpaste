@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     PRIMARY KEY (id)
 );
 
-INSERT INTO users (id, username) VALUES ('Guest', 0);
+INSERT INTO users (id, username) VALUES (0, 'Guest');
 
 CREATE TABLE IF NOT EXISTS pastes (
     id serial,
