@@ -1,4 +1,4 @@
-import { defineEventHandler, sendRedirect } from 'h3';
+import { defineEventHandler, parseCookies, sendRedirect } from 'h3';
 import { u as useRuntimeConfig } from './nitro/node-server.mjs';
 import 'node-fetch-native/polyfill';
 import 'node:http';
@@ -19,7 +19,7 @@ import 'node:url';
 import 'pathe';
 
 const deleteAccount = defineEventHandler(async (e) => {
-  const authCookie = useCookies(e)["quickpaste_auth"];
+  const authCookie = parseCookies(e)["quickpaste_auth"];
   const config = useRuntimeConfig();
   const authenticationRes = await fetch(config.authServiceAddress + "/keys/auth", {
     method: "GET",
@@ -31,6 +31,7 @@ const deleteAccount = defineEventHandler(async (e) => {
     const userId = authenticationRes.headers.get("authorization");
     await fetch(config.internalApiAddress + "/internalapi/user", {
       method: "DELETE",
+      //@ts-ignore
       headers: {
         "X-User": userId
       }

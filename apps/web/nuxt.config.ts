@@ -12,8 +12,7 @@ if (process.env.NODE_ENV == "development") {
 export default defineNuxtConfig({
     routeRules: {
         "/api-docs": {
-            //isr: true,
-            prerender: true
+            isr: true,
         }
     },
     runtimeConfig: {

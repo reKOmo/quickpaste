@@ -12,7 +12,7 @@ function parseQuery(q) {
   return ob;
 }
 const finalize = defineEventHandler(async (e) => {
-  const query = parseQuery(e.req.url.split("?")[1]);
+  const query = parseQuery(e.node.req.url.split("?")[1]);
   const failedLogin = query["fail"];
   if (failedLogin) {
     await sendRedirect(e, "/login?failedLogin=1");
