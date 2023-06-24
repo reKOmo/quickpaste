@@ -11,9 +11,9 @@ if (process.env.NODE_ENV == "development") {
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     routeRules: {
-        "/api-docs": {
-            isr: true,
-        }
+        // "/api-docs": {
+        //     isr: true,
+        // }
     },
     runtimeConfig: {
         githubClientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",

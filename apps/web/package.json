@@ -10,7 +10,7 @@
     "install-yalcked-packages": "pnpm -s dlx workspace-to-yalc --lockfile-only --file && yalc update --store-folder ../../.yalc-store"
   },
   "devDependencies": {
-    "nuxt": "3.5.3",
+    "nuxt": "3.6.0",
     "nuxt-windicss": "^2.6.1"
   },
   "dependencies": {

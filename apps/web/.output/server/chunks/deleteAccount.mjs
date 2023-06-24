@@ -1,9 +1,11 @@
-import { defineEventHandler, parseCookies, sendRedirect } from 'h3';
-import { u as useRuntimeConfig } from './nitro/node-server.mjs';
+import { d as defineEventHandler, p as parseCookies, u as useRuntimeConfig, s as sendRedirect } from './nitro/node-server.mjs';
 import 'node-fetch-native/polyfill';
 import 'node:http';
 import 'node:https';
 import 'destr';
+import 'ufo';
+import 'radix3';
+import 'cookie-es';
 import 'ofetch';
 import 'unenv/runtime/fetch/index';
 import 'hookable';
@@ -11,12 +13,11 @@ import 'scule';
 import 'klona';
 import 'defu';
 import 'ohash';
-import 'ufo';
 import 'unstorage';
-import 'radix3';
 import 'node:fs';
 import 'node:url';
 import 'pathe';
+import 'http-graceful-shutdown';
 
 const deleteAccount = defineEventHandler(async (e) => {
   const authCookie = parseCookies(e)["quickpaste_auth"];
