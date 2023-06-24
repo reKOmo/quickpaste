@@ -2,8 +2,10 @@ globalThis._importMeta_={url:import.meta.url,env:process.env};import 'node-fetch
 import 'node:http';
 import 'node:https';
 import 'destr';
-import 'h3';
 export { n as default } from './chunks/nitro/node-server.mjs';
+import 'ufo';
+import 'radix3';
+import 'cookie-es';
 import 'ofetch';
 import 'unenv/runtime/fetch/index';
 import 'hookable';
@@ -11,10 +13,9 @@ import 'scule';
 import 'klona';
 import 'defu';
 import 'ohash';
-import 'ufo';
 import 'unstorage';
-import 'radix3';
 import 'node:fs';
 import 'node:url';
 import 'pathe';
+import 'http-graceful-shutdown';
 //# sourceMappingURL=index.mjs.map

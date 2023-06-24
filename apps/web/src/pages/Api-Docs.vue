@@ -10,10 +10,16 @@
             </ul>
         </div>
         <div ref="docs" class="article text-gray-100 w-full lg:w-3/4">
-            <ApiDocRenderer></ApiDocRenderer>
+            <div v-html="parsedMarkdown" ref="docs"></div>
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+import { marked } from "marked";
+import markdown from "~/assets/api.md?raw";
+const parsedMarkdown = marked.parse(markdown);
+</script>
 
 <script lang="ts">
 import Prism from '@/plugins/prismjs.client';

@@ -1,4 +1,4 @@
-function parseQuery(q: string): unknown {
+export function parseQuery(q: string): unknown {
     if (!q) return {};
     const data = q.split("&");
     const ob: { [key: string]: string } = {};

@@ -1,4 +1,23 @@
-import { defineEventHandler, sendRedirect, setCookie } from 'h3';
+import { d as defineEventHandler, s as sendRedirect, a as setCookie } from './nitro/node-server.mjs';
+import 'node-fetch-native/polyfill';
+import 'node:http';
+import 'node:https';
+import 'destr';
+import 'ufo';
+import 'radix3';
+import 'cookie-es';
+import 'ofetch';
+import 'unenv/runtime/fetch/index';
+import 'hookable';
+import 'scule';
+import 'klona';
+import 'defu';
+import 'ohash';
+import 'unstorage';
+import 'node:fs';
+import 'node:url';
+import 'pathe';
+import 'http-graceful-shutdown';
 
 function parseQuery(q) {
   if (!q)
@@ -23,5 +42,5 @@ const finalize = defineEventHandler(async (e) => {
   }
 });
 
-export { finalize as default };
+export { finalize as default, parseQuery };
 //# sourceMappingURL=finalize.mjs.map
