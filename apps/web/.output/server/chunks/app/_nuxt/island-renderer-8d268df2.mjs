@@ -1,4 +1,4 @@
-import { defineComponent, createVNode, defineAsyncComponent } from 'vue';
+import { defineComponent, createVNode } from 'vue';
 import { c as createError } from '../server.mjs';
 import 'ofetch';
 import 'hookable';
@@ -33,13 +33,8 @@ import '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/free-brands-svg-icons';
 import 'vue/server-renderer';
 
-const ApiDocRenderer = /* @__PURE__ */ defineAsyncComponent(() => import(
-  './ApiDocRenderer.server-0b623244.mjs'
-  /* webpackChunkName: "components/api-doc-renderer-server" */
-).then((c) => c.default || c));
 const islandComponents = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  ApiDocRenderer
+  __proto__: null
 });
 const islandRenderer = /* @__PURE__ */ defineComponent({
   props: {
@@ -61,4 +56,4 @@ const islandRenderer = /* @__PURE__ */ defineComponent({
 });
 
 export { islandRenderer as default };
-//# sourceMappingURL=island-renderer-5ab8a89b.mjs.map
+//# sourceMappingURL=island-renderer-8d268df2.mjs.map

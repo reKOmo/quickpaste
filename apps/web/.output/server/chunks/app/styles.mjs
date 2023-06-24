@@ -4,8 +4,7 @@ const styles = {
   "pages/[pasteId].vue": () => import('./_nuxt/_pasteId_-styles.5d175855.mjs').then(interopDefault),
   "pages/index.vue": () => import('./_nuxt/index-styles.e01b66fe.mjs').then(interopDefault),
   "../../../node_modules/.pnpm/@nuxt+ui-templates@1.2.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": () => import('./_nuxt/error-404-styles.aaa1c4b1.mjs').then(interopDefault),
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@1.2.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": () => import('./_nuxt/error-500-styles.7d2536c8.mjs').then(interopDefault),
-  "components/ApiDocRenderer.server.vue": () => import('./_nuxt/ApiDocRenderer.server-styles.5fdf9dc1.mjs').then(interopDefault)
+  "../../../node_modules/.pnpm/@nuxt+ui-templates@1.2.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": () => import('./_nuxt/error-500-styles.7d2536c8.mjs').then(interopDefault)
 };
 
 export { styles as default };
