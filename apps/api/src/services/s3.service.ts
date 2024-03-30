@@ -6,7 +6,7 @@ AWS.config.update({
     s3ForcePathStyle: true
 });
 
-const s3endpoint = process.env.NODE_ENV === 'development' ? { endpoint: new AWS.Endpoint(s3Config.endpoint) } : {};
+const s3endpoint = { endpoint: new AWS.Endpoint(s3Config.endpoint) };
 
 const S3 = new AWS.S3(s3endpoint);
 
