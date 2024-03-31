@@ -34,8 +34,8 @@ router.use(function (req, res, next) {
     req["additional"] = {};
     next();
 });
-router.get("/api", function (_, res) {
-    res.send("Test");
+router.get("/api/status", function (_, res) {
+    res.send({ stauts: "up", timestamp: +Date.now() });
 });
 router.use("/api/paste", paste.router);
 router.use("/api/user", user.router);

@@ -46,8 +46,8 @@ async function uploadPaste(req: FullRequest, res: Response) {
         //try to get uuid
         for (let retries = 0; retries < 10; retries++) {
             try {
-                await client.query("INSERT INTO pastes (uuid, owner_id, password, is_private, title) VALUES ($1::character varying, $2::integer, $3::character varying, $4::boolean, $5::character varying) returning id;",
-                    [uuid, req.additional.user, paste.password, paste.isPrivate, paste.title]);
+                await client.query("INSERT INTO pastes (uuid, owner_id, password, is_private, title) VALUES ($1::character varying, $2::integer, $3::character varying, $4::boolean, $5::character varying) returning id;", 
+                    [uuid, req.additional.user.toString(), paste.password, paste.isPrivate.toString(), paste.title]);
                 break;
             } catch (err) {
                 if (err.code == 23505) {
@@ -130,7 +130,8 @@ async function editPaste(req: FullRequest, res: Response) {
     await client.query("BEGIN;");
 
     try {
-        await client.query("UPDATE pastes SET title = $1::character varying, is_private = $2::boolean, password = $3::character varying WHERE uuid = $4;", [paste.title, paste.isPrivate, paste.password, uuid]);
+        await client.query("UPDATE pastes SET title = $1::character varying, is_private = $2::boolean, password = $3::character varying WHERE uuid = $4;", 
+            [paste.title, paste.isPrivate.toString(), paste.password, uuid]);
         await savePasteToS3(paste, uuid);
         await client.query("INSERT INTO content_modification (api_key) VALUES ($1::character varying)", [req.additional.apiKey]);
         await client.query("COMMIT;");
