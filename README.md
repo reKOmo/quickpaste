@@ -12,9 +12,9 @@ Demo application providing a service for easy sharing text/code snippets.
 
 Technologies used:
 
-- [<img src="https://img.shields.io/badge/JavaScript-282C34?logo=javascript&logoColor=F7DF1E" alt="JavaScript logo" title="JavaScript" height="25" />][tech_tools_anchor] + [<img src="https://img.shields.io/badge/TypeScript-282C34?logo=typescript&logoColor=3178C6" alt="TypeScript logo" title="TypeScript" height="25" />][tech_tools_anchor]
-
-Express.js
+- <img src="https://img.shields.io/badge/JavaScript-282C34?logo=javascript&logoColor=F7DF1E" alt="JavaScript logo" title="JavaScript" height="25" /> <img src="https://img.shields.io/badge/TypeScript-282C34?logo=typescript&logoColor=3178C6" alt="TypeScript logo" title="TypeScript" height="25" />
+- <img src="https://img.shields.io/badge/Express-282C34?logo=express&logoColor=FFFFFF" alt="Express.js logo" title="Express.js" height="25" />
+- <img src="https://img.shields.io/badge/Nuxt 3-282C34?logo=nuxtdotjs&logoColor=00DC82" alt="Nuxt.js logo" title="Nuxt.js" height="25" /> <img src="https://img.shields.io/badge/Vue 3-282C34?logo=vuedotjs&logoColor=00DC82" alt="Vue.js logo" title="Vue.js" height="25" /> <img src="https://img.shields.io/badge/Windicss-282C34" alt="Windicss logo" title="Windicss" height="25" /> <img src="https://img.shields.io/badge/Pinia-282C34" alt="Pinia logo" title="Pinia" height="25" />
 
 Nuxt 3 + Vue 3 + Windicss
 
