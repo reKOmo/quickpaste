@@ -1,11 +1,18 @@
+<p align="center" >
+    <img src="./apps/web/src/assets/quickpase-icon.svg" width="200px">
+    <h1 align="center">Quickpaste</h1>
+</p>
 
+<p align="center">
 Demo application providing a service for easy sharing text/code snippets.
+</p>
 
-  
+---
+# About
 
 Technologies used:
 
-Node JS + TypeScript
+- [<img src="https://img.shields.io/badge/JavaScript-282C34?logo=javascript&logoColor=F7DF1E" alt="JavaScript logo" title="JavaScript" height="25" />][tech_tools_anchor] + [<img src="https://img.shields.io/badge/TypeScript-282C34?logo=typescript&logoColor=3178C6" alt="TypeScript logo" title="TypeScript" height="25" />][tech_tools_anchor]
 
 Express.js
 
