@@ -4,7 +4,8 @@
 </p>
 
 <p align="center">
-Demo application providing a service for easy sharing text/code snippets.
+    Demo application providing a service for easy sharing text/code snippets.<br>
+    Aviable at <a href="https://quickpaste.rekomo.me">quickpaste.rekomo.me</a>
 </p>
 
 ---
@@ -15,33 +16,22 @@ Technologies used:
 - <img src="https://img.shields.io/badge/JavaScript-282C34?logo=javascript&logoColor=F7DF1E" alt="JavaScript logo" title="JavaScript" height="25" /> <img src="https://img.shields.io/badge/TypeScript-282C34?logo=typescript&logoColor=3178C6" alt="TypeScript logo" title="TypeScript" height="25" />
 - <img src="https://img.shields.io/badge/Express-282C34?logo=express&logoColor=FFFFFF" alt="Express.js logo" title="Express.js" height="25" />
 - <img src="https://img.shields.io/badge/Nuxt 3-282C34?logo=nuxtdotjs&logoColor=00DC82" alt="Nuxt.js logo" title="Nuxt.js" height="25" /> <img src="https://img.shields.io/badge/Vue 3-282C34?logo=vuedotjs&logoColor=00DC82" alt="Vue.js logo" title="Vue.js" height="25" /> <img src="https://img.shields.io/badge/Windicss-282C34" alt="Windicss logo" title="Windicss" height="25" /> <img src="https://img.shields.io/badge/Pinia-282C34" alt="Pinia logo" title="Pinia" height="25" />
-
-Nuxt 3 + Vue 3 + Windicss
-
-PostgreSQL
-
-Docker (microservice architecture)
-
-AWS: S3, EC2, Codedeploy
-
-Turborepo + pnpm workspaces
-
-JWT, Github OAuth
-
-Linux
+- <img src="https://img.shields.io/badge/PostgreSQL-282C34?logo=postgresql&logoColor=4169E1" alt="PostgreSQL logo" title="PostgreSQL" height="25" /> <img src="https://img.shields.io/badge/S3-282C34?logo=amazons3&logoColor=569A31" alt="S3 logo" title="S3" height="25" />
+- <img src="https://img.shields.io/badge/Docker-282C34?logo=docker&logoColor=2496ED" alt="Docker logo" title="Docker" height="25" />
+- <img src="https://img.shields.io/badge/Github Actions-282C34?logo=githubactions&logoColor=2088FF" alt="Docker logo" title="Docker" height="25" />
 
   
 
 
 # Project setup
 
-Before startring to work with the project setting env varibles is required
+Before startring to work with the project setting env varibles is required.
 
 >  Note: *fill empty varibles with own values*
 
   
 <details>
-  <summary>`apps/api/dev.env`</summary>
+  <summary>apps/api/dev.env</summary>
 
   ```
   AWS_ACCESS_KEY_ID=
@@ -57,7 +47,7 @@ Before startring to work with the project setting env varibles is required
   ```
 </details>
 <details>
-  <summary>`apps/auth/dev.env`</summary>
+  <summary>apps/auth/dev.env</summary>
   
   ```
   JWT_SECRET_KEY=
@@ -67,7 +57,7 @@ Before startring to work with the project setting env varibles is required
   ```
 </details>
 <details>
-  <summary>`apps/web/dev.env`</summary>
+  <summary>apps/web/dev.env</summary>
 
   ```
   NUXT_HOST=0
@@ -87,7 +77,7 @@ Before startring to work with the project setting env varibles is required
   ```
 </details>
 <details>
-  <summary>`dev.env`</summary>
+  <summary>dev.env</summary>
 
   ```
   # local folders
