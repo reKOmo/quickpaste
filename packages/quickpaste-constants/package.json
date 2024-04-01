@@ -6,7 +6,8 @@
   "types": "./dist/types/config.d.ts",
   "scripts": {
     "build": "tsc",
-    "local-publish": "npm run build && yalc publish --private --store-folder ../../.yalc-store"
+    "pre-build": "tsc",
+    "local-publish": "yalc publish --private --store-folder ../../.yalc-store"
   },
   "devDependencies": {
     "typescript": "^4.7.2",
