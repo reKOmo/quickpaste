@@ -70,7 +70,6 @@ function getPasteData(req, res, next) {
                 case 0: return [4 /*yield*/, db.query("SELECT pastes.*, users.username AS owner_username FROM pastes LEFT JOIN users ON users.id = pastes.owner_id WHERE pastes.uuid = $1;", [req.additional.pasteUUID])];
                 case 1:
                     pastes = _a.sent();
-                    console.log(req.additional.pasteUUID);
                     if (pastes.rowCount < 1) {
                         res.status(404).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.NOT_FOUND));
                         return [2 /*return*/];

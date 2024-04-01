@@ -96,15 +96,19 @@ Before startring to work with the project setting env varibles is required.
   ```
 </details>
 
-# Build process
+# Working with project
+After setting up is finished run
+```bash
+sudo make dev-up
+```
+to start the docerized services. And after that run
+```bash
+cd apps/web
+pnpm run dev
+```
+To start the Nuxt web server. 
+*Nuxt has to be run separatly on local machine due to issues with hot realoading when contenarized during development*
 
-  
-
-## To build containers
-
-Use the included Makefile to build containers and start them
-
-  
 
 ## Pre-build for release
 
