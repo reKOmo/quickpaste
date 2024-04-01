@@ -13,34 +13,24 @@ on:
 jobs:
   build:
     runs-on: [self-hosted, linux]
+    strategy:
+      matrix:
+        node-version: [18.19.0]
     
     env:
       CI: true
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{matrix.node-version}}
+    - uses: pnpm/action-setup@v3
+      with:
+        version: 8
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        node-version: 18.19.0
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v2.2.2
-      id: pnpm-install
-      with:
-        run_install: false
-    - name: Get pnpm store directory
-      id: pnpm-cache
-      run: | 
-        echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-    - uses: actions/cache@v3
-      name: Setup pnpm cache
-      with:
-        path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-pnpm-store-
-          
-    - name: Setup enviroment
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm' 
+    - name: Setup enviroment and install deps
       run: pnpm add -g yalc && pnpm install --shamefully-hoist && mkdir -p /var/letsencrypt/challange && mkdir -p /var/letsencrypt/certs
     - name: "Prepare for build"
       run: make prod-prepare-build
@@ -52,7 +42,3 @@ jobs:
     steps:
       - name: Start containers
         run: make prod-up
-
-
-      
-    
