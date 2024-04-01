@@ -3,7 +3,7 @@
   "scripts": {
     "build": "nuxt build",
     "pre-build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "start": "node ./.output/server/index.mjs",

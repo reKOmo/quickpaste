@@ -17,7 +17,7 @@
                 <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min">    
                     <h2 class="text-2xl font-bold">Paste created!</h2>
                     <h3> 
-                        Check it at: <a class="font-bold" :href="`/${createdPaste?.pasteId}`">{{createdPaste?.pasteId}} <font-awesome-icon :icon="['fas', 'fa-arrow-up-right-from-square']" /></a>
+                        Check it at: <a class="font-bold" :href="`/${createdPaste?.pasteId}`">{{createdPaste?.pasteId}} <font-awesome-icon :icon="['fas', 'arrow-up-right-from-square']" /></a>
                     </h3>
                 </div>
             </div>
@@ -56,19 +56,23 @@
     
         const cookieKey = useRequestHeaders(["cookie"]).cookie;
         const cookies = {};
-        cookieKey.split(";").forEach(frag => {
-            const a = frag.split("=");
-            cookies[a[0].trim()] = a[1];
-        });
+        if (cookieKey) {
+            cookieKey.split(";").forEach(frag => {
+                const a = frag.split("=");
+                cookies[a[0].trim()] = a[1];
+            });
 
-        const res = await $fetch(`${useRuntimeConfig().public.webAddress}/api/paste/${pasteId}`, {
-            headers: {
-                "Authorization": "ApiKey " + cookies.quickpaste_auth
-            },
-            parseResponse: JSON.parse
-        });
+            const res = await $fetch(`${useRuntimeConfig().public.webAddress}/api/paste/${pasteId}`, {
+                headers: {
+                    "Authorization": "ApiKey " + cookies.quickpaste_auth
+                },
+                parseResponse: JSON.parse
+            });
 
-        return res;
+            return res;
+        } else {
+            return undefined;
+        }
     }, {
         server: true
     });
@@ -80,8 +84,6 @@
             title: "Quickpaste | " + paste.value.title.substring(0, 25)
         })
     }
-
-    if (error.value) console.log(error.value);
 
     let {data: err} = await useAsyncData("error", () => error.value ? error.value.response.status : 200, { server: true });
 
@@ -209,7 +211,6 @@
     }
 
     onMounted(() => {
-        console.log(paste);
         checkEditMode();
     })
 </script>

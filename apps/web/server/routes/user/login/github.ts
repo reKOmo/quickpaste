@@ -1,18 +1,9 @@
-function parseQuery(q: string): unknown {
-    const data = q.split("&");
-    const ob = {};
-    data.forEach(s => {
-        const param = s.split("=");
-        ob[param[0]] = param[1];
-    });
-
-    return ob;
-}
+import { parseQuery } from "./finalize";
 
 
 export default defineEventHandler(async (e) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const query: any = parseQuery(e.req.url.split('?')[1]);
+    const query: any = parseQuery(e.node.req.url!.split('?')[1]);
 
     if (!query.code) {
         await sendRedirect(e, "/user/login/finalize?fail=1", 302);

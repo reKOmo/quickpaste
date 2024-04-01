@@ -5,7 +5,7 @@
             <div v-if="option">
                 <div
                     class="w-full flex justify-center items-center pt-2 text-xl border-b-1 border-black mb-2 text-gray-200">
-                    <font-awesome-icon :icon="['fas', 'fa-arrow-left']" @click="changeOption(undefined)"
+                    <font-awesome-icon :icon="['fas', 'arrow-left']" @click="changeOption(undefined)"
                         class="mr-4 p-2 cursor-pointer text-black hover:text-orange transition" />
                     <span>{{ option.name }}</span>
                 </div>

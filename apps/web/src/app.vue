@@ -19,7 +19,6 @@ if (process.server) {
         httpOnly: true
     });
     if (key.value === undefined) {
-        console.log(useRuntimeConfig());
         const res = await fetch(useRuntimeConfig().authServiceAddress + "/keys/generate");
         if (res.ok) {
             const data = await res.json();

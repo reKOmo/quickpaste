@@ -4,7 +4,7 @@ import qConfig from "quickpaste-constants";
 
 if (process.env.NODE_ENV == "development") {
     dotenv.config({
-        path: "./src/dev.env"
+        path: "./dev.env"
     });
 }
 
@@ -33,6 +33,7 @@ export default defineNuxtConfig({
         typeCheck: false
     },
     srcDir: "src/",
+    serverDir: "server/",
     modules: [
         "nuxt-windicss",
         "./src/modules/ContentLoader",
