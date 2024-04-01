@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -124,7 +124,7 @@ function uploadPaste(req, res) {
                     _a.label = 7;
                 case 7:
                     _a.trys.push([7, 9, , 10]);
-                    return [4 /*yield*/, client.query("INSERT INTO pastes (uuid, owner_id, password, is_private, title) VALUES ($1::character varying, $2::integer, $3::character varying, $4::boolean, $5::character varying) returning id;", [uuid, req.additional.user, paste.password, paste.isPrivate, paste.title])];
+                    return [4 /*yield*/, client.query("INSERT INTO pastes (uuid, owner_id, password, is_private, title) VALUES ($1::character varying, $2::integer, $3::character varying, $4::boolean, $5::character varying) returning id;", [uuid, req.additional.user.toString(), paste.password, paste.isPrivate.toString(), paste.title])];
                 case 8:
                     _a.sent();
                     return [3 /*break*/, 11];
@@ -240,7 +240,7 @@ function editPaste(req, res) {
                     _a.label = 5;
                 case 5:
                     _a.trys.push([5, 10, , 12]);
-                    return [4 /*yield*/, client.query("UPDATE pastes SET title = $1::character varying, is_private = $2::boolean, password = $3::character varying WHERE uuid = $4;", [paste.title, paste.isPrivate, paste.password, uuid])];
+                    return [4 /*yield*/, client.query("UPDATE pastes SET title = $1::character varying, is_private = $2::boolean, password = $3::character varying WHERE uuid = $4;", [paste.title, paste.isPrivate.toString(), paste.password, uuid])];
                 case 6:
                     _a.sent();
                     return [4 /*yield*/, savePasteToS3(paste, uuid)];

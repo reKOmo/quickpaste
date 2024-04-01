@@ -17,6 +17,6 @@
             </div> -->
         </div>
         <p class="text-center p-4 text-lg">Site by <a href="https://github.com/reKOmo">reKOmo (Bartosz Woźnica)
-                <font-awesome-icon :icon="['fas', 'fa-arrow-up-right-from-square']" /></a></p>
+                <font-awesome-icon :icon="['fas', 'arrow-up-right-from-square']" /></a></p>
     </div>
 </template>

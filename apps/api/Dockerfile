@@ -9,7 +9,6 @@ COPY ./.eslintrc.js ./.eslintrc.js
 COPY ./tsconfig.json ./tsconfig.json
 COPY ./package.json ./package.json
 
-
 # DEV
 FROM base AS dev
 

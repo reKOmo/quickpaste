@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -70,7 +70,6 @@ function getPasteData(req, res, next) {
                 case 0: return [4 /*yield*/, db.query("SELECT pastes.*, users.username AS owner_username FROM pastes LEFT JOIN users ON users.id = pastes.owner_id WHERE pastes.uuid = $1;", [req.additional.pasteUUID])];
                 case 1:
                     pastes = _a.sent();
-                    console.log(req.additional.pasteUUID);
                     if (pastes.rowCount < 1) {
                         res.status(404).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.NOT_FOUND));
                         return [2 /*return*/];

@@ -9,18 +9,17 @@ COPY ./.eslintrc.js ./.eslintrc.js
 COPY ./tsconfig.json ./tsconfig.json
 COPY ./package.json ./package.json
 
-COPY ./src ./src
-
 # DEV
 FROM base AS dev
 
 #resolve local packages
+COPY ./src ./src
 RUN workspace-to-yalc --file
 RUN npm install
 
 # PRODUCTION
 FROM base AS production
 
+COPY ./build ./build
 COPY ./.yalc ./.yalc
 RUN npm install --only=prod
-RUN npm run build

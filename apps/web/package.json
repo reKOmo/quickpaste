@@ -1,16 +1,17 @@
 {
+  "name": "web",
   "private": true,
   "scripts": {
     "build": "nuxt build",
     "pre-build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "start": "node ./.output/server/index.mjs",
     "install-yalcked-packages": "pnpm -s dlx workspace-to-yalc --lockfile-only --file && yalc update --store-folder ../../.yalc-store"
   },
   "devDependencies": {
-    "nuxt": "3.6.0",
+    "nuxt": "^3.11.1",
     "nuxt-windicss": "^2.6.1"
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "pinia": "^2.1.4",
     "prismjs": "^1.28.0",
     "quickpaste-constants": "workspace:*",
-    "sass": "^1.53.0"
+    "sass": "^1.53.0",
+    "vue": "^3.4.21"
   }
 }

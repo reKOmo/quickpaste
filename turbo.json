@@ -1,8 +1,13 @@
 {
+  "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "local-publish": {},
     "generate-yalc": {},
-    "pre-build": {},
+    "pre-build": {
+      "dependsOn": [
+        "^local-publish"
+      ]
+    },
     "install-yalcked-packages": {
       "dependsOn": [
         "^local-publish"
@@ -19,7 +24,7 @@
       ],
       "outputs": [
         "dist/**",
-        ".next/**"
+        ".output/**"
       ]
     },
     "lint": {

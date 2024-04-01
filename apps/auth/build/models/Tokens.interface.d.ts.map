@@ -1,0 +1,1 @@
+{"version":3,"file":"Tokens.interface.d.ts","sourceRoot":"","sources":["../../src/models/Tokens.interface.ts"],"names":[],"mappings":"AAAA,aAAK,UAAU;IACX,KAAK,UAAU;IACf,GAAG,QAAQ;IACX,KAAK,UAAU;CAClB;AAED,UAAU,KAAK;IACX,IAAI,EAAE,UAAU,CAAA;CACnB;AAED,UAAU,SAAU,SAAQ,KAAK;IAC7B,IAAI,EAAE,MAAM,CAAA;CACf;AAED,OAAO,EACH,UAAU,EACb,CAAC;AAEF,YAAY,EAAE,SAAS,EAAE,KAAK,EAAE,CAAC"}
