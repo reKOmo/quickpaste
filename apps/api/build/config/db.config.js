@@ -7,6 +7,7 @@ var config = {
     port: parseInt(process_1.env.PG_PORT),
     user: process_1.env.POSTGRES_USER,
     password: process_1.env.POSTGRES_PASSWORD,
-    database: process_1.env.PG_DB_NAME
+    database: process_1.env.PG_DB_NAME,
+    ssl: true
 };
 exports.config = config;

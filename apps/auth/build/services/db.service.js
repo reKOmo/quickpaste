@@ -44,7 +44,8 @@ var pool = new pg_1.Pool({
     password: db_config_1.config.password,
     host: db_config_1.config.host,
     port: db_config_1.config.port,
-    database: db_config_1.config.database
+    database: db_config_1.config.database,
+    ssl: db_config_1.config.ssl
 });
 function query(query, params) {
     return __awaiter(this, void 0, void 0, function () {
