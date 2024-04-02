@@ -6,7 +6,8 @@ const pool = new Pool({
     password: config.password,
     host: config.host,
     port: config.port,
-    database: config.database
+    database: config.database,
+    ssl: config.ssl
 });
 
 export async function query(query: string, params: unknown[]): Promise<QueryResult> {
