@@ -5,7 +5,8 @@ const config = {
     port: parseInt(env.PG_PORT),
     user: env.POSTGRES_USER,
     password: env.POSTGRES_PASSWORD,
-    database: env.PG_DB_NAME
+    database: env.PG_DB_NAME,
+    ssl: true
 };
 
 export {
