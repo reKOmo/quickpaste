@@ -60,7 +60,6 @@ services:
       target: production
     volumes:
       - /var/ssl/certs:/etc/ssl/
-      - /var/letsencrypt/challange:/usr/share/certbot:rw
     environment:
       - DOMAIN_NAME=${WEB_DOMAIN_NAME}
     ports:
