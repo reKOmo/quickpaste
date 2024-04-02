@@ -11,8 +11,8 @@
     "pre-build": "tsc",
     "start": "node .",
     "dev": "yalc update --store-folder /yalc && nodemon src/index.ts -L",
-    "generate-yalc": "pnpx workspace-to-yalc",
-    "install-yalcked-packages": "pnpm -s dlx workspace-to-yalc --lockfile-only --file && yalc update --store-folder ../../.yalc-store"
+    "generate-yalc": "workspace-to-yalc",
+    "install-yalcked-packages": "workspace-to-yalc --lockfile-only --file && yalc update --store-folder ../../.yalc-store"
   },
   "author": "",
   "license": "ISC",
