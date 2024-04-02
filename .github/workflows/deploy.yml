@@ -1,4 +1,4 @@
-name: Deploy on EC2
+name: Deploy
 
 on:
   push:
@@ -29,11 +29,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'pnpm' 
+        cache: 'pnpm'
+    - name: Prepare for build
+      run: make prod-prepare-build
     - name: Setup enviroment and install deps
       run: pnpm add -g yalc && pnpm add -g workspace-to-yalc && pnpm install --shamefully-hoist && mkdir -p /var/letsencrypt/challange && mkdir -p /var/letsencrypt/certs
-    - name: "Prepare for build"
-      run: make prod-prepare-build
     - name: Build docker images
       run: make prod-build
   run:
