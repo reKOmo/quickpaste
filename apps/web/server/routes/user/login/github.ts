@@ -21,7 +21,7 @@ export default defineEventHandler(async (e) => {
 
         if (res.ok) {
             const data = await res.json();
-
+            console.log(data)
             const internalRes = await fetch(useRuntimeConfig().authServiceAddress + '/user/login', {
                 method: "POST",
                 headers: {
@@ -34,6 +34,7 @@ export default defineEventHandler(async (e) => {
             });
 
             if (internalRes.ok) {
+                console.log("Ok")
                 const key = await internalRes.text();
 
                 setCookie(e, "quickpaste_auth", key, {

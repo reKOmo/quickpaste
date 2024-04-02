@@ -173,6 +173,7 @@ const _sfc_main = {
       const pasteId = route2.params.pasteId;
       const cookieKey = useRequestHeaders(["cookie"]).cookie;
       const cookies = {};
+      console.log(cookieKey);
       if (cookieKey) {
         cookieKey.split(";").forEach((frag) => {
           const a = frag.split("=");
@@ -258,9 +259,9 @@ const _sfc_main = {
       var _a, _b;
       const _component_PasteEditor = __nuxt_component_0;
       const _component_font_awesome_icon = resolveComponent("font-awesome-icon");
-      _push(`<div${ssrRenderAttrs(_attrs)} data-v-6140c2aa>`);
+      _push(`<div${ssrRenderAttrs(_attrs)} data-v-f9506f66>`);
       if (unref(paste)) {
-        _push(`<div data-v-6140c2aa>`);
+        _push(`<div data-v-f9506f66>`);
         if (unref(pastePostingState) == 0) {
           _push(ssrRenderComponent(_component_PasteEditor, {
             onSubmit: rePaste,
@@ -269,19 +270,19 @@ const _sfc_main = {
             submitText: "Re-Paste !"
           }, null, _parent));
         } else if (unref(pastePostingState) == 1) {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-6140c2aa><object width="300" height="300" type="image/svg+xml"${ssrRenderAttr("data", unref(_imports_0))} data-v-6140c2aa><img${ssrRenderAttr("src", _imports_0)} data-v-6140c2aa></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min hidden md:block" data-v-6140c2aa><h2 class="text-2xl font-bold" data-v-6140c2aa>Creating paste</h2></div></div>`);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-f9506f66><object width="300" height="300" type="image/svg+xml"${ssrRenderAttr("data", unref(_imports_0))} data-v-f9506f66><img${ssrRenderAttr("src", _imports_0)} data-v-f9506f66></object><div class="bg-gradient-to-tr from-green to-orange rounded p-6 h-min hidden md:block" data-v-f9506f66><h2 class="text-2xl font-bold" data-v-f9506f66>Creating paste</h2></div></div>`);
         } else {
-          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-6140c2aa><object class="w-100px sm:w-150px md:w-300px" type="image/svg+xml"${ssrRenderAttr("data", unref(_imports_1))} data-v-6140c2aa><img${ssrRenderAttr("src", _imports_1)} data-v-6140c2aa></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-6140c2aa><h2 class="text-2xl font-bold" data-v-6140c2aa>Paste created!</h2><h3 data-v-6140c2aa> Check it at: <a class="font-bold"${ssrRenderAttr("href", `/${(_a = unref(createdPaste)) == null ? void 0 : _a.pasteId}`)} data-v-6140c2aa>${ssrInterpolate((_b = unref(createdPaste)) == null ? void 0 : _b.pasteId)} `);
+          _push(`<div class="flex flex-row justify-center items-center mt-12" data-v-f9506f66><object class="w-100px sm:w-150px md:w-300px" type="image/svg+xml"${ssrRenderAttr("data", unref(_imports_1))} data-v-f9506f66><img${ssrRenderAttr("src", _imports_1)} data-v-f9506f66></object><div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 h-min" data-v-f9506f66><h2 class="text-2xl font-bold" data-v-f9506f66>Paste created!</h2><h3 data-v-f9506f66> Check it at: <a class="font-bold"${ssrRenderAttr("href", `/${(_a = unref(createdPaste)) == null ? void 0 : _a.pasteId}`)} data-v-f9506f66>${ssrInterpolate((_b = unref(createdPaste)) == null ? void 0 : _b.pasteId)} `);
           _push(ssrRenderComponent(_component_font_awesome_icon, { icon: ["fas", "arrow-up-right-from-square"] }, null, _parent));
           _push(`</a></h3></div></div>`);
         }
         _push(`</div>`);
       } else {
-        _push(`<div data-v-6140c2aa>`);
+        _push(`<div data-v-f9506f66>`);
         if (unref(err) == 401) {
-          _push(`<div class="flex flex-col items-center space-y-4" data-v-6140c2aa><h2 class="text-xl text-gray-300" data-v-6140c2aa>Enter password to view the paste</h2><div class="flex flex-col md:flex-row space-y-2 md:space-y-0" data-v-6140c2aa><input${ssrRenderAttr("value", unref(password))} type="password" autocomplete="off" class="p-2 w-full md:w-auto text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray mr-4" data-v-6140c2aa><button class="bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg" data-v-6140c2aa>Enter</button></div></div>`);
+          _push(`<div class="flex flex-col items-center space-y-4" data-v-f9506f66><h2 class="text-xl text-gray-300" data-v-f9506f66>Enter password to view the paste</h2><div class="flex flex-col md:flex-row space-y-2 md:space-y-0" data-v-f9506f66><input${ssrRenderAttr("value", unref(password))} type="password" autocomplete="off" class="p-2 w-full md:w-auto text-center text-white rounded border-none focus:outline-none text-lg text-bold bg-darkgray mr-4" data-v-f9506f66><button class="bg-gradient-to-tr from-green to-orange rounded p-2 text-center hover:shadow-lg" data-v-f9506f66>Enter</button></div></div>`);
         } else {
-          _push(`<div data-v-6140c2aa><div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded" data-v-6140c2aa><h1 class="text-3xl text-white text-shadow-sm" data-v-6140c2aa> No paste here </h1></div></div>`);
+          _push(`<div data-v-f9506f66><div class="flex flex-col justify-center content-center text-center bg-gradient-to-tr from-green to-orange mb-4 p-4 rounded" data-v-f9506f66><h1 class="text-3xl text-white text-shadow-sm" data-v-f9506f66> No paste here </h1></div></div>`);
         }
         _push(`</div>`);
       }
@@ -295,7 +296,7 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/[pasteId].vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
-const _pasteId_ = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-6140c2aa"]]);
+const _pasteId_ = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-f9506f66"]]);
 
 export { _pasteId_ as default };
-//# sourceMappingURL=_pasteId_-DELKKI11.mjs.map
+//# sourceMappingURL=_pasteId_-DSp1Ifg7.mjs.map

@@ -24,6 +24,7 @@ const github = defineEventHandler(async (e) => {
     console.log(res);
     if (res.ok) {
       const data = await res.json();
+      console.log(data);
       const internalRes = await fetch(useRuntimeConfig().authServiceAddress + "/user/login", {
         method: "POST",
         headers: {
@@ -35,6 +36,7 @@ const github = defineEventHandler(async (e) => {
         })
       });
       if (internalRes.ok) {
+        console.log("Ok");
         const key = await internalRes.text();
         setCookie(e, "quickpaste_auth", key, {
           httpOnly: true
