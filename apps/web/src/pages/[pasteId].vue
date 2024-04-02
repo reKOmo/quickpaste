@@ -69,6 +69,8 @@
                 parseResponse: JSON.parse
             });
 
+            console.log(res)
+
             return res;
         } else {
             return undefined;
@@ -116,6 +118,7 @@
             },
             credentials: "include",
         });
+        console.log(res)
 
         if (res.ok) {
             paste.value = await res.json();
