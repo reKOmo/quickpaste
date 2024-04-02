@@ -56,6 +56,7 @@
     
         const cookieKey = useRequestHeaders(["cookie"]).cookie;
         const cookies = {};
+        console.log(cookieKey)
         if (cookieKey) {
             cookieKey.split(";").forEach(frag => {
                 const a = frag.split("=");
