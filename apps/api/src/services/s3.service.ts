@@ -1,85 +1,74 @@
-import AWS from "aws-sdk";
+import { Upload } from "@aws-sdk/lib-storage";
+import { NodeJsClient } from "@smithy/types";
+
+import {
+    CompleteMultipartUploadCommandOutput,
+    DeleteObjectCommand,
+    DeleteObjectCommandOutput,
+    DeleteObjectsCommand,
+    GetObjectCommand,
+    GetObjectCommandOutput,
+    PutObjectCommandInput,
+    S3Client,
+} from "@aws-sdk/client-s3";
+
 import s3Config from "../config/s3.config";
 
-AWS.config.update({
+const s3Client = new S3Client({
     region: s3Config.region,
-    s3ForcePathStyle: true
-});
+    credentials: {
+        secretAccessKey: s3Config.secretKey,
+        accessKeyId: s3Config.accessKey
+    },
+    endpoint: s3Config.endpoint,
+    forcePathStyle: true
+}) as NodeJsClient<S3Client>;
 
-const s3endpoint = { endpoint: new AWS.Endpoint(s3Config.endpoint) };
-
-const S3 = new AWS.S3(s3endpoint);
-
-function uploadFile(name: string, file: string): Promise<AWS.S3.ManagedUpload.SendData> {
-    const uploadConfig: AWS.S3.PutObjectRequest = {
+async function uploadFile(name: string, file: string): Promise<CompleteMultipartUploadCommandOutput> {
+    const uploadConfig: PutObjectCommandInput = {
         Bucket: s3Config.bucketName,
         Key: name,
         Body: file
     };
 
-
-    return new Promise((resolve, reject) => {
-        S3.upload(uploadConfig, (err: Error, data: AWS.S3.ManagedUpload.SendData) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
-        });
-    });
+    const r = await new Upload({
+        client: s3Client,
+        params: uploadConfig
+    }).done();
+    return r;
 }
 
-function retriveFile(name: string): Promise<AWS.S3.GetObjectOutput> {
-    const requestConfig: AWS.S3.GetObjectRequest = {
+async function retriveFile(name: string): Promise<GetObjectCommandOutput> {
+    const requestConfig = new GetObjectCommand({
         Bucket: s3Config.bucketName,
         Key: name
-    };
-
-    return new Promise((resolve, reject) => {
-        S3.getObject(requestConfig, (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
-        });
     });
+
+    //@ts-ignore
+    const response = await s3Client.send(requestConfig);
+    return response;
 }
 
-function deleteFile(name: string): Promise<AWS.S3.DeleteObjectOutput> {
-    const requestConfig: AWS.S3.DeleteObjectRequest = {
+async function deleteFile(name: string): Promise<DeleteObjectCommandOutput> {
+    const requestConfig = new DeleteObjectCommand({
         Bucket: s3Config.bucketName,
         Key: name
-    };
-
-    return new Promise((resolve, reject) => {
-        S3.deleteObject(requestConfig, (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
-        });
     });
+    //@ts-ignore
+    const response = await s3Client.send(requestConfig);
+    return response;
 }
 
-function deleteFiles(names: string[]): Promise<AWS.S3.DeleteObjectOutput> {
-    const requestConfig: AWS.S3.DeleteObjectsRequest = {
+async function deleteFiles(names: string[]): Promise<DeleteObjectCommandOutput> {
+    const requestConfig = new DeleteObjectsCommand({
         Bucket: s3Config.bucketName,
         Delete: {
             Objects: names.map(n => ({ Key: n }))
         }
-    };
-
-    return new Promise((resolve, reject) => {
-        S3.deleteObjects(requestConfig, (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
-        });
     });
+    //@ts-ignore
+    const response = await s3Client.send(requestConfig);
+    return response;
 }
 
 export {

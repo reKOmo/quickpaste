@@ -5,10 +5,11 @@ import generateUUID from "../utils/GenerateUUID";
 import * as db from "../services/db.service";
 import { DefaultResponses, ServerResponse } from "../utils/ServerResponse";
 import { FullRequest } from "../models/FullRequest.interface";
-import { GetObjectOutput } from "aws-sdk/clients/s3";
 import { Constants } from "../config/constants";
 import bcrypt from "bcrypt";
 import { AES, enc } from "crypto-js";
+import { GetObjectCommandOutput } from "@aws-sdk/client-s3";
+import { streamToString } from "../utils/StreamToString";
 
 
 async function savePasteToS3(paste: PasteUpload, uuid: string) {
@@ -80,7 +81,7 @@ async function uploadPaste(req: FullRequest, res: Response) {
 }
 
 async function getPaste(req: FullRequest, res: Response) {
-    let s3Ret: GetObjectOutput;
+    let s3Ret: GetObjectCommandOutput;
     try {
         s3Ret = await retriveFile(req.additional.pasteUUID);
     } catch (err) {
@@ -88,7 +89,8 @@ async function getPaste(req: FullRequest, res: Response) {
         return;
     }
 
-    let body = s3Ret.Body.toString();
+    
+    let body = await streamToString(s3Ret.Body as NodeJS.ReadableStream);
 
     if (req.additional.pasteData.password) {
         const bytes = AES.decrypt(body, req.additional.password);

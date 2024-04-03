@@ -50,29 +50,31 @@
     const userStore = useUserStore();
     const notificationStore = useNotificationStore();
 
-    let {data: pasteData, error} = await useAsyncData("paste", async (ctx) => {
+    let {data: pasteData, error} = await useAsyncData("paste", async () => {
         const route = useRoute();
         const pasteId = route.params.pasteId;
     
         const cookieKey = useRequestHeaders(["cookie"]).cookie;
         const cookies = {};
-        console.log(cookieKey)
+
         if (cookieKey) {
             cookieKey.split(";").forEach(frag => {
                 const a = frag.split("=");
                 cookies[a[0].trim()] = a[1];
             });
 
-            const res = await $fetch(`${useRuntimeConfig().public.webAddress}/api/paste/${pasteId}`, {
-                headers: {
-                    "Authorization": "ApiKey " + cookies.quickpaste_auth
-                },
-                parseResponse: JSON.parse
-            });
-
-            console.log(res)
-
-            return res;
+            try {
+                const res = await fetch(`${useRuntimeConfig().public.webAddress}/api/paste/${pasteId}`, {
+                    headers: {
+                        authorization: "ApiKey " + cookies.quickpaste_auth
+                    }
+                });
+                const r = await res.json();
+                return r;
+            } catch(err) {
+                console.log(err)
+                return undefined;
+            }     
         } else {
             return undefined;
         }

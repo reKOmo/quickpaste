@@ -1,11 +1,11 @@
 dev-up:
 	npm run local-publish
-	docker compose -f docker-compose.yaml --env-file dev.env up
+	sudo docker compose -f docker-compose.yaml --env-file dev.env up
 dev-build:
-	docker compose -f docker-compose.yaml --env-file dev.env build $(service)
+	sudo docker compose -f docker-compose.yaml --env-file dev.env build $(service)
 dev-build-no-cache:
 	npm run local-publish
-	docker compose -f docker-compose.yaml --env-file dev.env build --no-cache
+	sudo docker compose -f docker-compose.yaml --env-file dev.env build --no-cache
 
 # Used by github actions to start the service
 prod-up:
