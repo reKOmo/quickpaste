@@ -100,6 +100,7 @@ function login(req, res) {
                 case 4: return [3 /*break*/, 6];
                 case 5:
                     err_1 = _b.sent();
+                    console.log(err_1);
                     res.status(500).send(err_1);
                     return [2 /*return*/];
                 case 6:

@@ -45,10 +45,12 @@ var client_s3_1 = require("@aws-sdk/client-s3");
 var s3_config_1 = __importDefault(require("../config/s3.config"));
 var s3Client = new client_s3_1.S3Client({
     region: s3_config_1["default"].region,
-    credientials: {
+    credentials: {
         secretAccessKey: s3_config_1["default"].secretKey,
         accessKeyId: s3_config_1["default"].accessKey
-    }
+    },
+    endpoint: s3_config_1["default"].endpoint,
+    forcePathStyle: true
 });
 function uploadFile(name, file) {
     return __awaiter(this, void 0, void 0, function () {
@@ -79,10 +81,10 @@ function retriveFile(name) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    requestConfig = {
+                    requestConfig = new client_s3_1.GetObjectCommand({
                         Bucket: s3_config_1["default"].bucketName,
                         Key: name
-                    };
+                    });
                     return [4 /*yield*/, s3Client.send(requestConfig)];
                 case 1:
                     response = _a.sent();
@@ -98,10 +100,10 @@ function deleteFile(name) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    requestConfig = {
+                    requestConfig = new client_s3_1.DeleteObjectCommand({
                         Bucket: s3_config_1["default"].bucketName,
                         Key: name
-                    };
+                    });
                     return [4 /*yield*/, s3Client.send(requestConfig)];
                 case 1:
                     response = _a.sent();
@@ -117,12 +119,12 @@ function deleteFiles(names) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    requestConfig = {
+                    requestConfig = new client_s3_1.DeleteObjectsCommand({
                         Bucket: s3_config_1["default"].bucketName,
                         Delete: {
                             Objects: names.map(function (n) { return ({ Key: n }); })
                         }
-                    };
+                    });
                     return [4 /*yield*/, s3Client.send(requestConfig)];
                 case 1:
                     response = _a.sent();

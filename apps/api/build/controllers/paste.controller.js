@@ -70,6 +70,7 @@ var ServerResponse_1 = require("../utils/ServerResponse");
 var constants_1 = require("../config/constants");
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var crypto_js_1 = require("crypto-js");
+var StreamToString_1 = require("../utils/StreamToString");
 function savePasteToS3(paste, uuid) {
     return __awaiter(this, void 0, void 0, function () {
         var saveReadyPaste, pasteString;
@@ -181,21 +182,18 @@ function getPaste(req, res) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log(req.additional);
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
+                    _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, (0, s3_service_1.retriveFile)(req.additional.pasteUUID)];
-                case 2:
+                case 1:
                     s3Ret = _a.sent();
-                    return [3 /*break*/, 4];
-                case 3:
+                    return [3 /*break*/, 3];
+                case 2:
                     err_3 = _a.sent();
-                    console.log(err_3);
                     res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
                     return [2 /*return*/];
+                case 3: return [4 /*yield*/, (0, StreamToString_1.streamToString)(s3Ret.Body)];
                 case 4:
-                    body = s3Ret.Body.toString();
+                    body = _a.sent();
                     if (req.additional.pasteData.password) {
                         bytes = crypto_js_1.AES.decrypt(body, req.additional.password);
                         body = bytes.toString(crypto_js_1.enc.Utf8);
