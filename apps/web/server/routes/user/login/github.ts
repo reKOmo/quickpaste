@@ -19,7 +19,7 @@ export default defineEventHandler(async (e) => {
         });
         console.log(res)
 
-        if (res.ok) {
+        if (res.status == 200) {
             const data = await res.json();
             console.log(data)
             const internalRes = await fetch(useRuntimeConfig().authServiceAddress + '/user/login', {
@@ -32,6 +32,8 @@ export default defineEventHandler(async (e) => {
                     token: data.access_token
                 })
             });
+
+            console.log(internalRes)
 
             if (internalRes.ok) {
                 console.log("Ok")
@@ -51,7 +53,8 @@ export default defineEventHandler(async (e) => {
             console.log(res)
             await sendRedirect(e, "/user/login/finalize?fail=1", 302);
         }
-    } catch {
+    } catch(err) {
+        console.log(err)
         await sendRedirect(e, "/user/login/finalize?fail=1", 302);
     }
 });

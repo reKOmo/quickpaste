@@ -17,15 +17,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "3.47.0",
+    "@aws-sdk/lib-storage": "3.540.0",
+    "@smithy/types": "^2.12.0",
     "@types/bcrypt": "^5.0.0",
+    "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
     "@types/crypto-js": "^4.1.1",
     "@types/express": "^4.17.13",
     "@types/express-serve-static-core": "^4.17.28",
     "@types/pg": "^8.11.4",
-    "@types/cookie-parser": "^1.4.3",
-    "aws-sdk": "^2.1150.0",
     "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "eslint-config-custom": "workspace:*",
@@ -35,8 +38,7 @@
     "pg": "^8.7.3",
     "quickpaste-constants": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "^4.7.2",
-    "cookie-parser": "^1.4.6"
+    "typescript": "^4.7.2"
   },
   "devDependencies": {
     "@types/node": "^18.19.0",
