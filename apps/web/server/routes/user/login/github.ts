@@ -42,8 +42,10 @@ export default defineEventHandler(async (e) => {
                 setCookie(e, "quickpaste_auth", key, {
                     httpOnly: true,
                 });
+                console.log(key)
 
                 await sendRedirect(e, "/user/login/finalize", 302);
+                console.log("Redirected");
                 return;
             } else {
                 await sendRedirect(e, "/user/login/finalize?fail=1", 302);
