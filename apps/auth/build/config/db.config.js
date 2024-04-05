@@ -8,6 +8,6 @@ var config = {
     user: process_1.env.POSTGRES_USER,
     password: process_1.env.POSTGRES_PASSWORD,
     database: process_1.env.PG_DB_NAME,
-    ssl: true
+    ssl: process_1.env.NODE_ENV == "production"
 };
 exports.config = config;

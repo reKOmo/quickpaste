@@ -8,4 +8,6 @@ const config = {
     endpoint: env.AWS_ENDPOINT
 };
 
+console.log(config)
+
 export default config;
