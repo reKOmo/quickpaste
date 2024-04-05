@@ -59,7 +59,8 @@ services:
       dockerfile: Dockerfile
       target: production
     volumes:
-      - /var/ssl/certs:/etc/ssl/
+      - /var/letsencrypt/certs:/etc/letsencrypt/
+      - /var/letsencrypt/challange:/usr/share/certbot:rw
     environment:
       - DOMAIN_NAME=${WEB_DOMAIN_NAME}
     ports:
@@ -80,6 +81,9 @@ services:
     depends_on:
       - api
       - gateway
+    volumes:
+      - /var/letsencrypt/certs:/etc/letsencrypt:rw
+      - /var/letsencrypt/challange:/usr/share/certbot:rw
     environment:
       - DOMAIN_NAME=${WEB_DOMAIN_NAME}
       - EMAIL=${HELP_EMAIL}
