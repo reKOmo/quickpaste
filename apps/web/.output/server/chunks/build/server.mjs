@@ -6750,7 +6750,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./_pasteId_-DSp1Ifg7.mjs').then((m) => m.default || m)
+    component: () => import('./_pasteId_-DAjf8OSv.mjs').then((m) => m.default || m)
   },
   {
     name: "Api-Docs",
