@@ -39,6 +39,7 @@ const github = defineEventHandler(async (e) => {
       if (internalRes.ok) {
         console.log("Ok");
         const key = await internalRes.text();
+        console.log(key);
         setCookie(e, "quickpaste_auth", key, {
           httpOnly: true
         });
