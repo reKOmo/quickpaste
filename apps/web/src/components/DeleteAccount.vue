@@ -18,34 +18,28 @@
 <script setup>
     import { NotificationTypes, useNotificationStore } from '@/store/notification';    
     const notificationStore = useNotificationStore();
-</script>
 
-<script>
-    export default {
-        methods: {
-            async deleteAccount() {
-                const proceed = await this.notificationStore.addNotification({
-                    type: NotificationTypes.CONFIRM,
-                    title: "Are you sure you want to delete your account?",
-                    description: "This action can not be undone and will result in permanent data loss!"
+    async function deleteAccount() {
+        const proceed = await notificationStore.addNotification({
+            type: NotificationTypes.CONFIRM,
+            title: "Are you sure you want to delete your account?",
+            description: "This action can not be undone and will result in permanent data loss!"
+        });
+
+        if (proceed) {
+            const res = await fetch("/user/deleteAccount", {
+                method: "GET",
+                credentials: "include",
+                redirect: "follow"
+            });
+
+            if (res.redirected) {
+                window.location = "/";
+            } else if (!res.ok) {
+                notificationStore.addNotification({
+                    type: NotificationTypes.NOTIFICATION,
+                    title: "Error accoured while deleting account. Please try again",
                 });
-
-                if (proceed) {
-                    const res = await fetch("/user/deleteAccount", {
-                        method: "GET",
-                        credentials: "include",
-                        redirect: "follow"
-                    });
-
-                    if (res.redirected) {
-                        window.location = "/";
-                    } else if (!res.ok) {
-                        this.notificationStore.addNotification({
-                            type: NotificationTypes.NOTIFICATION,
-                            title: "Error accoured while deleting account. Please try again",
-                        });
-                    }
-                }
             }
         }
     }

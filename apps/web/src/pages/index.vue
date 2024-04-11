@@ -20,7 +20,7 @@
           <div class="doneText bg-gradient-to-tr from-green to-orange rounded p-6 mt-6 h-min">    
             <h2 class="text-2xl font-bold">Paste created!</h2>
             <h3> 
-              Check it at: <a class="font-bold" :href="`/${createdPaste.pasteId}`">{{createdPaste.pasteId}} <font-awesome-icon :icon="['fas', 'arrow-up-right-from-square']" /></a>
+              Check it at: <a class="font-bold" :href="`/paste/${createdPaste.pasteId}`">{{createdPaste.pasteId}} <font-awesome-icon :icon="['fas', 'arrow-up-right-from-square']" /></a>
             </h3>
           </div>
         </div>
