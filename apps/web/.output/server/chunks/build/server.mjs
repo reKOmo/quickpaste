@@ -6745,14 +6745,6 @@ const __nuxt_page_meta = {
 };
 const _routes = [
   {
-    name: "pasteId",
-    path: "/:pasteId()",
-    meta: {},
-    alias: [],
-    redirect: void 0 ,
-    component: () => import('./_pasteId_-DAjf8OSv.mjs').then((m) => m.default || m)
-  },
-  {
     name: "Api-Docs",
     path: "/Api-Docs",
     meta: {},
@@ -6766,7 +6758,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./index-DR_Lqpbv.mjs').then((m) => m.default || m)
+    component: () => import('./index-B9LbgKPc.mjs').then((m) => m.default || m)
   },
   {
     name: "Login",
@@ -6774,7 +6766,15 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./Login-Ce__N-o1.mjs').then((m) => m.default || m)
+    component: () => import('./Login-CigvPIXT.mjs').then((m) => m.default || m)
+  },
+  {
+    name: "paste-pasteId",
+    path: "/paste/:pasteId()",
+    meta: {},
+    alias: [],
+    redirect: void 0 ,
+    component: () => import('./_pasteId_-DzzEeu4L.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.name) ?? "user",
@@ -6782,7 +6782,7 @@ const _routes = [
     meta: __nuxt_page_meta$1 || {},
     alias: (__nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.alias) || [],
     redirect: __nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.redirect,
-    component: () => import('./index-DMbL3ila.mjs').then((m) => m.default || m)
+    component: () => import('./index-CeLQio2C.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta == null ? void 0 : __nuxt_page_meta.name) ?? "user-Settings",
@@ -6790,7 +6790,7 @@ const _routes = [
     meta: __nuxt_page_meta || {},
     alias: (__nuxt_page_meta == null ? void 0 : __nuxt_page_meta.alias) || [],
     redirect: __nuxt_page_meta == null ? void 0 : __nuxt_page_meta.redirect,
-    component: () => import('./Settings-CUKTA84e.mjs').then((m) => m.default || m)
+    component: () => import('./Settings-Bl6vsL-H.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -8825,7 +8825,7 @@ _sfc_main$4.setup = (props, ctx) => {
 };
 const __nuxt_component_3 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-379c6301"]]);
 const layouts = {
-  default: () => import('./Default-DAhzW_2h.mjs').then((m) => m.default || m)
+  default: () => import('./Default-R4nrTb-m.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",
@@ -9264,5 +9264,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { NotificationTypes as N, On as O, _export_sfc as _, __nuxt_component_0$1 as a, asyncDataDefaults as b, createError as c, useNuxtApp as d, entry$1 as default, useUserStore as e, useNotificationStore as f, useRoute$1 as g, useRequestHeaders as h, useRuntimeConfig as i, __nuxt_component_1$2 as j, defineNuxtPlugin as k, defineNuxtRouteMiddleware as l, useCookie as m, navigateTo as n, br as o, useHead as u };
+export { NotificationTypes as N, On as O, _export_sfc as _, __nuxt_component_0$1 as a, useUserStore as b, createError as c, useNotificationStore as d, entry$1 as default, useRuntimeConfig as e, useRoute$1 as f, asyncDataDefaults as g, useNuxtApp as h, useRequestHeaders as i, __nuxt_component_1$2 as j, defineNuxtPlugin as k, defineNuxtRouteMiddleware as l, useCookie as m, navigateTo as n, br as o, useHead as u };
 //# sourceMappingURL=server.mjs.map

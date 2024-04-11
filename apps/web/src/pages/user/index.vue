@@ -6,7 +6,7 @@
             <div ref="pasteContainer" v-if="pastes.length > 0" class="max-h-prose overflow-y-auto" @scroll="loadMorePastes">
                 <div v-for="paste in pastes" :key="paste.uuid"
                     class="flex flex-col md:flex-row justify-between content-cetner mr-2 p-2 px-8 mb-4 rounded bg-blue">
-                    <a :href="`/${paste.uuid}`">
+                    <a :href="`/paste/${paste.uuid}`">
                         <h3 class="text-2xl font-bold">
                             {{ paste.title }}
                             <span class="text-sm font-normal italic text-gray-500">#{{ paste.uuid }}</span>
@@ -20,7 +20,7 @@
                         </ClientOnly>
                     </a>
                     <div class="flex flex-row justify-between">
-                        <a class="bg-green flex-1 m-2 rounded p-4 text-center" :href="`/${paste.uuid}?edit=1`">Edit</a>
+                        <a class="bg-green flex-1 m-2 rounded p-4 text-center" :href="`/paste/${paste.uuid}?edit=1`">Edit</a>
                         <button class="bg-red-600 flex-1 m-2 rounded p-4 text-center"
                             @click.stop="deletePaste(paste.uuid)">Remove</button>
                     </div>

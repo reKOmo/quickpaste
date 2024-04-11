@@ -1,0 +1,22 @@
+name: Restart
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+
+jobs:
+  stop-old:
+   runs-on: [self-hosted, linux]
+   steps:
+    - name: Clear old
+      run: make prod-prepare-build
+  run:
+    runs-on: [self-hosted, linux]
+    needs: [stop-old]
+    steps:
+      - name: Start containers
+        run: make prod-up

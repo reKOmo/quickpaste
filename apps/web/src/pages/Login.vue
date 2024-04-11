@@ -11,27 +11,24 @@
 </template>
 
 <script setup>
-import { useNotificationStore, NotificationTypes } from '@/store/notification';
-const config = useRuntimeConfig().public;
-const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.githubClientId}&redirect_uri=${config.webAddress}/user/login/github`
-const notificationStore = useNotificationStore();
-</script>
+    import { useNotificationStore, NotificationTypes } from '@/store/notification';
+    const config = useRuntimeConfig().public;
+    const githubAdress = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${config.githubClientId}&redirect_uri=${config.webAddress}/user/login/github`
+    const notificationStore = useNotificationStore();
+    const route = useRoute()
 
-<script>
-export default {
-    mounted() {
-        const failedLogin = this.$route.query.failedLogin;
-        document.title = "Quickpaste";
+    onMounted(() => {
+        const failedLogin = route.query.failedLogin;
+            document.title = "Quickpaste";
 
-        if (failedLogin) {
-            this.notificationStore.addNotification({
-                type: NotificationTypes.NOTIFICATION,
-                level: 1,
-                title: "Failed to login. Please try again"
-            })
-        }
-    }
-}
+            if (failedLogin) {
+                notificationStore.addNotification({
+                    type: NotificationTypes.NOTIFICATION,
+                    level: 1,
+                    title: "Failed to login. Please try again"
+                })
+            }
+    });
 </script>
 
 <style></style>
