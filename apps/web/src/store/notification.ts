@@ -9,7 +9,7 @@ export enum NotificationTypes {
 export interface INotification {
     type: NotificationTypes,
     title: string,
-    description: string
+    description?: string
     level?: number
 }
 
@@ -18,10 +18,10 @@ export class Notification implements INotification {
         this.resolve = resolve;
     }
     resolve: any;
-    type: NotificationTypes;
-    title: string;
-    description: string;
-    id: number;
+    type: NotificationTypes = 1;
+    title!: string;
+    description!: string;
+    id: number | undefined;
     level = 0;
 
     done(a: unknown) {

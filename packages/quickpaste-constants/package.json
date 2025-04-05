@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "pre-build": "tsc",
-    "local-publish": "yalc publish --private --store-folder ../../.yalc-store"
+    "local-publish": "npm run build && yalc publish --private --store-folder ../../.yalc-store"
   },
   "devDependencies": {
     "typescript": "^4.7.2",

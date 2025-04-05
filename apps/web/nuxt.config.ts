@@ -1,11 +1,13 @@
-import { defineNuxtConfig } from 'nuxt/config'
+import { defineNuxtConfig } from 'nuxt/config';
 import * as dotenv from "dotenv";
-import qConfig from "quickpaste-constants";
+import { SUPPORTED_SYNTAXES } from "quickpaste-constants";
 
 if (process.env.NODE_ENV == "development") {
     dotenv.config({
         path: "./dev.env"
     });
+
+
 }
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
@@ -15,6 +17,7 @@ export default defineNuxtConfig({
         //     isr: true,
         // }
     },
+
     runtimeConfig: {
         githubClientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
         githubClientId: process.env.GITHUB_CLIENT_ID ?? "",
@@ -26,29 +29,41 @@ export default defineNuxtConfig({
             githubClientId: process.env.GITHUB_CLIENT_ID ?? "",
             webAddress: process.env.WEB_ADDRESS ?? "",
             hCaptchaSitekey: process.env.HCAPTCHA_SITEKEY ?? "",
-            supportedSyntaxes: qConfig.SUPPORTED_SYNTAXES
+            supportedSyntaxes: JSON.stringify(SUPPORTED_SYNTAXES)
         }
     },
+
     typescript: {
         typeCheck: false
     },
+
     srcDir: "src/",
     serverDir: "server/",
+
     modules: [
         "nuxt-windicss",
         "./src/modules/ContentLoader",
         // '@nuxtjs/composition-api/module',
         '@pinia/nuxt'
     ],
+
     css: [
-        "@/assets/main.scss",
+        '@/assets/main.scss',
         '@fortawesome/fontawesome-svg-core/styles.css'
     ],
+
     components: true,
+
     vite: {
-        assetsInclude: ['**/*.md']
+        assetsInclude: ['**/*.md'],
+        server: {
+            allowedHosts: ['host.docker.internal', 'web']
+        }
     },
+
     experimental: {
         componentIslands: true
-    }
+    },
+
+    compatibilityDate: "2025-04-05"
 });

@@ -17,24 +17,24 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/cookie-parser": "^1.4.3",
-    "@types/express": "^4.17.13",
-    "@types/express-serve-static-core": "^4.17.28",
-    "@types/jsonwebtoken": "^8.5.8",
-    "axios": "^0.27.2",
-    "axios-retry": "^3.3.1",
-    "cookie-parser": "^1.4.6",
-    "eslint-config-custom": "workspace:*",
-    "express": "^4.17.13",
+    "axios": "^1.8.4",
+    "axios-retry": "^4.5.0",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0",
     "joi": "^17.6.0",
-    "jsonwebtoken": "^8.5.1",
-    "pg": "^8.7.3",
-    "tsconfig": "workspace:*",
-    "typescript": "^4.7.2"
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.7.3"
   },
   "devDependencies": {
-    "@types/node": "^17.0.38",
-    "nodemon": "^2.0.16",
-    "ts-node": "^10.8.0"
+    "@types/cookie-parser": "^1.4.8",
+    "@types/express": "^5.0.1",
+    "@types/express-serve-static-core": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.14.0",
+    "eslint-config-custom": "workspace:*",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.8.0",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.8.3"
   }
 }

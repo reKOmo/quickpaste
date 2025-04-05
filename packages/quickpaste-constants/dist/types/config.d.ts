@@ -11,7 +11,7 @@ declare const config: {
             loggedIn: number;
         };
     };
-    SUPPORTED_SYNTAXES: string[];
 };
+export declare const SUPPORTED_SYNTAXES: string[];
 export default config;
 //# sourceMappingURL=config.d.ts.map

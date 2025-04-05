@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { User } from "interfaces";
+import type { User } from "interfaces";
 
 export interface UserState {
     userData: User | undefined
@@ -26,11 +26,11 @@ export const useUserStore = defineStore("userStore", {
     getters,
     actions: {
         async getUser() {
-            const user = await $fetch(useRuntimeConfig().public.webAddress + `/api/user`, {
+            const user: User = await $fetch(useRuntimeConfig().public.webAddress + `/api/user`, {
                 credentials: "include",
                 parseResponse: JSON.parse
             });
-            user["joined"] = (new Date(user["joined"])).toLocaleDateString();
+            user.joined = (new Date(user.joined)).toLocaleDateString();
             this.userData = user;
         },
         unset() {
