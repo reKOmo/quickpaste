@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var process_1 = require("process");
 var config = {
     region: process_1.env.AWS_REGION,
@@ -9,4 +9,4 @@ var config = {
     endpoint: process_1.env.AWS_ENDPOINT
 };
 console.log(config);
-exports["default"] = config;
+exports.default = config;

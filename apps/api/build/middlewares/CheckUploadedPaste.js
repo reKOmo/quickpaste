@@ -1,4 +1,37 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -9,8 +42,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -39,36 +72,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 var _a;
-exports.__esModule = true;
-exports.checkUploadPaste = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkUploadPaste = checkUploadPaste;
 var joi_1 = __importDefault(require("joi"));
 var ServerResponse_1 = require("../utils/ServerResponse");
-var quickpaste_constants_1 = __importDefault(require("quickpaste-constants"));
-var userPasteFragment = joi_1["default"].object({
-    name: joi_1["default"].string()
+var quickpaste_constants_1 = __importStar(require("quickpaste-constants"));
+var userPasteFragment = joi_1.default.object({
+    name: joi_1.default.string()
         .max(50)
         .required(),
-    syntax: (_a = joi_1["default"].string()).allow.apply(_a, quickpaste_constants_1["default"].SUPPORTED_SYNTAXES)["default"]("text").required(),
-    content: joi_1["default"].string().required()
+    syntax: (_a = joi_1.default.string()).allow.apply(_a, quickpaste_constants_1.SUPPORTED_SYNTAXES).default("text").required(),
+    content: joi_1.default.string().required()
 });
-var userPaste = joi_1["default"].object({
-    title: joi_1["default"].string()
+var userPaste = joi_1.default.object({
+    title: joi_1.default.string()
         .min(1)
         .max(50)
         .required(),
-    fragments: joi_1["default"].array()
+    fragments: joi_1.default.array()
         .min(1)
         .max(500)
         .items(userPasteFragment)
         .sparse(false)
         .required(),
-    password: joi_1["default"].string().allow(""),
-    isPrivate: joi_1["default"].boolean()["default"](false)
+    password: joi_1.default.string().allow(""),
+    isPrivate: joi_1.default.boolean()
+        .default(false)
 });
 function checkUploadPaste(req, res, next) {
-    var _a;
     return __awaiter(this, void 0, void 0, function () {
         var validPaste;
+        var _a;
         return __generator(this, function (_b) {
             validPaste = userPaste.validate(req.body);
             if (validPaste.error) {
@@ -80,8 +114,8 @@ function checkUploadPaste(req, res, next) {
                     res.status(400).send((0, ServerResponse_1.ServerResponse)(false, "Private pastes are only for logged in users"));
                     return [2 /*return*/];
                 }
-                if (validPaste.value.fragments.length > quickpaste_constants_1["default"].PASTE.FRAGMENT_LIMITS.guest) {
-                    res.status(400).send((0, ServerResponse_1.ServerResponse)(false, "'fragments' length can not be longer than " + quickpaste_constants_1["default"].PASTE.FRAGMENT_LIMITS.guest));
+                if (validPaste.value.fragments.length > quickpaste_constants_1.default.PASTE.FRAGMENT_LIMITS.guest) {
+                    res.status(400).send((0, ServerResponse_1.ServerResponse)(false, "'fragments' length can not be longer than " + quickpaste_constants_1.default.PASTE.FRAGMENT_LIMITS.guest));
                     return [2 /*return*/];
                 }
             }
@@ -95,4 +129,3 @@ function checkUploadPaste(req, res, next) {
         });
     });
 }
-exports.checkUploadPaste = checkUploadPaste;

@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -38,8 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
-exports.checkPassword = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkPassword = checkPassword;
 var ServerResponse_1 = require("../utils/ServerResponse");
 var bcrypt_1 = __importDefault(require("bcrypt"));
 function checkPassword(req, res, next) {
@@ -53,7 +53,7 @@ function checkPassword(req, res, next) {
                         res.status(401).send((0, ServerResponse_1.ServerResponse)(false, "No password provided"));
                         return [2 /*return*/];
                     }
-                    return [4 /*yield*/, bcrypt_1["default"].compare(req.additional.password, req.additional.pasteData.password)];
+                    return [4 /*yield*/, bcrypt_1.default.compare(req.additional.password, req.additional.pasteData.password)];
                 case 1:
                     match = _a.sent();
                     if (match) {
@@ -69,4 +69,3 @@ function checkPassword(req, res, next) {
         });
     });
 }
-exports.checkPassword = checkPassword;

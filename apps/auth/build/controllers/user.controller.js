@@ -15,13 +15,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -32,8 +42,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -61,16 +71,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
-exports.login = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.login = login;
 var joi_1 = __importDefault(require("joi"));
 var db = __importStar(require("../services/db.service"));
 var axios_1 = __importDefault(require("axios"));
 var tokens_service_1 = require("../services/tokens.service");
 var axios_retry_1 = __importDefault(require("axios-retry"));
-var loginData = joi_1["default"].object({
-    type: joi_1["default"].string().valid("github").required(),
-    token: joi_1["default"].string().required()
+var loginData = joi_1.default.object({
+    type: joi_1.default.string().valid("github").required(),
+    token: joi_1.default.string().required()
 });
 function login(req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -110,17 +120,16 @@ function login(req, res) {
         });
     });
 }
-exports.login = login;
 function loginGithub(data) {
     return __awaiter(this, void 0, void 0, function () {
         var res, userData, username, userId, extId, internalData, internalId;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    (0, axios_retry_1["default"])(axios_1["default"], {
+                    (0, axios_retry_1.default)(axios_1.default, {
                         retries: 3
                     });
-                    return [4 /*yield*/, (0, axios_1["default"])({
+                    return [4 /*yield*/, (0, axios_1.default)({
                             url: "https://api.github.com/user",
                             method: "GET",
                             headers: {
@@ -158,10 +167,10 @@ function loginGithub(data) {
         });
     });
 }
-function createAccount(username, extId) {
-    if (extId === void 0) { extId = null; }
-    return __awaiter(this, void 0, void 0, function () {
+function createAccount(username_1) {
+    return __awaiter(this, arguments, void 0, function (username, extId) {
         var res, userId;
+        if (extId === void 0) { extId = null; }
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, db.safeQuery("INSERT INTO users (username, ext_id) VALUES ($1::character varying, $2::character varying) returning id;", [username, extId])];
