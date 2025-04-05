@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "local-publish": {},
     "generate-yalc": {},
     "pre-build": {

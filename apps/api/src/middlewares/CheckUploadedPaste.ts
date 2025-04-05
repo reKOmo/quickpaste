@@ -2,13 +2,13 @@ import { Response } from "express";
 import Joi from "joi";
 import { FullRequest } from "../models/FullRequest.interface";
 import { ServerResponse } from "../utils/ServerResponse";
-import qConfig from "quickpaste-constants";
+import qConfig, { SUPPORTED_SYNTAXES } from "quickpaste-constants";
 
 const userPasteFragment = Joi.object({
     name: Joi.string()
         .max(50)
         .required(),
-    syntax: Joi.string().allow(...qConfig.SUPPORTED_SYNTAXES).default("text").required(),
+    syntax: Joi.string().allow(...SUPPORTED_SYNTAXES).default("text").required(),
     content: Joi.string().required()
 });
 

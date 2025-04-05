@@ -15,13 +15,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -32,8 +42,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -61,8 +71,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
-exports.clearOldPastes = exports.deletePaste = exports.editPaste = exports.getPaste = exports.uploadPaste = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.uploadPaste = uploadPaste;
+exports.getPaste = getPaste;
+exports.editPaste = editPaste;
+exports.deletePaste = deletePaste;
+exports.clearOldPastes = clearOldPastes;
 var s3_service_1 = require("../services/s3.service");
 var GenerateUUID_1 = __importDefault(require("../utils/GenerateUUID"));
 var db = __importStar(require("../services/db.service"));
@@ -103,11 +117,11 @@ function uploadPaste(req, res) {
                     return [4 /*yield*/, db.getClient()];
                 case 1:
                     client = _a.sent();
-                    uuid = (0, GenerateUUID_1["default"])(constants_1.Constants.PASTE_UUID_LENGTH);
+                    uuid = (0, GenerateUUID_1.default)(constants_1.Constants.PASTE_UUID_LENGTH);
                     if (!(paste.password !== undefined)) return [3 /*break*/, 3];
                     paste["unhashedPassword"] = paste.password;
                     saltRounds = 10;
-                    return [4 /*yield*/, bcrypt_1["default"].hash(paste.password, saltRounds)];
+                    return [4 /*yield*/, bcrypt_1.default.hash(paste.password, saltRounds)];
                 case 2:
                     psswd = _a.sent();
                     paste.password = psswd;
@@ -133,7 +147,7 @@ function uploadPaste(req, res) {
                     err_1 = _a.sent();
                     if (err_1.code == 23505) {
                         //Duplicate uuid
-                        uuid = (0, GenerateUUID_1["default"])(constants_1.Constants.PASTE_UUID_LENGTH);
+                        uuid = (0, GenerateUUID_1.default)(constants_1.Constants.PASTE_UUID_LENGTH);
                     }
                     else {
                         client.release();
@@ -175,7 +189,6 @@ function uploadPaste(req, res) {
         });
     });
 }
-exports.uploadPaste = uploadPaste;
 function getPaste(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var s3Ret, err_3, body, bytes, s3Data, fPaste;
@@ -216,7 +229,6 @@ function getPaste(req, res) {
         });
     });
 }
-exports.getPaste = getPaste;
 function editPaste(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var paste, uuid, saltRounds, psswd, client, err_4;
@@ -228,7 +240,7 @@ function editPaste(req, res) {
                     if (!(paste.password !== undefined)) return [3 /*break*/, 2];
                     paste["unhashedPassword"] = paste.password;
                     saltRounds = 10;
-                    return [4 /*yield*/, bcrypt_1["default"].hash(paste.password, saltRounds)];
+                    return [4 /*yield*/, bcrypt_1.default.hash(paste.password, saltRounds)];
                 case 1:
                     psswd = _a.sent();
                     paste.password = psswd;
@@ -272,7 +284,6 @@ function editPaste(req, res) {
         });
     });
 }
-exports.editPaste = editPaste;
 function deletePaste(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var uuid, client, err_5;
@@ -315,7 +326,6 @@ function deletePaste(req, res) {
         });
     });
 }
-exports.deletePaste = deletePaste;
 function clearOldPastes(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var client, oldGuestRes, guestPastesIds, oldUserRes, userPastesIds, pastesToDelete, err_6;
@@ -401,4 +411,3 @@ function clearOldPastes(req, res) {
         });
     });
 }
-exports.clearOldPastes = clearOldPastes;

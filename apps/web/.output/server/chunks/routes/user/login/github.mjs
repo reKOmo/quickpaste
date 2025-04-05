@@ -1,10 +1,12 @@
-import { d as defineEventHandler, s as sendRedirect, u as useRuntimeConfig, a as setCookie } from '../../../runtime.mjs';
+import { d as defineEventHandler, s as sendRedirect, u as useRuntimeConfig, a as setCookie } from '../../../nitro/nitro.mjs';
 import { parseQuery } from './finalize.mjs';
 import 'node:http';
 import 'node:https';
-import 'fs';
-import 'path';
+import 'node:events';
+import 'node:buffer';
 import 'node:fs';
+import 'node:path';
+import 'node:crypto';
 import 'node:url';
 
 const github = defineEventHandler(async (e) => {

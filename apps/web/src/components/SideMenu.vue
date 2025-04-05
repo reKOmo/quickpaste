@@ -41,7 +41,7 @@ export default {
             title: this.options !== undefined ? this.options.title : "",
             priv: this.options !== undefined ? this.options.isPrivate : false,
             password: this.options !== undefined && this.options.password.length > 0 ? this.options.password : "",
-            rotation: 0
+            rotation: null
         }
     },
     props: {
@@ -67,7 +67,7 @@ export default {
         },
         toggleMenu() {
             this.$refs["moreOptionsMenu"].classList.toggle("hidden");
-            this.rotation = this.rotation === 0 ? 180 : 0;
+            this.rotation = this.rotation === null ? 180 : null;
         }
     }
 }

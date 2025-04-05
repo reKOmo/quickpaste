@@ -1,24 +1,16 @@
 const interopDefault = r => r.default || r || [];
 const styles = {
-  "../../../node_modules/.pnpm/nuxt@3.11.1_@unocss+reset@0.58.8_eslint@7.32.0_floating-vue@5.2.2_sass@1.72.0_unocss@0.58.8_vite@5.2.7/node_modules/nuxt/dist/app/entry.js": () => import('./entry-styles.DHGcPzT3.mjs').then(interopDefault),
-  "pages/index.vue": () => import('./index-styles.D8VwVBm0.mjs').then(interopDefault),
-  "pages/paste/[pasteId].vue": () => import('./_pasteId_-styles.BBMghPz1.mjs').then(interopDefault),
-  "pages/index.vue?vue&type=style&index=0&scoped=e68b806c&lang.css": () => import('./index-styles.D8VwVBm0.mjs').then(interopDefault),
-  "pages/paste/[pasteId].vue?vue&type=style&index=0&scoped=5ea59b0b&lang.css": () => import('./_pasteId_-styles.BBMghPz1.mjs').then(interopDefault),
-  "components/UserPanel.vue": () => import('./UserPanel-styles.BkYtL5cV.mjs').then(interopDefault),
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@1.3.1/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": () => import('./error-404-styles.BHzm7zhw.mjs').then(interopDefault),
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@1.3.1/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": () => import('./error-500-styles.i6GTkqz3.mjs').then(interopDefault),
-  "components/notifications/Manager.vue": () => import('./Manager-styles.1FbEOBsV.mjs').then(interopDefault),
-  "components/UserPanel.vue?vue&type=style&index=0&scoped=e9175cd8&lang.css": () => import('./UserPanel-styles.BkYtL5cV.mjs').then(interopDefault),
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@1.3.1/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue?vue&type=style&index=0&scoped=73a0f069&lang.css": () => import('./error-404-styles.BHzm7zhw.mjs').then(interopDefault),
-  "../../../node_modules/.pnpm/@nuxt+ui-templates@1.3.1/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue?vue&type=style&index=0&scoped=a83eb86a&lang.css": () => import('./error-500-styles.i6GTkqz3.mjs').then(interopDefault),
-  "components/notifications/Manager.vue?vue&type=style&index=0&scoped=379c6301&lang.css": () => import('./Manager-styles.1FbEOBsV.mjs').then(interopDefault),
-  "components/SideMenu.vue": () => import('./SideMenu-styles.BRfnGDnD.mjs').then(interopDefault),
-  "components/SnippetEditor.vue": () => import('./SnippetEditor-styles.IFrbpP8B.mjs').then(interopDefault),
-  "components/SideMenu.vue?vue&type=style&index=0&scoped=b9b7f3ed&lang.css": () => import('./SideMenu-styles.BRfnGDnD.mjs').then(interopDefault),
-  "components/SnippetEditor.vue?vue&type=style&index=0&scoped=c1d1f40e&lang.css": () => import('./SnippetEditor-styles.IFrbpP8B.mjs').then(interopDefault),
-  "components/Editor.vue": () => import('./Editor-styles.C1-ob_We.mjs').then(interopDefault),
-  "components/Editor.vue?vue&type=style&index=0&scope=true&lang.scss": () => import('./Editor-styles.C1-ob_We.mjs').then(interopDefault)
+  "../../../node_modules/.pnpm/nuxt@3.16.2_eslint@7.32.0_sass@1.86.3_vite@6.2.5/node_modules/nuxt/dist/app/entry.js": () => import('./entry-styles.4OIjBqNs.mjs').then(interopDefault),
+  "pages/index.vue": () => import('./index-styles.CltK9xGF.mjs').then(interopDefault),
+  "pages/paste/[pasteId].vue": () => import('./_pasteId_-styles.s4y0dCTG.mjs').then(interopDefault),
+  "../../../node_modules/.pnpm/nuxt@3.16.2_eslint@7.32.0_sass@1.86.3_vite@6.2.5/node_modules/nuxt/dist/app/components/error-404.vue": () => import('./error-404-styles.BNmKahfp.mjs').then(interopDefault),
+  "../../../node_modules/.pnpm/nuxt@3.16.2_eslint@7.32.0_sass@1.86.3_vite@6.2.5/node_modules/nuxt/dist/app/components/error-500.vue": () => import('./error-500-styles.Cx3AJg0u.mjs').then(interopDefault),
+  "components/notifications/Manager.vue": () => import('./Manager-styles.BTnLd3Kk.mjs').then(interopDefault),
+  "components/UserPanel.vue": () => import('./UserPanel-styles.FRv_xGqK.mjs').then(interopDefault),
+  "components/SideMenu.vue": () => import('./SideMenu-styles.CwO2h2oi.mjs').then(interopDefault),
+  "components/SnippetEditor.vue": () => import('./SnippetEditor-styles.Dzh1FkJ9.mjs').then(interopDefault),
+  "components/Editor.vue": () => import('./Editor-styles.BMjUiCVd.mjs').then(interopDefault),
+  "components/Editor.vue?vue&type=style&index=0&scope=true&lang.scss": () => import('./Editor-styles.DF6ssNe7.mjs').then(interopDefault)
 };
 
 export { styles as default };

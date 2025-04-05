@@ -1,14 +1,15 @@
-import { d as defineEventHandler, s as sendRedirect, a as setCookie } from '../../../runtime.mjs';
+import { d as defineEventHandler, s as sendRedirect, a as setCookie } from '../../../nitro/nitro.mjs';
 import 'node:http';
 import 'node:https';
-import 'fs';
-import 'path';
+import 'node:events';
+import 'node:buffer';
 import 'node:fs';
+import 'node:path';
+import 'node:crypto';
 import 'node:url';
 
 function parseQuery(q) {
-  if (!q)
-    return {};
+  if (!q) return {};
   const data = q.split("&");
   const ob = {};
   data.forEach((s) => {

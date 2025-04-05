@@ -2,12 +2,12 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
-exports.parseRequest = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseRequest = parseRequest;
 var joi_1 = __importDefault(require("joi"));
 var constants_1 = require("../config/constants");
 var ServerResponse_1 = require("../utils/ServerResponse");
-var pasteIdSchema = joi_1["default"].string().length(constants_1.Constants.PASTE_UUID_LENGTH).pattern(new RegExp('([A-Z]|[a-z]|[0-9])*'));
+var pasteIdSchema = joi_1.default.string().length(constants_1.Constants.PASTE_UUID_LENGTH).pattern(new RegExp('([A-Z]|[a-z]|[0-9])*'));
 function parseRequest(req, res, next) {
     var _a;
     var userId = req.headers["x-user"];
@@ -36,4 +36,3 @@ function parseRequest(req, res, next) {
     }
     next();
 }
-exports.parseRequest = parseRequest;

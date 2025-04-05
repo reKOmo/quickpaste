@@ -1,9 +1,11 @@
-import { d as defineEventHandler, b as deleteCookie, s as sendRedirect, u as useRuntimeConfig } from '../../runtime.mjs';
+import { d as defineEventHandler, b as deleteCookie, s as sendRedirect, u as useRuntimeConfig } from '../../nitro/nitro.mjs';
 import 'node:http';
 import 'node:https';
-import 'fs';
-import 'path';
+import 'node:events';
+import 'node:buffer';
 import 'node:fs';
+import 'node:path';
+import 'node:crypto';
 import 'node:url';
 
 const logout = defineEventHandler(async (e) => {

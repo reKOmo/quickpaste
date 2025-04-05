@@ -15,13 +15,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -32,8 +42,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -61,8 +71,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
-exports.limitDailyAccess = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.limitDailyAccess = limitDailyAccess;
 var db = __importStar(require("../services/db.service"));
 var ServerResponse_1 = require("../utils/ServerResponse");
 var quickpaste_constants_1 = __importDefault(require("quickpaste-constants"));
@@ -74,7 +84,7 @@ function limitDailyAccess(req, res, next) {
                 case 0: return [4 /*yield*/, db.query("SELECT * FROM content_modification WHERE api_key = $1 AND content_modification.accessed = CURRENT_DATE;", [req.additional.apiKey])];
                 case 1:
                     pastes = _a.sent();
-                    limit = req.additional.user === quickpaste_constants_1["default"].GUEST_ACCOUNT_ID ? quickpaste_constants_1["default"].PASTE.DAILY_CONTENT_LIMITS.guest : quickpaste_constants_1["default"].PASTE.DAILY_CONTENT_LIMITS.loggedIn;
+                    limit = req.additional.user === quickpaste_constants_1.default.GUEST_ACCOUNT_ID ? quickpaste_constants_1.default.PASTE.DAILY_CONTENT_LIMITS.guest : quickpaste_constants_1.default.PASTE.DAILY_CONTENT_LIMITS.loggedIn;
                     if (pastes.rowCount >= limit) {
                         res.status(429).send((0, ServerResponse_1.ServerResponse)(false, "Tried to create/edit pastes too many times today"));
                         return [2 /*return*/];
@@ -85,4 +95,3 @@ function limitDailyAccess(req, res, next) {
         });
     });
 }
-exports.limitDailyAccess = limitDailyAccess;

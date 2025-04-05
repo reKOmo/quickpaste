@@ -12,6 +12,7 @@
     </div>
 </template>
 
+
 <script>
     import Prism from '@/plugins/prismjs.client'
 

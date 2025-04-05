@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-exports.streamToString = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.streamToString = streamToString;
 function streamToString(stream) {
     var chunks = [];
     return new Promise(function (resolve, reject) {
@@ -9,4 +9,3 @@ function streamToString(stream) {
         stream.on('end', function () { return resolve(Buffer.concat(chunks).toString('utf8')); });
     });
 }
-exports.streamToString = streamToString;

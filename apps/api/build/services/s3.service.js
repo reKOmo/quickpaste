@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -38,18 +38,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
-exports.deleteFiles = exports.deleteFile = exports.retriveFile = exports.uploadFile = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.uploadFile = uploadFile;
+exports.retriveFile = retriveFile;
+exports.deleteFile = deleteFile;
+exports.deleteFiles = deleteFiles;
 var lib_storage_1 = require("@aws-sdk/lib-storage");
 var client_s3_1 = require("@aws-sdk/client-s3");
 var s3_config_1 = __importDefault(require("../config/s3.config"));
 var s3Client = new client_s3_1.S3Client({
-    region: s3_config_1["default"].region,
+    region: s3_config_1.default.region,
     credentials: {
-        secretAccessKey: s3_config_1["default"].secretKey,
-        accessKeyId: s3_config_1["default"].accessKey
+        secretAccessKey: s3_config_1.default.secretKey,
+        accessKeyId: s3_config_1.default.accessKey
     },
-    endpoint: s3_config_1["default"].endpoint,
+    endpoint: s3_config_1.default.endpoint,
     forcePathStyle: true
 });
 function uploadFile(name, file) {
@@ -59,7 +62,7 @@ function uploadFile(name, file) {
             switch (_a.label) {
                 case 0:
                     uploadConfig = {
-                        Bucket: s3_config_1["default"].bucketName,
+                        Bucket: s3_config_1.default.bucketName,
                         Key: name,
                         Body: file
                     };
@@ -74,7 +77,6 @@ function uploadFile(name, file) {
         });
     });
 }
-exports.uploadFile = uploadFile;
 function retriveFile(name) {
     return __awaiter(this, void 0, void 0, function () {
         var requestConfig, response;
@@ -82,7 +84,7 @@ function retriveFile(name) {
             switch (_a.label) {
                 case 0:
                     requestConfig = new client_s3_1.GetObjectCommand({
-                        Bucket: s3_config_1["default"].bucketName,
+                        Bucket: s3_config_1.default.bucketName,
                         Key: name
                     });
                     return [4 /*yield*/, s3Client.send(requestConfig)];
@@ -93,7 +95,6 @@ function retriveFile(name) {
         });
     });
 }
-exports.retriveFile = retriveFile;
 function deleteFile(name) {
     return __awaiter(this, void 0, void 0, function () {
         var requestConfig, response;
@@ -101,7 +102,7 @@ function deleteFile(name) {
             switch (_a.label) {
                 case 0:
                     requestConfig = new client_s3_1.DeleteObjectCommand({
-                        Bucket: s3_config_1["default"].bucketName,
+                        Bucket: s3_config_1.default.bucketName,
                         Key: name
                     });
                     return [4 /*yield*/, s3Client.send(requestConfig)];
@@ -112,7 +113,6 @@ function deleteFile(name) {
         });
     });
 }
-exports.deleteFile = deleteFile;
 function deleteFiles(names) {
     return __awaiter(this, void 0, void 0, function () {
         var requestConfig, response;
@@ -120,7 +120,7 @@ function deleteFiles(names) {
             switch (_a.label) {
                 case 0:
                     requestConfig = new client_s3_1.DeleteObjectsCommand({
-                        Bucket: s3_config_1["default"].bucketName,
+                        Bucket: s3_config_1.default.bucketName,
                         Delete: {
                             Objects: names.map(function (n) { return ({ Key: n }); })
                         }
@@ -133,4 +133,3 @@ function deleteFiles(names) {
         });
     });
 }
-exports.deleteFiles = deleteFiles;
