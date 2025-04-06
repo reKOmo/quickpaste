@@ -21,8 +21,8 @@ env:
  S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
  JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
  WEB_DOMAIN_NAME: ${{ secrets.WEB_DOMAIN_NAME }}
- GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
- GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+ GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
+ GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
  HELP_EMAIL: ${{ secrets.HELP_EMAIL }}
 
 jobs:
