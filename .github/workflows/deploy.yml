@@ -24,6 +24,7 @@ env:
  GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
  GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
  HELP_EMAIL: ${{ secrets.HELP_EMAIL }}
+ NODE_OPTIONS: "--max-old-space-size=1024"
 
 jobs:
   build:
