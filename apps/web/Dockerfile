@@ -1,4 +1,4 @@
-FROM node:18-alpine3.15 AS base
+FROM node:22.14-alpine3.20 AS base
 
 RUN npm i -g yalc
 RUN npm i -g workspace-to-yalc
