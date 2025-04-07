@@ -7,7 +7,9 @@
         // Treat files as modules even if it doesn't use import/export
         "moduleDetection": "force",
         // Ignore module structure
-        "module": "Preserve",
+        //"module": "Preserve",
+        "module": "CommonJS",
+        "moduleResolution": "Node",
         // Allow JSON modules to be imported
         "resolveJsonModule": true,
         // Allow JS files to be imported from TS and vice versa
@@ -16,6 +18,7 @@
         "esModuleInterop": true,
         // Disallow features that require cross-file awareness
         "isolatedModules": true,
+        "target": "ES6",
     },
     "include": [
         "src",
