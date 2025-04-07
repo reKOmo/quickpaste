@@ -1,8 +1,11 @@
-export function streamToString(stream) {
-    var chunks = [];
-    return new Promise(function (resolve, reject) {
-        stream.on('data', function (chunk) { return chunks.push(Buffer.from(chunk)); });
-        stream.on('error', function (err) { return reject(err); });
-        stream.on('end', function () { return resolve(Buffer.concat(chunks).toString('utf8')); });
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.streamToString = streamToString;
+function streamToString(stream) {
+    const chunks = [];
+    return new Promise((resolve, reject) => {
+        stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+        stream.on('error', (err) => reject(err));
+        stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
     });
 }
