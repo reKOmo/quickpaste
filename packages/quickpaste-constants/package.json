@@ -4,6 +4,7 @@
   "private": true,
   "main": "./dist/src/config.js",
   "types": "./dist/types/config.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "pre-build": "tsc",

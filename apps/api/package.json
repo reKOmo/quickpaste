@@ -10,18 +10,20 @@
     "build": "tsc",
     "pre-build": "tsc",
     "start": "node .",
-    "dev": "yalc update --store-folder /yalc && nodemon src/index.ts -L",
+    "dev": "yalc update --store-folder /yalc && tsx watch src/index.ts",
     "generate-yalc": "workspace-to-yalc",
     "install-yalcked-packages": "workspace-to-yalc --lockfile-only --file && yalc update --store-folder ../../.yalc-store"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "3.47.0",
+    "@aws-sdk/lib-storage": "3.540.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
-    "express": "^5.1.0",
+    "express": "^4.21.2",
     "interfaces": "workspace:*",
     "joi": "^17.13.3",
     "pg": "^8.14.1",
@@ -29,8 +31,6 @@
     "tsconfig": "workspace:*"
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "3.47.0",
-    "@aws-sdk/lib-storage": "3.540.0",
     "@smithy/types": "^2.12.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.8",
@@ -41,8 +41,7 @@
     "@types/node": "^22.14.0",
     "@types/pg": "^8.11.11",
     "eslint-config-custom": "workspace:*",
-    "nodemon": "^3.1.9",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "tsx": "^4.19.3"
   }
 }

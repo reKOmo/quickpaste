@@ -3,7 +3,8 @@
     "compilerOptions": {
         "rootDir": "src",
         "outDir": "build",
-        "strict": false
+        "strict": false,
+        "esModuleInterop": true
     },
     "include": [
         "src",
