@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.streamToString = streamToString;
-function streamToString(stream) {
+export function streamToString(stream) {
     var chunks = [];
     return new Promise(function (resolve, reject) {
         stream.on('data', function (chunk) { return chunks.push(Buffer.from(chunk)); });
