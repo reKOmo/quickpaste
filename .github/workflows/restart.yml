@@ -8,6 +8,22 @@ on:
         required: true
         default: 'warning'
 
+env:
+ POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+ POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+ POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+ POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+ AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+ AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+ S3_REGION: ${{ secrets.S3_REGION }}
+ S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+ JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+ WEB_DOMAIN_NAME: ${{ secrets.WEB_DOMAIN_NAME }}
+ GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
+ GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+ HELP_EMAIL: ${{ secrets.HELP_EMAIL }}
+ NODE_OPTIONS: "--max-old-space-size=1024"
+
 jobs:
   stop-old:
    runs-on: [self-hosted, linux]
