@@ -1,37 +1,3 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -68,54 +34,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var _a;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkUploadPaste = checkUploadPaste;
-var joi_1 = __importDefault(require("joi"));
-var ServerResponse_1 = require("../utils/ServerResponse");
-var quickpaste_constants_1 = __importStar(require("quickpaste-constants"));
-var userPasteFragment = joi_1.default.object({
-    name: joi_1.default.string()
+import Joi from "joi";
+import { ServerResponse } from "../utils/ServerResponse";
+import qConfig, { SUPPORTED_SYNTAXES } from "quickpaste-constants";
+var userPasteFragment = Joi.object({
+    name: Joi.string()
         .max(50)
         .required(),
-    syntax: (_a = joi_1.default.string()).allow.apply(_a, quickpaste_constants_1.SUPPORTED_SYNTAXES).default("text").required(),
-    content: joi_1.default.string().required()
+    syntax: (_a = Joi.string()).allow.apply(_a, SUPPORTED_SYNTAXES).default("text").required(),
+    content: Joi.string().required()
 });
-var userPaste = joi_1.default.object({
-    title: joi_1.default.string()
+var userPaste = Joi.object({
+    title: Joi.string()
         .min(1)
         .max(50)
         .required(),
-    fragments: joi_1.default.array()
+    fragments: Joi.array()
         .min(1)
         .max(500)
         .items(userPasteFragment)
         .sparse(false)
         .required(),
-    password: joi_1.default.string().allow(""),
-    isPrivate: joi_1.default.boolean()
+    password: Joi.string().allow(""),
+    isPrivate: Joi.boolean()
         .default(false)
 });
-function checkUploadPaste(req, res, next) {
+export function checkUploadPaste(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var validPaste;
         var _a;
         return __generator(this, function (_b) {
             validPaste = userPaste.validate(req.body);
             if (validPaste.error) {
-                res.status(400).send((0, ServerResponse_1.ServerResponse)(false, validPaste.error.details[0].message));
+                res.status(400).send(ServerResponse(false, validPaste.error.details[0].message));
                 return [2 /*return*/];
             }
             if (req.additional.user === 0) {
                 if (validPaste.value.isPrivate != false) {
-                    res.status(400).send((0, ServerResponse_1.ServerResponse)(false, "Private pastes are only for logged in users"));
+                    res.status(400).send(ServerResponse(false, "Private pastes are only for logged in users"));
                     return [2 /*return*/];
                 }
-                if (validPaste.value.fragments.length > quickpaste_constants_1.default.PASTE.FRAGMENT_LIMITS.guest) {
-                    res.status(400).send((0, ServerResponse_1.ServerResponse)(false, "'fragments' length can not be longer than " + quickpaste_constants_1.default.PASTE.FRAGMENT_LIMITS.guest));
+                if (validPaste.value.fragments.length > qConfig.PASTE.FRAGMENT_LIMITS.guest) {
+                    res.status(400).send(ServerResponse(false, "'fragments' length can not be longer than " + qConfig.PASTE.FRAGMENT_LIMITS.guest));
                     return [2 /*return*/];
                 }
             }

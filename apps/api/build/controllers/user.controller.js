@@ -1,37 +1,3 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -68,21 +34,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserInfo = getUserInfo;
-exports.getUserPastes = getUserPastes;
-exports.deleteAccount = deleteAccount;
-var ServerResponse_1 = require("../utils/ServerResponse");
-var db = __importStar(require("../services/db.service"));
-var s3_service_1 = require("../services/s3.service");
-var joi_1 = __importDefault(require("joi"));
-var getPasteParams = joi_1.default.object({
-    amount: joi_1.default.number().min(1).max(100).default(20),
+import { DefaultResponses, ServerResponse } from "../utils/ServerResponse";
+import * as db from "../services/db.service";
+import { deleteFile } from "../services/s3.service";
+import Joi from "joi";
+var getPasteParams = Joi.object({
+    amount: Joi.number().min(1).max(100).default(20),
     // lastPasteID
-    pageId: joi_1.default.number().positive().optional()
+    pageId: Joi.number().positive().optional()
 });
 function getUserInfo(req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -98,7 +57,7 @@ function getUserInfo(req, res) {
                 case 2:
                     dbData = _a.sent();
                     if (dbData.rowCount < 1) {
-                        res.status(401).send(ServerResponse_1.DefaultResponses.UNAUTHORIZED);
+                        res.status(401).send(DefaultResponses.UNAUTHORIZED);
                         return [2 /*return*/];
                     }
                     userData = dbData.rows[0];
@@ -112,7 +71,7 @@ function getUserInfo(req, res) {
                 case 3:
                     err_1 = _a.sent();
                     console.log(err_1);
-                    res.status(500).send(ServerResponse_1.DefaultResponses.SERVER_ERROR);
+                    res.status(500).send(DefaultResponses.SERVER_ERROR);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
@@ -127,7 +86,7 @@ function getUserPastes(req, res) {
                 case 0:
                     validParams = getPasteParams.validate(req.query);
                     if (validParams.error) {
-                        res.status(400).send((0, ServerResponse_1.ServerResponse)(false, "Invalid params: " + validParams.error.message));
+                        res.status(400).send(ServerResponse(false, "Invalid params: " + validParams.error.message));
                         return [2 /*return*/];
                     }
                     userId = req.additional.user;
@@ -158,12 +117,12 @@ function getUserPastes(req, res) {
                     if (userPastes.rowCount > 0) {
                         response["nextPage"] = userPastes.rows[userPastes.rowCount - 1].id;
                     }
-                    res.send((0, ServerResponse_1.ServerResponse)(true, response));
+                    res.send(ServerResponse(true, response));
                     return [3 /*break*/, 5];
                 case 4:
                     err_2 = _a.sent();
                     console.log(err_2);
-                    res.status(500).send(ServerResponse_1.DefaultResponses.SERVER_ERROR);
+                    res.status(500).send(DefaultResponses.SERVER_ERROR);
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
             }
@@ -197,7 +156,7 @@ function deleteAccount(req, res) {
                     _a.label = 6;
                 case 6:
                     if (!(i < deletedPastes.length)) return [3 /*break*/, 9];
-                    return [4 /*yield*/, (0, s3_service_1.deleteFile)(deletedPastes[i].uuid)];
+                    return [4 /*yield*/, deleteFile(deletedPastes[i].uuid)];
                 case 7:
                     _a.sent();
                     _a.label = 8;
@@ -207,7 +166,7 @@ function deleteAccount(req, res) {
                 case 9: return [4 /*yield*/, client.query("COMMIT;")];
                 case 10:
                     _a.sent();
-                    res.send((0, ServerResponse_1.ServerResponse)(true, "Account deleted"));
+                    res.send(ServerResponse(true, "Account deleted"));
                     return [3 /*break*/, 13];
                 case 11:
                     err_3 = _a.sent();
@@ -215,7 +174,7 @@ function deleteAccount(req, res) {
                 case 12:
                     _a.sent();
                     console.error(err_3);
-                    res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
+                    res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
                     return [3 /*break*/, 13];
                 case 13:
                     client.release();
@@ -224,3 +183,4 @@ function deleteAccount(req, res) {
         });
     });
 }
+export { getUserInfo, getUserPastes, deleteAccount };

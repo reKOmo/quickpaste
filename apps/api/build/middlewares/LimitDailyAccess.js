@@ -1,37 +1,3 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -68,14 +34,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.limitDailyAccess = limitDailyAccess;
-var db = __importStar(require("../services/db.service"));
-var ServerResponse_1 = require("../utils/ServerResponse");
-var quickpaste_constants_1 = __importDefault(require("quickpaste-constants"));
+import * as db from "../services/db.service";
+import { ServerResponse } from "../utils/ServerResponse";
+import qConfig from "quickpaste-constants";
 function limitDailyAccess(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var pastes, limit;
@@ -84,9 +45,9 @@ function limitDailyAccess(req, res, next) {
                 case 0: return [4 /*yield*/, db.query("SELECT * FROM content_modification WHERE api_key = $1 AND content_modification.accessed = CURRENT_DATE;", [req.additional.apiKey])];
                 case 1:
                     pastes = _a.sent();
-                    limit = req.additional.user === quickpaste_constants_1.default.GUEST_ACCOUNT_ID ? quickpaste_constants_1.default.PASTE.DAILY_CONTENT_LIMITS.guest : quickpaste_constants_1.default.PASTE.DAILY_CONTENT_LIMITS.loggedIn;
+                    limit = req.additional.user === qConfig.GUEST_ACCOUNT_ID ? qConfig.PASTE.DAILY_CONTENT_LIMITS.guest : qConfig.PASTE.DAILY_CONTENT_LIMITS.loggedIn;
                     if (pastes.rowCount >= limit) {
-                        res.status(429).send((0, ServerResponse_1.ServerResponse)(false, "Tried to create/edit pastes too many times today"));
+                        res.status(429).send(ServerResponse(false, "Tried to create/edit pastes too many times today"));
                         return [2 /*return*/];
                     }
                     next();
@@ -95,3 +56,4 @@ function limitDailyAccess(req, res, next) {
         });
     });
 }
+export { limitDailyAccess };

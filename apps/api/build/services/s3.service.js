@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,24 +34,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadFile = uploadFile;
-exports.retriveFile = retriveFile;
-exports.deleteFile = deleteFile;
-exports.deleteFiles = deleteFiles;
-var lib_storage_1 = require("@aws-sdk/lib-storage");
-var client_s3_1 = require("@aws-sdk/client-s3");
-var s3_config_1 = __importDefault(require("../config/s3.config"));
-var s3Client = new client_s3_1.S3Client({
-    region: s3_config_1.default.region,
+import { Upload } from "@aws-sdk/lib-storage";
+import { DeleteObjectCommand, DeleteObjectsCommand, GetObjectCommand, S3Client, } from "@aws-sdk/client-s3";
+import s3Config from "../config/s3.config";
+var s3Client = new S3Client({
+    region: s3Config.region,
     credentials: {
-        secretAccessKey: s3_config_1.default.secretKey,
-        accessKeyId: s3_config_1.default.accessKey
+        secretAccessKey: s3Config.secretKey,
+        accessKeyId: s3Config.accessKey
     },
-    endpoint: s3_config_1.default.endpoint,
+    endpoint: s3Config.endpoint,
     forcePathStyle: true
 });
 function uploadFile(name, file) {
@@ -62,11 +53,11 @@ function uploadFile(name, file) {
             switch (_a.label) {
                 case 0:
                     uploadConfig = {
-                        Bucket: s3_config_1.default.bucketName,
+                        Bucket: s3Config.bucketName,
                         Key: name,
                         Body: file
                     };
-                    return [4 /*yield*/, new lib_storage_1.Upload({
+                    return [4 /*yield*/, new Upload({
                             client: s3Client,
                             params: uploadConfig
                         }).done()];
@@ -83,8 +74,8 @@ function retriveFile(name) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    requestConfig = new client_s3_1.GetObjectCommand({
-                        Bucket: s3_config_1.default.bucketName,
+                    requestConfig = new GetObjectCommand({
+                        Bucket: s3Config.bucketName,
                         Key: name
                     });
                     return [4 /*yield*/, s3Client.send(requestConfig)];
@@ -101,8 +92,8 @@ function deleteFile(name) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    requestConfig = new client_s3_1.DeleteObjectCommand({
-                        Bucket: s3_config_1.default.bucketName,
+                    requestConfig = new DeleteObjectCommand({
+                        Bucket: s3Config.bucketName,
                         Key: name
                     });
                     return [4 /*yield*/, s3Client.send(requestConfig)];
@@ -119,8 +110,8 @@ function deleteFiles(names) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    requestConfig = new client_s3_1.DeleteObjectsCommand({
-                        Bucket: s3_config_1.default.bucketName,
+                    requestConfig = new DeleteObjectsCommand({
+                        Bucket: s3Config.bucketName,
                         Delete: {
                             Objects: names.map(function (n) { return ({ Key: n }); })
                         }
@@ -133,3 +124,4 @@ function deleteFiles(names) {
         });
     });
 }
+export { uploadFile, retriveFile, deleteFile, deleteFiles };

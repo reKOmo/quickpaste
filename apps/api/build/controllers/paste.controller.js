@@ -1,37 +1,3 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -68,23 +34,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadPaste = uploadPaste;
-exports.getPaste = getPaste;
-exports.editPaste = editPaste;
-exports.deletePaste = deletePaste;
-exports.clearOldPastes = clearOldPastes;
-var s3_service_1 = require("../services/s3.service");
-var GenerateUUID_1 = __importDefault(require("../utils/GenerateUUID"));
-var db = __importStar(require("../services/db.service"));
-var ServerResponse_1 = require("../utils/ServerResponse");
-var constants_1 = require("../config/constants");
-var bcrypt_1 = __importDefault(require("bcrypt"));
-var crypto_js_1 = require("crypto-js");
-var StreamToString_1 = require("../utils/StreamToString");
+import { deleteFile, deleteFiles, retriveFile, uploadFile } from "../services/s3.service";
+import generateUUID from "../utils/GenerateUUID";
+import * as db from "../services/db.service";
+import { DefaultResponses, ServerResponse } from "../utils/ServerResponse";
+import { Constants } from "../config/constants";
+import bcrypt from "bcrypt";
+import { AES, enc } from "crypto-js";
+import { streamToString } from "../utils/StreamToString";
 function savePasteToS3(paste, uuid) {
     return __awaiter(this, void 0, void 0, function () {
         var saveReadyPaste, pasteString;
@@ -97,9 +54,9 @@ function savePasteToS3(paste, uuid) {
                     };
                     pasteString = JSON.stringify(saveReadyPaste);
                     if (paste["unhashedPassword"] !== undefined) {
-                        pasteString = crypto_js_1.AES.encrypt(pasteString, paste["unhashedPassword"]).toString();
+                        pasteString = AES.encrypt(pasteString, paste["unhashedPassword"]).toString();
                     }
-                    return [4 /*yield*/, (0, s3_service_1.uploadFile)(uuid, pasteString)];
+                    return [4 /*yield*/, uploadFile(uuid, pasteString)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -117,11 +74,11 @@ function uploadPaste(req, res) {
                     return [4 /*yield*/, db.getClient()];
                 case 1:
                     client = _a.sent();
-                    uuid = (0, GenerateUUID_1.default)(constants_1.Constants.PASTE_UUID_LENGTH);
+                    uuid = generateUUID(Constants.PASTE_UUID_LENGTH);
                     if (!(paste.password !== undefined)) return [3 /*break*/, 3];
                     paste["unhashedPassword"] = paste.password;
                     saltRounds = 10;
-                    return [4 /*yield*/, bcrypt_1.default.hash(paste.password, saltRounds)];
+                    return [4 /*yield*/, bcrypt.hash(paste.password, saltRounds)];
                 case 2:
                     psswd = _a.sent();
                     paste.password = psswd;
@@ -147,7 +104,7 @@ function uploadPaste(req, res) {
                     err_1 = _a.sent();
                     if (err_1.code == 23505) {
                         //Duplicate uuid
-                        uuid = (0, GenerateUUID_1.default)(constants_1.Constants.PASTE_UUID_LENGTH);
+                        uuid = generateUUID(Constants.PASTE_UUID_LENGTH);
                     }
                     else {
                         client.release();
@@ -170,7 +127,7 @@ function uploadPaste(req, res) {
                     return [4 /*yield*/, client.query("COMMIT;")];
                 case 14:
                     _a.sent();
-                    res.send((0, ServerResponse_1.ServerResponse)(true, {
+                    res.send(ServerResponse(true, {
                         pasteId: uuid
                     }));
                     return [3 /*break*/, 17];
@@ -180,7 +137,7 @@ function uploadPaste(req, res) {
                 case 16:
                     _a.sent();
                     console.error(err_2);
-                    res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
+                    res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
                     return [3 /*break*/, 17];
                 case 17:
                     client.release();
@@ -196,20 +153,20 @@ function getPaste(req, res) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, (0, s3_service_1.retriveFile)(req.additional.pasteUUID)];
+                    return [4 /*yield*/, retriveFile(req.additional.pasteUUID)];
                 case 1:
                     s3Ret = _a.sent();
                     return [3 /*break*/, 3];
                 case 2:
                     err_3 = _a.sent();
-                    res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
+                    res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
                     return [2 /*return*/];
-                case 3: return [4 /*yield*/, (0, StreamToString_1.streamToString)(s3Ret.Body)];
+                case 3: return [4 /*yield*/, streamToString(s3Ret.Body)];
                 case 4:
                     body = _a.sent();
                     if (req.additional.pasteData.password) {
-                        bytes = crypto_js_1.AES.decrypt(body, req.additional.password);
-                        body = bytes.toString(crypto_js_1.enc.Utf8);
+                        bytes = AES.decrypt(body, req.additional.password);
+                        body = bytes.toString(enc.Utf8);
                     }
                     s3Data = JSON.parse(body);
                     fPaste = {
@@ -240,7 +197,7 @@ function editPaste(req, res) {
                     if (!(paste.password !== undefined)) return [3 /*break*/, 2];
                     paste["unhashedPassword"] = paste.password;
                     saltRounds = 10;
-                    return [4 /*yield*/, bcrypt_1.default.hash(paste.password, saltRounds)];
+                    return [4 /*yield*/, bcrypt.hash(paste.password, saltRounds)];
                 case 1:
                     psswd = _a.sent();
                     paste.password = psswd;
@@ -266,7 +223,7 @@ function editPaste(req, res) {
                     return [4 /*yield*/, client.query("COMMIT;")];
                 case 9:
                     _a.sent();
-                    res.send((0, ServerResponse_1.ServerResponse)(true, {
+                    res.send(ServerResponse(true, {
                         pasteId: uuid,
                         message: "Updated paste"
                     }));
@@ -277,7 +234,7 @@ function editPaste(req, res) {
                 case 11:
                     _a.sent();
                     console.error(err_4);
-                    res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
+                    res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
                     return [3 /*break*/, 12];
                 case 12: return [2 /*return*/];
             }
@@ -303,13 +260,13 @@ function deletePaste(req, res) {
                     return [4 /*yield*/, client.query("DELETE FROM pastes WHERE uuid = $1;", [uuid])];
                 case 4:
                     _a.sent();
-                    return [4 /*yield*/, (0, s3_service_1.deleteFile)(uuid)];
+                    return [4 /*yield*/, deleteFile(uuid)];
                 case 5:
                     _a.sent();
                     return [4 /*yield*/, client.query("COMMIT;")];
                 case 6:
                     _a.sent();
-                    res.send((0, ServerResponse_1.ServerResponse)(true, "Paste deleted"));
+                    res.send(ServerResponse(true, "Paste deleted"));
                     return [3 /*break*/, 9];
                 case 7:
                     err_5 = _a.sent();
@@ -317,7 +274,7 @@ function deletePaste(req, res) {
                 case 8:
                     _a.sent();
                     console.error(err_5);
-                    res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
+                    res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
                     return [3 /*break*/, 9];
                 case 9:
                     client.release();
@@ -371,7 +328,7 @@ function clearOldPastes(req, res) {
             swZ8kjTO
             
                     */
-                    return [4 /*yield*/, (0, s3_service_1.deleteFiles)(pastesToDelete)];
+                    return [4 /*yield*/, deleteFiles(pastesToDelete)];
                 case 7:
                     //!!!!!!!   TODO
                     /*
@@ -402,7 +359,7 @@ function clearOldPastes(req, res) {
                 case 10:
                     _a.sent();
                     console.error(err_6);
-                    res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
+                    res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
                     return [3 /*break*/, 11];
                 case 11:
                     client.release();
@@ -411,3 +368,4 @@ function clearOldPastes(req, res) {
         });
     });
 }
+export { uploadPaste, getPaste, editPaste, deletePaste, clearOldPastes };

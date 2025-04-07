@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,13 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkPassword = checkPassword;
-var ServerResponse_1 = require("../utils/ServerResponse");
-var bcrypt_1 = __importDefault(require("bcrypt"));
+import { ServerResponse } from "../utils/ServerResponse";
+import bcrypt from "bcrypt";
 function checkPassword(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var match;
@@ -50,17 +44,17 @@ function checkPassword(req, res, next) {
                 case 0:
                     if (!req.additional.pasteData.password) return [3 /*break*/, 2];
                     if (req.additional.password === undefined) {
-                        res.status(401).send((0, ServerResponse_1.ServerResponse)(false, "No password provided"));
+                        res.status(401).send(ServerResponse(false, "No password provided"));
                         return [2 /*return*/];
                     }
-                    return [4 /*yield*/, bcrypt_1.default.compare(req.additional.password, req.additional.pasteData.password)];
+                    return [4 /*yield*/, bcrypt.compare(req.additional.password, req.additional.pasteData.password)];
                 case 1:
                     match = _a.sent();
                     if (match) {
                         next();
                         return [2 /*return*/];
                     }
-                    res.status(401).send((0, ServerResponse_1.ServerResponse)(false, "Incorrect password"));
+                    res.status(401).send(ServerResponse(false, "Incorrect password"));
                     return [2 /*return*/];
                 case 2:
                     next();
@@ -69,3 +63,4 @@ function checkPassword(req, res, next) {
         });
     });
 }
+export { checkPassword };

@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,21 +34,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.query = query;
-exports.safeQuery = safeQuery;
-exports.getClient = getClient;
-var pg_1 = require("pg");
-var db_config_1 = require("../config/db.config");
-var pool = new pg_1.Pool({
-    user: db_config_1.config.user,
-    password: db_config_1.config.password,
-    host: db_config_1.config.host,
-    port: db_config_1.config.port,
-    database: db_config_1.config.database,
-    ssl: db_config_1.config.ssl
+import { Pool } from "pg";
+import { config } from "../config/db.config";
+var pool = new Pool({
+    user: config.user,
+    password: config.password,
+    host: config.host,
+    port: config.port,
+    database: config.database,
+    ssl: config.ssl
 });
-function query(query, params) {
+export function query(query, params) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -59,7 +54,7 @@ function query(query, params) {
         });
     });
 }
-function safeQuery(query, params) {
+export function safeQuery(query, params) {
     return __awaiter(this, void 0, void 0, function () {
         var client, res, err_1;
         return __generator(this, function (_a) {
@@ -89,7 +84,7 @@ function safeQuery(query, params) {
         });
     });
 }
-function getClient() {
+export function getClient() {
     return __awaiter(this, void 0, void 0, function () {
         var client, query, release, timeout;
         return __generator(this, function (_a) {
