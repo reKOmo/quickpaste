@@ -11,4 +11,4 @@ COPY ./package.json ./package.json
 FROM base AS production
 COPY ./.yalc ./.yalc
 COPY ./.output ./.output
-RUN yarn install --production
+RUN npm install --only=prod
