@@ -8,5 +8,4 @@ var config = {
     secretKey: process_1.env.AWS_SECRET_ACCESS_KEY,
     endpoint: process_1.env.AWS_ENDPOINT
 };
-console.log(config);
 exports.default = config;
