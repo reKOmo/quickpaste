@@ -17,11 +17,13 @@ const getPasteParams = Joi.object({
 async function getUserInfo(req: FullRequest, res: Response) {
     const userId = req.additional.user;
 
+    console.log(req.additional);
+
     try {
         const dbData = await db.query("SELECT * FROM users WHERE users.id = $1", [userId]);
 
         if (dbData.rowCount < 1) {
-            res.status(401).send(DefaultResponses.UNAUTHORIZED);
+            res.status(401).send(ServerResponse(false, DefaultResponses.UNAUTHORIZED));
             return;
         }
 
@@ -35,7 +37,7 @@ async function getUserInfo(req: FullRequest, res: Response) {
         res.send(dataToSend);
     } catch (err) {
         console.log(err);
-        res.status(500).send(DefaultResponses.SERVER_ERROR);
+        res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
     }
 }
 
@@ -77,7 +79,7 @@ async function getUserPastes(req: FullRequest, res: Response) {
         res.send(ServerResponse(true, response));
     } catch (err) {
         console.log(err);
-        res.status(500).send(DefaultResponses.SERVER_ERROR);
+        res.status(500).send(ServerResponse(false, DefaultResponses.SERVER_ERROR));
     }
 }
 

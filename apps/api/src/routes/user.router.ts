@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 
 const router = Router();
 
-router.use("*name", cookieParser(), parseRequest, gatekeep);
+router.use("*", cookieParser(), parseRequest, gatekeep);
 
 router.get("/", getUserInfo);
 
