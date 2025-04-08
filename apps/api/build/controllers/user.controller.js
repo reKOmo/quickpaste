@@ -60,10 +60,11 @@ const getPasteParams = joi_1.default.object({
 function getUserInfo(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const userId = req.additional.user;
+        console.log(req.additional);
         try {
             const dbData = yield db.query("SELECT * FROM users WHERE users.id = $1", [userId]);
             if (dbData.rowCount < 1) {
-                res.status(401).send(ServerResponse_1.DefaultResponses.UNAUTHORIZED);
+                res.status(401).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.UNAUTHORIZED));
                 return;
             }
             const userData = dbData.rows[0];
@@ -76,7 +77,7 @@ function getUserInfo(req, res) {
         }
         catch (err) {
             console.log(err);
-            res.status(500).send(ServerResponse_1.DefaultResponses.SERVER_ERROR);
+            res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
         }
     });
 }
@@ -113,7 +114,7 @@ function getUserPastes(req, res) {
         }
         catch (err) {
             console.log(err);
-            res.status(500).send(ServerResponse_1.DefaultResponses.SERVER_ERROR);
+            res.status(500).send((0, ServerResponse_1.ServerResponse)(false, ServerResponse_1.DefaultResponses.SERVER_ERROR));
         }
     });
 }

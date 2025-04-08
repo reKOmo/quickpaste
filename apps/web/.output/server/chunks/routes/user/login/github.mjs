@@ -23,10 +23,8 @@ const github = defineEventHandler(async (e) => {
         "Accept": "application/json"
       }
     });
-    console.log(res);
     if (res.status == 200) {
       const data = await res.json();
-      console.log(data);
       const internalRes = await fetch(useRuntimeConfig().authServiceAddress + "/user/login", {
         method: "POST",
         headers: {
@@ -37,28 +35,21 @@ const github = defineEventHandler(async (e) => {
           token: data.access_token
         })
       });
-      console.log(internalRes);
       if (internalRes.ok) {
-        console.log("Ok");
         const key = await internalRes.text();
-        console.log(key);
         setCookie(e, "quickpaste_auth", key, {
           httpOnly: true
         });
-        console.log(key);
         await sendRedirect(e, "/user/login/finalize", 302);
-        console.log("Redirected");
         return;
       } else {
         await sendRedirect(e, "/user/login/finalize?fail=1", 302);
         return;
       }
     } else {
-      console.log(res);
       await sendRedirect(e, "/user/login/finalize?fail=1", 302);
     }
   } catch (err) {
-    console.log(err);
     await sendRedirect(e, "/user/login/finalize?fail=1", 302);
   }
 });

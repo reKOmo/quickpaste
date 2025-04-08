@@ -45,7 +45,7 @@ const ParseRequest_1 = require("../middlewares/ParseRequest");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const router = (0, express_1.Router)();
 exports.router = router;
-router.use("*name", (0, cookie_parser_1.default)(), ParseRequest_1.parseRequest, Gatekeeper_1.gatekeep);
+router.use("*", (0, cookie_parser_1.default)(), ParseRequest_1.parseRequest, Gatekeeper_1.gatekeep);
 router.get("/", user_controller_1.getUserInfo);
 router.get("/pastes", user_controller_1.getUserPastes);
 internalapi.router.delete("/user", ParseRequest_1.parseRequest, Gatekeeper_1.gatekeep, user_controller_1.deleteAccount);
